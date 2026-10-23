@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/SectionTitle";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import fashionImg from "@/assets/fashion.jpg";
@@ -17,16 +18,9 @@ const ShopByCategory = () => {
 
   return (
     <section className="px-5 pb-8">
-      <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A8A98]">Shop by category</p>
-      <h2
-        className="mt-2 text-[26px] leading-[1.15] text-foreground"
-        style={{ fontWeight: 300, letterSpacing: "0.005em" }}
-      >
-        Categories of the season
-      </h2>
-      <p className="mt-2 text-sm text-foreground/60">A considered selection across the house.</p>
+      <SectionTitle title="Categories of the season" subtitle="A considered selection across the house." />
 
-      <div className="mt-8 flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+      <div className="flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
         {categories.map((cat) => (
           <article
             key={cat.name}

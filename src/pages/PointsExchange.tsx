@@ -43,7 +43,7 @@ const PointsExchangePage = () => {
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => (selected ? setSelected(null) : navigate("/"))} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => (selected ? setSelected(null) : navigate("/loyalty"))} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">{selected ? selected.name : "Points Exchange"}</h1>
@@ -147,13 +147,13 @@ const PointsExchangePage = () => {
           </div>
 
           {/* Fixed CTA */}
-          <div className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md bg-card border-t border-border px-4 py-4 z-40">
+          <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
             <button
               onClick={() => {
                 toast.success(`Converted ${amount} pts to ${milesReceived} ${selected.name} Miles`, { description: "Miles will be credited within 24 hours." });
                 setSelected(null);
               }}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground"
+              className="w-full items-center justify-center gap-2 flex items-center justify-center gap-2 h-[52px] rounded-xl bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               <Check className="h-4 w-4" /> Convert to {selected.category === "Airline" ? "Miles" : "Points"}
             </button>

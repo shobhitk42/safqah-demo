@@ -227,7 +227,7 @@ const AppleMacProduct = () => {
           </div>
           <button
             onClick={() => navigate(`/checkout/${config.id}`)}
-            className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground"
+            className="h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             Add to Bag
           </button>

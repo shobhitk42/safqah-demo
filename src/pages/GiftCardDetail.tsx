@@ -197,14 +197,12 @@ const GiftCardDetail = () => {
 
       {/* Fixed CTA */}
       <div
-        className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md px-6 py-4 border-t border-[#E8E8EE]"
-        style={{ backgroundColor: "#FFFFFF" }}
+        className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3"
       >
         <button
           disabled={!canAfford}
           onClick={() => setStep("success")}
-          className="w-full rounded-md py-4 text-[11px] uppercase tracking-[0.24em] text-primary-foreground transition-opacity disabled:opacity-40"
-          style={{ backgroundColor: "#302F2D" }}
+          className="h-[52px] w-full rounded-xl bg-primary text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           {canAfford ? `Redeem for ${pointsNeeded.toLocaleString()} pts` : "Insufficient points"}
         </button>

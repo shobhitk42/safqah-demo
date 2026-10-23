@@ -45,7 +45,7 @@ const HotelsPage = () => {
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => (step === "results" ? setStep("search") : navigate("/"))} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => (step === "results" ? setStep("search") : navigate("/loyalty"))} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">{step === "results" ? `Hotels in ${location}` : "Hotels"}</h1>
@@ -101,7 +101,7 @@ const HotelsPage = () => {
                 </div>
               </div>
             </div>
-            <button onClick={handleSearch} className="w-full flex items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-primary-foreground">
+            <button onClick={handleSearch} className="w-full items-center justify-center gap-2 flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50">
               <Search className="h-4 w-4" />
               Search Hotels
             </button>

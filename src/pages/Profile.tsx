@@ -86,7 +86,7 @@ const ProfilePage = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       <div className="px-5 pt-5">
-        <button onClick={() => navigate("/")} aria-label="Back" className="-ml-1 flex h-9 w-9 items-center justify-center">
+        <button onClick={() => navigate("/loyalty")} aria-label="Back" className="-ml-1 flex h-9 w-9 items-center justify-center">
           <ChevronLeft className="h-6 w-6 text-foreground" strokeWidth={1.5} />
         </button>
         <h1 className="mt-5 text-[22px] font-bold text-foreground">Profile</h1>

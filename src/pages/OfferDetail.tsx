@@ -4,8 +4,6 @@ import { ArrowLeft, Tag, Check } from "lucide-react";
 import { getOffer } from "@/data/offers";
 import { useUser } from "@/contexts/UserContext";
 
-const REDEEM_COST = 2500;
-
 const OfferDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -31,6 +29,7 @@ const OfferDetail = () => {
     );
   }
 
+  const REDEEM_COST = offer.cost;
   const insufficient = balance < REDEEM_COST;
   const after = balance - REDEEM_COST;
 
@@ -152,13 +151,13 @@ const OfferDetail = () => {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setStage("detail")}
-                className="flex-1 rounded-xl border border-[#E8E8EE] py-3 text-[13px] font-semibold text-[#302F2D]"
+                className="flex-1 h-12 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirm}
-                className="flex-1 rounded-xl bg-[#02AD4C] py-3 text-[13px] font-semibold text-white"
+                className="flex-1 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
               >
                 Confirm Redemption
               </button>
@@ -186,7 +185,7 @@ const OfferDetail = () => {
             </p>
             <button
               onClick={() => navigate("/offers")}
-              className="mt-6 w-full rounded-xl bg-[#02AD4C] py-3 text-[13px] font-semibold text-white"
+              className="mt-6 w-full h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               Back to offers
             </button>

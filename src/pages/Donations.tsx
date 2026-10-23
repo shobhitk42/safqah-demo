@@ -102,7 +102,7 @@ const Donations = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">Donations</h1>

@@ -9,7 +9,7 @@ const CartPage = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-20">
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">Cart</h1>
@@ -21,7 +21,7 @@ const CartPage = () => {
           <p className="text-sm text-muted-foreground mb-4">Your cart is empty</p>
           <button
             onClick={() => navigate("/merchandise")}
-            className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
+            className="h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             Browse Merchandise
           </button>
@@ -81,7 +81,7 @@ const CartPage = () => {
         </div>
         <button
           onClick={() => navigate("/checkout/cart")}
-          className="w-full mt-4 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+          className="w-full mt-4 flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           Proceed to Checkout
         </button>

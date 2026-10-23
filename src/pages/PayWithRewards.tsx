@@ -72,11 +72,11 @@ const PayWithRewards = () => {
         </div>
       </div>
 
-      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-card px-4 py-4">
+      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
         <button
           onClick={() => setDone(true)}
           disabled={value <= 0}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+          className="w-full items-center justify-center gap-2 flex items-center justify-center gap-2 h-[52px] rounded-xl bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           <Wallet className="h-4 w-4" /> Submit Request
         </button>
@@ -94,8 +94,8 @@ const PayWithRewards = () => {
           </DialogHeader>
           <div className="space-y-2 text-center">
             <button
-              onClick={() => { setDone(false); navigate("/"); }}
-              className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+              onClick={() => { setDone(false); navigate("/loyalty"); }}
+              className="mt-4 w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               Done
             </button>

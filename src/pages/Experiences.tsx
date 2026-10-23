@@ -29,7 +29,7 @@ const ExperiencesPage = () => {
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur border-b border-border">
         <div className="flex items-center gap-3 px-4 pt-4 pb-2">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/loyalty")}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-border"
             aria-label="Back"
           >

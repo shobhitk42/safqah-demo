@@ -42,6 +42,10 @@ import PayWithRewards from "./pages/PayWithRewards.tsx";
 import PeerTransfer from "./pages/PeerTransfer.tsx";
 import Donations from "./pages/Donations.tsx";
 
+import SafqahDeals from "./pages/SafqahDeals.tsx";
+
+import Milestones from "./pages/Milestones.tsx";
+
 const queryClient = new QueryClient();
 
 import { UserProvider } from "@/contexts/UserContext";
@@ -60,7 +64,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<SafqahDeals />} />
+          <Route path="/loyalty" element={<Index />} />
+          <Route path="/milestones" element={<Milestones />} />
           <Route path="/flights" element={<Flights />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/gift-cards" element={<GiftCards />} />

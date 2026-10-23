@@ -161,7 +161,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
       <div className="fixed bottom-[56px] left-1/2 w-full max-w-md -translate-x-1/2 border-t border-border bg-background/95 px-4 py-3 backdrop-blur-xl">
         <button
           onClick={() => onConfirm({ pointsUsed, cashAmount, earnedPoints, cardName: selectedCard.name })}
-          className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-[0.99]"
+          className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           {ctaLabel}
         </button>

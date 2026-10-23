@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/SectionTitle";
 import { useNavigate } from "react-router-dom";
 import { Dices, CircleDot, Ticket, ChevronRight, Sparkles } from "lucide-react";
 
@@ -38,15 +39,7 @@ const PlayAndWinSection = () => {
   const navigate = useNavigate();
   return (
     <section className="mb-8 px-5">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent">
-            <Sparkles className="h-3.5 w-3.5 text-white" />
-          </span>
-          <h3 className="text-base font-semibold tracking-tight text-foreground">Play &amp; Win</h3>
-        </div>
-        <span className="text-[10px] font-medium text-muted-foreground">3 games</span>
-      </div>
+      <SectionTitle title="Play &amp; Win" action={<span className="pt-1 text-xs font-medium text-muted-foreground">3 games</span>} />
 
       <div className="flex flex-col gap-3">
         {GAMES.map((g) => (

@@ -9,6 +9,8 @@ import smartwatchImg from "@/assets/smartwatch.jpg";
 import televisionImg from "@/assets/television.jpg";
 import laptopImg from "@/assets/laptop.jpg";
 import kitchenImg from "@/assets/kitchen-appliances.jpg";
+import watchImg from "@/assets/boost-watch.jpg";
+import walletImg from "@/assets/boost-wallet.jpg";
 
 const products = [
   { id: "chanel-no5", name: "Chanel No. 5 EDP", category: "Fragrances", points: "4,500", image: perfumeImg },
@@ -22,6 +24,8 @@ const products = [
   { id: "apple-watch-10", name: "Apple Watch Series 10", category: "Wearables", points: "18,000", image: smartwatchImg },
   { id: "samsung-tv", name: "Samsung 50\" UHD Smart TV", category: "Television", points: "25,000", image: televisionImg },
   { id: "acer-laptop", name: "Acer Aspire Laptop", category: "Laptop & Computer", points: "30,000", image: laptopImg },
+  { id: "classic-timepiece", name: "Classic Timepiece", category: "Watches", points: "12,000", image: watchImg },
+  { id: "leather-wallet", name: "Premium Leather Wallet", category: "Accessories", points: "3,500", image: walletImg },
   { id: "philips-coffee", name: "Philips Coffee Machine", category: "Kitchen Appliances", points: "8,500", image: kitchenImg },
 ];
 
@@ -32,7 +36,7 @@ const MerchandisePage = () => {
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">Merchandise</h1>

@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/SectionTitle";
 import { useUser } from "@/contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -14,20 +15,9 @@ const PickedForYou = () => {
 
   return (
     <section className="px-5 pb-8">
-      <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A8A98]">
-        {mode === "points" ? "Personalised for you" : "Recommended"}
-      </p>
-      <h2
-        className="mt-2 text-[26px] leading-[1.15] text-foreground"
-        style={{ fontWeight: 300, letterSpacing: "0.005em" }}
-      >
-        Picked for You
-      </h2>
-      <p className="mt-2 text-sm text-foreground/60">
-        A quiet edit, shaped by what you favour.
-      </p>
+      <SectionTitle title="Picked for You" subtitle="A quiet edit, shaped by what you favour." />
 
-      <div className="mt-8 flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+      <div className="flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
         {user.pickedForYou.map((item) => {
           const experienceCats = ["Hotels", "Sports Events", "Experiences", "Lounge", "Events"];
           const isExperience = experienceCats.includes(item.category);

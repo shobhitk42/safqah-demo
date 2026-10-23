@@ -1,5 +1,9 @@
+import SectionTitle from "@/components/SectionTitle";
 import { useState, useEffect, useRef } from "react";
-import { useUser } from "@/contexts/UserContext";
+import { useUser, type Milestone, type UserProfile } from "@/contexts/UserContext";
+import { useNavigate } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import MilestoneCard from "@/components/MilestoneCard";
 import { Plane, Trophy as TrophyIcon, Gem, Star, ArrowRight, Wallet, Globe, Crown, Gift } from "lucide-react";
 // import FootballGame from "@/components/FootballGame";
 
@@ -73,7 +77,8 @@ const GamificationSection = () => {
 
 /* ----------------------------- Milestones ----------------------------- */
 
-const MilestonesBlock = ({ user, role }: { user: any; role: "consumer" | "merchant" }) => {
+const MilestonesBlock = ({ user, role }: { user: UserProfile; role: "consumer" | "merchant" }) => {
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -97,110 +102,25 @@ const MilestonesBlock = ({ user, role }: { user: any; role: "consumer" | "mercha
 
   return (
     <div ref={containerRef}>
-      <p className="text-[10px] tracking-[0.28em] uppercase text-foreground/50">
-        Next
-      </p>
-      <h3
-        className="mt-2 mb-5 text-[22px] leading-none text-foreground"
-        style={{ fontWeight: 300, letterSpacing: "0.005em" }}
-      >
-        Milestones
-      </h3>
+      <SectionTitle
+        title="Milestones"
+        action={
+          <button onClick={() => navigate("/milestones")} className="flex items-center gap-0.5 pt-0.5 text-[13px] font-semibold text-primary">
+            View all
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        }
+      />
 
       <div className="space-y-4">
         {user.milestones
-          .filter((ms: any) => ms.role === role)
-          .map((ms: any, i: number) => {
-          const pct = Math.min(100, Math.round((ms.current / ms.target) * 100));
-          const MIcon = ms.id === "m1" || ms.id === "m3" ? Wallet : ms.id === "m2" ? Globe : Crown;
-          const cleanReward = ms.reward.replace(/^[^\p{L}\p{N}]+/u, "").trim();
-          const RIcon = ms.id === "m1" || ms.id === "m3" ? Gift : ms.id === "m2" ? Plane : Gem;
-          return (
-            <div
-              key={ms.id}
-              className="milestone-card group relative rounded-md bg-card border border-[#E8E8EE] px-5 py-5 overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:border-[#02AD4C]/60 hover:shadow-[0_14px_36px_-18px_rgba(2, 173, 76,0.45)] cursor-pointer"
-              style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(10px)",
-                transition: `opacity 500ms ease ${i * 120}ms, transform 500ms cubic-bezier(0.23,1,0.32,1) ${i * 120}ms, border-color 300ms ease, box-shadow 400ms ease`,
-              }}
-            >
-              <div className="flex items-center justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3 min-w-0">
-                  <span
-                    className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
-                    style={{ borderColor: "#E8E8EE", backgroundColor: "#F6F3EF" }}
-                  >
-                    <MIcon
-                      className="h-3.5 w-3.5"
-                      strokeWidth={1.25}
-                      style={{ color: "#02AD4C", fill: "#02AD4C" }}
-                    />
-                  </span>
-                  <p className="text-[13px] leading-snug text-foreground transition-colors duration-300 group-hover:text-[#02AD4C]">
-                    {ms.label}
-                  </p>
-                </div>
-                <span
-                  className="shrink-0 text-[11px] tabular-nums text-foreground/50 transition-colors duration-300 group-hover:text-[#02AD4C]"
-                  style={{ fontWeight: 500 }}
-                >
-                  {pct}%
-                </span>
-              </div>
-
-              {/* Animated progress bar */}
-              <div
-                className="relative h-[4px] w-full rounded-full bg-[#E6F6EC] mb-4 overflow-hidden"
-                role="progressbar"
-                aria-valuenow={pct}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
-                <div
-                  className="absolute inset-y-0 left-0 rounded-full"
-                  style={{
-                    width: visible ? `${pct}%` : "0%",
-                    background:
-                      "linear-gradient(90deg, #02AD4C 0%, #4FB3CF 55%, #02AD4C 100%)",
-                    transition: `width 1200ms cubic-bezier(0.22, 1, 0.36, 1) ${i * 120 + 150}ms`,
-                    boxShadow:
-                      "0 0 0 0.5px rgba(2, 173, 76,0.35), 0 0 10px rgba(2, 173, 76,0.35)",
-                  }}
-                />
-                {/* Shimmer sweep */}
-                <div
-                  aria-hidden
-                  className="milestone-shimmer absolute inset-y-0 left-0"
-                  style={{
-                    width: visible ? `${pct}%` : "0%",
-                    transition: `width 1200ms cubic-bezier(0.22, 1, 0.36, 1) ${i * 120 + 150}ms`,
-                  }}
-                >
-                  <span className="milestone-shimmer__bar" />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="text-foreground/50 tabular-nums">
-                  {ms.current.toLocaleString()} / {ms.target.toLocaleString()}
-                </span>
-                <span
-                  className="inline-flex items-center gap-1.5 transition-transform duration-300 group-hover:translate-x-0.5"
-                  style={{ color: "#02AD4C" }}
-                >
-                  <RIcon
-                    className="h-3 w-3 transition-transform duration-500 group-hover:scale-110"
-                    strokeWidth={1.25}
-                    style={{ color: "#02AD4C", fill: "#02AD4C" }}
-                  />
-                  {cleanReward}
-                </span>
-              </div>
-            </div>
-          );
-        })}
+          .filter((ms: Milestone) => ms.role === role)
+          .slice(0, 3)
+          .map((ms: Milestone, i: number) => (
+            <MilestoneCard key={ms.id} ms={ms} visible={visible} index={i} />
+          ))}
       </div>
+
     </div>
   );
 };

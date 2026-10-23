@@ -80,11 +80,12 @@ const ConciergeExperience = () => {
   const timeSlots = ["09:00", "11:30", "14:00", "16:30", "19:00"];
 
   const primaryBtnStyle: React.CSSProperties = {
-    background: "linear-gradient(135deg, #02AD4C 0%, #1F6B85 100%)",
+    background: "#02AD4C",
     color: "#FFFFFF",
-    fontWeight: 600,
-    letterSpacing: "0.04em",
-    boxShadow: "0 8px 24px -6px rgba(2, 173, 76,0.45), inset 0 1px 0 rgba(255,255,255,0.18)",
+    fontWeight: 700,
+    fontSize: "16px",
+    height: "52px",
+    borderRadius: "12px",
   };
 
   const toggle = (s: string) => setOpenSection(openSection === s ? "" : s);
@@ -94,7 +95,7 @@ const ConciergeExperience = () => {
       setStep(step === "review" ? "availability" : "details");
       return;
     }
-    if (fromNotification) navigate("/");
+    if (fromNotification) navigate("/loyalty");
     else navigate(-1);
   };
 
@@ -529,7 +530,7 @@ const ConciergeExperience = () => {
           </div>
 
           {/* Fixed Bottom CTA */}
-          <div className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md bg-card border-t border-border px-4 py-4 z-40">
+          <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
             <button
               onClick={() => {
                 addBooking({

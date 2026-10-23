@@ -140,7 +140,7 @@ const Offers = () => {
                   {offer.headline}
                 </p>
                 <span className="text-[12px] font-bold text-[#02AD4C] tracking-wide mt-0.5">
-                  FREE
+                  {offer.cost.toLocaleString()} pts
                 </span>
               </div>
             </button>

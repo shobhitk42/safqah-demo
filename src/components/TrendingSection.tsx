@@ -1,3 +1,4 @@
+import SectionTitle from "@/components/SectionTitle";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import fashionImg from "@/assets/fashion.jpg";
@@ -70,17 +71,10 @@ const TrendingSection = () => {
   return (
     <div className="pb-8">
       {sections.map((section) => (
-        <section key={section.label} className="px-5 pt-8 pb-6">
-          <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A8A98]">{section.label}</p>
-          <h2
-            className="mt-2 text-[26px] leading-[1.15] text-foreground"
-            style={{ fontWeight: 300, letterSpacing: "0.005em" }}
-          >
-            {section.title}
-          </h2>
-          <p className="mt-2 text-sm text-foreground/60">{section.subtext}</p>
+        <section key={section.label} className="px-5 pb-8">
+          <SectionTitle title={section.title} subtitle={section.subtext} />
 
-          <div className="mt-8 flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
+          <div className="flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
             {section.items.map((item) => (
               <article
                 key={item.name}

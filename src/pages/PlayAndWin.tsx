@@ -76,7 +76,7 @@ const PlayAndWin = () => {
     <div className="mx-auto min-h-screen max-w-md bg-background">
       <div className="flex items-center gap-3 px-4 py-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/loyalty")}
           className="flex h-9 w-9 items-center justify-center rounded-full border border-border transition-colors hover:bg-muted"
         >
           <ArrowLeft className="h-4 w-4 text-foreground" />

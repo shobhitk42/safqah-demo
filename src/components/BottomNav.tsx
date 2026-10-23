@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Home, User, Award, ShoppingCart } from "lucide-react";
 
 const tabs = [
-  { icon: Home, label: "Home", path: "/" },
+  { icon: Home, label: "Home", path: "/loyalty" },
   { icon: Award, label: "Rewards", path: "/rewards" },
   { icon: ShoppingCart, label: "Cart", path: "/cart" },
   { icon: User, label: "Profile", path: "/profile" },
@@ -11,6 +11,8 @@ const tabs = [
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  if (location.pathname === "/") return null;
 
   return (
     <nav

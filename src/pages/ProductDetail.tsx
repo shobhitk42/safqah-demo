@@ -11,6 +11,8 @@ import smartwatchImg from "@/assets/smartwatch.jpg";
 import televisionImg from "@/assets/television.jpg";
 import laptopImg from "@/assets/laptop.jpg";
 import kitchenImg from "@/assets/kitchen-appliances.jpg";
+import watchImg from "@/assets/boost-watch.jpg";
+import walletImg from "@/assets/boost-wallet.jpg";
 
 const products = [
   { id: "chanel-no5", name: "Chanel No. 5 EDP", category: "Fragrances", points: 4500, price: 45, image: perfumeImg, rating: 4.8, reviews: 124, description: "An iconic fragrance with a complex floral-aldehyde composition. A timeless symbol of femininity and elegance." },
@@ -24,6 +26,8 @@ const products = [
   { id: "apple-watch-10", name: "Apple Watch Series 10", category: "Wearables", points: 18000, price: 180, image: smartwatchImg, rating: 4.8, reviews: 178, description: "The thinnest Apple Watch yet with advanced health features and a stunning always-on display." },
   { id: "samsung-tv", name: 'Samsung 50" UHD Smart TV', category: "Television", points: 25000, price: 250, image: televisionImg, rating: 4.5, reviews: 156, description: "Crystal UHD 4K resolution with smart TV features and a sleek, borderless design." },
   { id: "acer-laptop", name: "Acer Aspire Laptop", category: "Laptop & Computer", points: 30000, price: 300, image: laptopImg, rating: 4.4, reviews: 92, description: "Powerful performance for work and play with the latest Intel processor and long battery life." },
+  { id: "classic-timepiece", name: "Classic Timepiece", category: "Watches", points: 12000, price: 1200, image: watchImg, rating: 4.7, reviews: 86, description: "A precision-engineered stainless steel timepiece with sapphire crystal and Swiss automatic movement." },
+  { id: "leather-wallet", name: "Premium Leather Wallet", category: "Accessories", points: 3500, price: 350, image: walletImg, rating: 4.9, reviews: 212, description: "Full-grain leather bifold wallet with RFID protection and hand-stitched detailing." },
   { id: "philips-coffee", name: "Philips Coffee Machine", category: "Kitchen Appliances", points: 8500, price: 85, image: kitchenImg, rating: 4.7, reviews: 134, description: "Brew barista-quality coffee at home with one-touch operation and built-in grinder." },
 ];
 
@@ -135,13 +139,13 @@ const ProductDetail = () => {
             });
             toast.success("Added to cart", { description: product.name, duration: 1800 });
           }}
-          className="flex-1 rounded-xl border border-primary py-3 text-sm font-semibold text-primary"
+          className="flex-1 h-12 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
         >
           {inCart ? "Go to Cart" : "Add to Cart"}
         </button>
         <button
           onClick={() => navigate(`/checkout/${product.id}`)}
-          className="flex-1 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+          className="flex-1 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           Buy Now
         </button>

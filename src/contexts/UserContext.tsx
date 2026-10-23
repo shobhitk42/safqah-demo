@@ -22,6 +22,8 @@ export interface Milestone {
   current: number;
   reward: string;
   role: "consumer" | "merchant";
+  /** Optional unit shown after the progress numbers, e.g. "SAR" for investment goals. */
+  unit?: string;
 }
 
 export interface RecommendedProduct {
@@ -74,6 +76,10 @@ const ahmedProfile: UserProfile = {
   milestones: [
     { id: "m1", label: "Verify your account on Absher", target: 3, current: 1, reward: "🎁 5,000 Bonus Points", role: "consumer" },
     { id: "m2", label: "Complete your investment account information", target: 4, current: 1, reward: "✈️ Complimentary Airport Lounge Pass", role: "consumer" },
+    { id: "m5", label: "Make your first investment of SAR 5,000", target: 5000, current: 0, unit: "SAR", reward: "🎁 10,000 Bonus Points", role: "consumer" },
+    { id: "m6", label: "Verify your email address", target: 1, current: 0, reward: "🎁 2,000 Bonus Points", role: "consumer" },
+    { id: "m7", label: "Invest SAR 25,000 in total", target: 25000, current: 0, unit: "SAR", reward: "🎁 30,000 Bonus Points", role: "consumer" },
+    { id: "m8", label: "Invest in 3 different deals", target: 3, current: 0, reward: "💎 Fast-track towards Diamond tier", role: "consumer" },
     { id: "m3", label: "Process 2,000,000 pts in sales through Safqah Capital", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
     { id: "m4", label: "Onboard 10 customers via Safqah Capital", target: 10, current: 6, reward: "🏷️ Merchant Fee Waiver", role: "merchant" },
   ],

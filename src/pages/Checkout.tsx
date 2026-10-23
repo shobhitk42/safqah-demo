@@ -14,6 +14,8 @@ import televisionImg from "@/assets/television.jpg";
 import laptopImg from "@/assets/laptop.jpg";
 import kitchenImg from "@/assets/kitchen-appliances.jpg";
 import washingImg from "@/assets/washing-machine.jpg";
+import watchImg from "@/assets/boost-watch.jpg";
+import walletImg from "@/assets/boost-wallet.jpg";
 import { appleProducts } from "@/data/appleProducts";
 import { samsungProducts } from "@/data/samsungProducts";
 
@@ -26,6 +28,11 @@ const products = [
   { id: "apple-watch-10", name: "Apple Watch Series 10", points: 18000, price: 180, image: smartwatchImg },
   { id: "samsung-tv", name: 'Samsung 50" UHD Smart TV', points: 25000, price: 250, image: televisionImg },
   { id: "acer-laptop", name: "Acer Aspire Laptop", points: 30000, price: 300, image: laptopImg },
+  { id: "creed-aventus", name: "Creed Aventus", points: 9800, price: 98, image: perfumeImg },
+  { id: "jo-malone-wood-sage", name: "Jo Malone Wood Sage & Sea Salt", points: 6400, price: 64, image: perfumeDiorImg },
+  { id: "byredo-gypsy-water", name: "Byredo Gypsy Water", points: 7900, price: 79, image: perfumeTomfordImg },
+  { id: "classic-timepiece", name: "Classic Timepiece", points: 12000, price: 1200, image: watchImg },
+  { id: "leather-wallet", name: "Premium Leather Wallet", points: 3500, price: 350, image: walletImg },
   { id: "philips-coffee", name: "Philips Coffee Machine", points: 8500, price: 85, image: kitchenImg },
   { id: "lg-washing", name: "LG Front Load Washing Machine", points: 15000, price: 150, image: washingImg },
   ...[...appleProducts, ...samsungProducts].map((p) => ({
@@ -128,11 +135,11 @@ const Checkout = () => {
       </div>
 
       {/* Fixed Bottom CTA */}
-      <div className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md bg-card border-t border-border px-4 py-4 z-40">
+      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
         <button
           onClick={handleConfirm}
           disabled={!hasEnoughPoints}
-          className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 h-[52px] rounded-xl bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           Confirm Redemption
         </button>
@@ -155,13 +162,13 @@ const Checkout = () => {
             </p>
             <button
               onClick={() => { setShowSuccess(false); navigate("/orders"); }}
-              className="w-full mt-4 rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+              className="w-full mt-4 flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               View Orders
             </button>
             <button
               onClick={() => { setShowSuccess(false); navigate("/merchandise"); }}
-              className="w-full rounded-xl border border-border py-3 text-sm font-medium text-foreground"
+              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
             >
               Continue Shopping
             </button>

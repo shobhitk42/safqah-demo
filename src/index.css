@@ -267,6 +267,24 @@
 }
 
 @layer utilities {
+  @keyframes rewards-ripple {
+    0% { transform: scale(0.55); opacity: 0.8; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+  @keyframes rewards-orbit { to { transform: rotate(360deg); } }
+  @keyframes rewards-coin {
+    0%, 100% { transform: rotateY(0deg) translateY(0); }
+    50% { transform: rotateY(180deg) translateY(-3px); }
+  }
+  @keyframes rewards-progress { from { width: 0%; } to { width: 100%; } }
+  .rewards-ripple { animation: rewards-ripple 1800ms ease-out infinite; }
+  .rewards-orbit { animation: rewards-orbit 6s linear infinite; }
+  .rewards-coin { animation: rewards-coin 1600ms ease-in-out infinite; }
+  .rewards-progress { animation: rewards-progress linear forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .rewards-ripple, .rewards-orbit, .rewards-coin { animation: none; }
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

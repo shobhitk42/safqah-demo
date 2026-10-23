@@ -8,12 +8,26 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import travelImg from "@/assets/travel.jpg";
 
 const CITIES = [
+  // Featured destinations first
+  { code: "LHR", name: "London", country: "United Kingdom" },
+  { code: "CDG", name: "Paris", country: "France" },
+  { code: "JFK", name: "New York", country: "USA" },
+  { code: "MXP", name: "Milan", country: "Italy" },
+  { code: "GVA", name: "Geneva", country: "Switzerland" },
+  { code: "BCN", name: "Barcelona", country: "Spain" },
+  { code: "NRT", name: "Tokyo", country: "Japan" },
+  { code: "SIN", name: "Singapore", country: "Singapore" },
+  { code: "MLE", name: "Maldives", country: "Maldives" },
+  { code: "IST", name: "Istanbul", country: "Türkiye" },
+  // Saudi Arabia
+  { code: "RUH", name: "Riyadh", country: "Saudi Arabia" },
   { code: "JED", name: "Jeddah", country: "Saudi Arabia" },
   { code: "DMM", name: "Dammam", country: "Saudi Arabia" },
+  { code: "MED", name: "Madinah", country: "Saudi Arabia" },
+  // Regional
+  { code: "DXB", name: "Dubai", country: "UAE" },
   { code: "DOH", name: "Doha", country: "Qatar" },
   { code: "BAH", name: "Bahrain", country: "Bahrain" },
-  { code: "MED", name: "Madinah", country: "Saudi Arabia" },
-  { code: "RUH", name: "Riyadh", country: "Saudi Arabia" },
   { code: "KWI", name: "Kuwait", country: "Kuwait" },
 ];
 
@@ -135,8 +149,8 @@ const FlightsPage = () => {
           </div>
 
           <button
-            onClick={() => navigate("/")}
-            className="w-full rounded-xl bg-primary text-primary-foreground py-3.5 text-sm font-semibold hover:bg-primary/90 transition-colors"
+            onClick={() => navigate("/loyalty")}
+            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             Back to Home
           </button>
@@ -222,7 +236,7 @@ const FlightsPage = () => {
 
           <button
             onClick={handleBook}
-            className="w-full rounded-xl bg-primary text-primary-foreground py-3.5 text-sm font-semibold hover:bg-primary/90 transition-colors"
+            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             Confirm & Book
           </button>
@@ -307,7 +321,7 @@ const FlightsPage = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
       <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+        <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <h1 className="text-lg font-semibold text-foreground">Flights</h1>

@@ -33,7 +33,7 @@ const SamsungStore = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-muted/40 pb-24">
       <div className="sticky top-0 z-40 flex items-center justify-between bg-muted/80 px-4 py-3 backdrop-blur">
-        <button onClick={() => navigate("/")} className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card">
+        <button onClick={() => navigate("/loyalty")} className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card">
           <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
         <span className="text-sm font-bold uppercase tracking-[0.25em] text-foreground">Samsung</span>

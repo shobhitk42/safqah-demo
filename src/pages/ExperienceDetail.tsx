@@ -306,7 +306,7 @@ const ExperienceDetail = () => {
             </div>
             <button
               onClick={() => setStep("availability")}
-              className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elegant)] active:scale-[0.99] transition"
+              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               Check availability
             </button>
@@ -326,7 +326,7 @@ const ExperienceDetail = () => {
             <button
               onClick={() => setStep("review")}
               disabled={slotChosen === null}
-              className="w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elegant)] active:scale-[0.99] transition disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               {slotChosen === null ? "Select a time slot" : "Continue to review"}
             </button>
@@ -335,7 +335,7 @@ const ExperienceDetail = () => {
         {step === "review" && (
           <button
             onClick={() => setConfirmed(true)}
-            className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elegant)] active:scale-[0.99] transition"
+            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
           >
             Book now · {totalPoints.toLocaleString()} pts
           </button>

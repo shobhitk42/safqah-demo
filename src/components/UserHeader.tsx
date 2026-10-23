@@ -9,7 +9,7 @@ const UserHeader = () => {
   const isPlatinum = user.tier?.toLowerCase() === "platinum";
 
   return (
-    <header className="relative px-5 pt-6 pb-8 stagger-item stagger-1">
+    <header className="relative px-5 pt-2 pb-8 stagger-item stagger-1">
       <div
         className="relative overflow-hidden rounded-[20px] bg-white px-5 py-6"
         style={{

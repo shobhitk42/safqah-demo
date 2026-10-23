@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Plus, Minus } from "lucide-react";
+import { ChevronLeft, Info, Wallet, Coins, Gift, ShoppingBag, Clock, Award } from "lucide-react";
 
 type Tab = "transactions" | "bonus" | "redemption" | "expiry";
 
@@ -13,16 +13,6 @@ interface Transaction {
   earnedDate: string;
   type: "credit" | "debit";
 }
-
-const summaryBoxes = [
-  { label: "Earned on Spend", value: "17,268", color: "border-primary" },
-  { label: "Bonus Points", value: "28,000,000", color: "border-primary" },
-  { label: "Redeemed Points", value: "27,955,853", color: "border-destructive" },
-  { label: "Expired Points", value: "0", color: "border-destructive" },
-  { label: "Available Balance", value: "61,415", color: "border-primary" },
-];
-
-const operators = ["+", "+", "−", "−", "="];
 
 const transactions: Transaction[] = [
   { narration: "Purchase points", merchant: "Panda Supermarket", amount: "50,000 pts", date: "01 Mar 2026", earned: "+1,500", earnedDate: "03 Mar 2026", type: "credit" },
@@ -60,10 +50,34 @@ const tabData: Record<Tab, Transaction[]> = {
   expiry: expiryItems,
 };
 
+const EARNED_ON_SPEND = 17268;
+const BONUS_POINTS = 28000000;
+const REDEEMED = 27955853;
+const EXPIRED = 0;
+const AVAILABLE = EARNED_ON_SPEND + BONUS_POINTS - REDEEMED - EXPIRED;
+const TOTAL_EARNED = EARNED_ON_SPEND + BONUS_POINTS;
+const REDEEMED_PCT = (REDEEMED / TOTAL_EARNED) * 100;
+
+const rowIcon: Record<Tab, typeof ShoppingBag> = { transactions: ShoppingBag, bonus: Gift, redemption: Award, expiry: Clock };
+
+const StatTile = ({ icon: Icon, label, value, className = "" }: { icon: typeof Wallet; label: string; value: string; className?: string }) => (
+  <div className={`flex flex-col justify-center rounded-2xl bg-[#ECE8E3] p-4 ${className}`}>
+    <Icon className="mb-3 h-5 w-5 text-foreground/60" strokeWidth={1.5} />
+    <p className="text-[13px] text-foreground/65">{label}</p>
+    <p className="mt-1 text-[22px] font-bold leading-tight tabular-nums text-foreground">{value}</p>
+  </div>
+);
+
+const Heading = ({ children, info }: { children: React.ReactNode; info?: boolean }) => (
+  <h2 className="flex items-center gap-2 text-[17px] font-semibold text-foreground">
+    {children}
+    {info && <Info className="h-4 w-4 text-foreground/60" strokeWidth={1.5} />}
+  </h2>
+);
+
 const RewardsPage = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>("transactions");
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const tabs: { key: Tab; label: string }[] = [
     { key: "transactions", label: "Spend" },
@@ -73,128 +87,114 @@ const RewardsPage = () => {
   ];
 
   const currentItems = tabData[activeTab];
+  const RowIcon = rowIcon[activeTab];
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-background pb-20">
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-40">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
-          <ArrowLeft className="h-4 w-4 text-foreground" />
+      <div className="relative flex items-center justify-center px-5 py-5">
+        <button onClick={() => navigate("/loyalty")} aria-label="Back" className="absolute left-4 flex h-9 w-9 items-center justify-center">
+          <ChevronLeft className="h-6 w-6 text-foreground" strokeWidth={1.5} />
         </button>
-        <div>
-          <h1 className="text-lg font-semibold text-foreground">Points Statement</h1>
-          <p className="text-[10px] text-muted-foreground">Track every point you earn, redeem and lose to expiry.</p>
-        </div>
+        <h1 className="text-[17px] font-bold text-foreground">Points Statement</h1>
       </div>
 
-      {/* Summary Card */}
-      <div className="mx-4 mb-4 rounded-2xl bg-card border border-border p-4 shadow-sm">
-        <div className="grid grid-cols-3 gap-3 mb-3">
-          <div className="text-center">
-            <p className="text-[9px] text-muted-foreground mb-1">Earned on spend</p>
-            <p className="text-sm font-bold text-card-foreground">17,268</p>
+      <div className="space-y-8 px-5">
+        {/* Summary tiles */}
+        <section>
+          <p className="mb-4 text-[13px] text-foreground/60">Track every point you earn, redeem and lose to expiry.</p>
+          <Heading info>Points summary</Heading>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <StatTile icon={Wallet} label="Available balance" value={AVAILABLE.toLocaleString()} className="row-span-2" />
+            <StatTile icon={Coins} label="Earned on spend" value={EARNED_ON_SPEND.toLocaleString()} />
+            <StatTile icon={Gift} label="Bonus points" value={BONUS_POINTS.toLocaleString()} />
           </div>
-          <div className="text-center">
-            <p className="text-[9px] text-muted-foreground mb-1">Bonus points</p>
-            <p className="text-sm font-bold text-card-foreground">28,000,000</p>
-          </div>
-          <div className="text-center">
-            <p className="text-[9px] text-muted-foreground mb-1">Redeemed</p>
-            <p className="text-sm font-bold text-destructive">27,955,853</p>
-          </div>
-        </div>
-        <div className="border-t border-border pt-3 grid grid-cols-2 gap-3">
-          <div className="text-center">
-            <p className="text-[9px] text-muted-foreground mb-1">Expired</p>
-            <p className="text-sm font-bold text-card-foreground">0</p>
-          </div>
-          <div className="text-center rounded-lg bg-primary/10 py-1.5">
-            <p className="text-[9px] text-primary/70 mb-1">Available balance</p>
-            <p className="text-base font-bold text-primary">61,415</p>
-          </div>
-        </div>
-      </div>
+        </section>
 
-      {/* Tabs */}
-      <div className="px-4 mb-4">
-        <div className="flex gap-1 border-b border-border">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => { setActiveTab(tab.key); setExpandedIndex(null); }}
-              className={`px-3 py-2 text-xs font-medium transition-colors ${
-                activeTab === tab.key
-                  ? "border-b-2 border-primary text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* Usage breakdown */}
+        <section>
+          <Heading>How your points were used</Heading>
+          <p className="mt-4 text-[34px] font-bold leading-none text-primary">{REDEEMED_PCT.toFixed(1)}%</p>
+          <p className="mt-2 text-[15px] font-semibold text-foreground">of earned points redeemed</p>
+          <p className="mt-0.5 text-[13px] text-foreground/60">Compared with total points earned</p>
 
-      {/* Transaction List */}
-      <div className="px-4 flex flex-col gap-2.5">
-        {currentItems.length === 0 && (
-          <p className="py-10 text-center text-xs text-muted-foreground">No activity to show yet.</p>
-        )}
-        {currentItems.map((item, i) => (
-          <div key={i} className="rounded-xl bg-card border border-border overflow-hidden">
-            <button
-              onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
-              className="flex w-full items-center gap-3 px-4 py-3 text-left"
-            >
-              <div className="flex h-7 w-7 items-center justify-center rounded-full border border-border shrink-0">
-                {expandedIndex === i ? (
-                  <Minus className="h-3 w-3 text-muted-foreground" />
-                ) : (
-                  <Plus className="h-3 w-3 text-muted-foreground" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-card-foreground">{item.narration}</p>
-                {item.merchant !== "--" && (
-                  <p className="text-[10px] text-muted-foreground">{activeTab === "redemption" ? "Category" : "Merchant"}: {item.merchant}</p>
-                )}
-                {item.amount !== "--" && (
-                  <p className="text-[10px] text-muted-foreground">
-                    {activeTab === "redemption" ? "Points redeemed" : activeTab === "expiry" ? "Points expiring" : "Points spent"}: {item.amount}
+          <p className="mt-6 flex items-center gap-2 text-[13px] text-foreground/80">
+            <span className="h-3.5 w-3.5 rounded-sm bg-[#302F2D]" />
+            Total earned: <span className="font-semibold tabular-nums">{TOTAL_EARNED.toLocaleString()} pts</span>
+          </p>
+          <div className="mt-2 h-9 overflow-hidden rounded-md bg-[#ECE8E3]">
+            <div className="flex h-full items-center whitespace-nowrap bg-primary px-3 text-[13px] text-white" style={{ width: `${REDEEMED_PCT}%` }}>
+              Redeemed: <span className="ml-1 font-semibold tabular-nums">{REDEEMED.toLocaleString()} pts</span>
+            </div>
+          </div>
+          <div className="mt-1 flex justify-between text-[11px] text-foreground/50 tabular-nums">
+            {["0", "7M", "14M", "21M", "28M"].map((t, i) => (
+              <span key={t} className={`flex flex-col ${i === 0 ? "items-start" : i === 4 ? "items-end" : "items-center"}`}>
+                <span className="h-2 w-px bg-foreground/25" />
+                {t}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* Activity */}
+        <section>
+          <Heading>Activity details</Heading>
+          <div className="mt-4 flex gap-1 border-b border-border">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-3 py-2 text-[13px] font-medium transition-colors ${
+                  activeTab === tab.key ? "border-b-2 border-primary text-primary" : "text-foreground/55"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-2">
+            {currentItems.length === 0 && (
+              <p className="py-10 text-center text-xs text-muted-foreground">No activity to show yet.</p>
+            )}
+            {currentItems.map((item, i) => (
+              <div key={i} className="flex items-start gap-3 border-b border-border py-4">
+                <RowIcon className="mt-0.5 h-4 w-4 shrink-0 text-foreground/55" strokeWidth={1.5} />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[14px] text-foreground">{item.narration}</p>
+                  {item.merchant !== "--" && <p className="mt-0.5 text-[12px] text-foreground/55">{item.merchant}</p>}
+                  <p className="text-[12px] text-foreground/55">
+                    {activeTab === "expiry" ? "Expires" : "Date"}: {item.date}
                   </p>
-                )}
-                <p className="text-[10px] text-muted-foreground">{activeTab === "expiry" ? "Expires on" : "Date"}: {item.date}</p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className={`text-xs font-semibold ${item.type === "credit" ? "text-green-600" : "text-destructive"}`}>
-                  {item.earned} pts
-                </p>
-                <p className="text-[10px] text-muted-foreground">{item.type === "credit" ? "Credited" : activeTab === "expiry" ? "Expiry date" : "Deducted"} {item.earnedDate}</p>
-              </div>
-            </button>
-            {expandedIndex === i && (
-              <div className="border-t border-border px-4 py-3 bg-muted/30">
-                <div className="grid grid-cols-2 gap-2 text-[10px]">
-                  <div>
-                    <p className="text-muted-foreground">Description</p>
-                    <p className="font-medium text-card-foreground">{item.narration}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Merchant</p>
-                    <p className="font-medium text-card-foreground">{item.merchant}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Points spent</p>
-                    <p className="font-medium text-card-foreground">{item.amount}</p>
-                  </div>
-                  <div>
-                    <p className="text-muted-foreground">Points</p>
-                    <p className={`font-medium ${item.type === "credit" ? "text-green-600" : "text-destructive"}`}>{item.earned}</p>
-                  </div>
+                  {item.amount !== "--" && (
+                    <p className="text-[12px] text-foreground/55">
+                      {activeTab === "redemption" ? "Points redeemed" : activeTab === "expiry" ? "Points expiring" : "Points spent"}: {item.amount}
+                    </p>
+                  )}
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className={`text-[14px] font-bold tabular-nums ${item.type === "credit" ? "text-primary" : "text-destructive"}`}>
+                    {item.earned} pts
+                  </p>
+                  <p className="text-[11px] text-foreground/50">
+                    {item.type === "credit" ? "Credited" : activeTab === "expiry" ? "Expiry" : "Deducted"} {item.earnedDate}
+                  </p>
                 </div>
               </div>
-            )}
+            ))}
           </div>
-        ))}
+        </section>
+      </div>
+
+      {/* Fixed CTA */}
+      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
+        <button
+          onClick={() => navigate("/loyalty")}
+          className="h-12 w-full rounded-[10px] bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Browse rewards
+        </button>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ const PromoBanners = () => {
 
   return (
     <div className="mb-8 overflow-hidden">
-      <div className="flex gap-4 overflow-x-auto px-5 pb-1 scrollbar-hide snap-x snap-mandatory">
+      <div className="flex gap-4 overflow-x-auto px-5 scroll-px-5 pb-1 scrollbar-hide snap-x snap-mandatory">
         {banners.map((b) => (
           <div key={b.title} className="snap-start shrink-0 w-[calc(100%-2.5rem)]">
             <Banner title={b.title} subtitle={b.subtitle} cta="Explore" icon={b.icon} onClick={() => navigate(b.to)} className="h-full" />
