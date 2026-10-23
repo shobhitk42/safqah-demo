@@ -1,11 +1,9 @@
 import { useState } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, CreditCard, Coins, Blend, Check } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
+import { ArrowLeft, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCart } from "@/contexts/CartContext";
-import comeraLogo from "@/assets/comera-logo.png.asset.json";
 import perfumeImg from "@/assets/perfume.jpg";
 import perfumeDiorImg from "@/assets/perfume-dior.jpg";
 import perfumeTomfordImg from "@/assets/perfume-tomford.jpg";
@@ -40,10 +38,7 @@ const products = [
 ];
 
 
-type PaymentMode = "points" | "cash" | "mix";
-
 const AVAILABLE_POINTS = 52400;
-const POINTS_TO_Rs = 100; // 100 pts = 1 AED
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -68,8 +63,6 @@ const Checkout = () => {
       : null
     : singleProduct;
 
-  const [paymentMode, setPaymentMode] = useState<PaymentMode>("points");
-  const [mixPercent, setMixPercent] = useState([50]); // % of points
   const [showSuccess, setShowSuccess] = useState(false);
 
   if (!product) {
@@ -83,13 +76,8 @@ const Checkout = () => {
   }
 
   const pointsNeeded = product.points;
-  const cashNeeded = product.price;
   const hasEnoughPoints = AVAILABLE_POINTS >= pointsNeeded;
 
-  // Mix calculations
-  const mixPointsPercent = mixPercent[0];
-  const mixPointsUsed = Math.round((pointsNeeded * mixPointsPercent) / 100);
-  const mixCashNeeded = Number(((cashNeeded * (100 - mixPointsPercent)) / 100).toFixed(2));
 
   const handleConfirm = () => {
     setShowSuccess(true);
@@ -113,162 +101,29 @@ const Checkout = () => {
           <p className="text-sm font-semibold text-card-foreground truncate">{product.name}</p>
           <div className="flex items-center gap-3 mt-1">
             <span className="text-xs font-bold text-reward-gold">{product.points.toLocaleString()} pts</span>
-            <span className="text-xs text-muted-foreground">or AED {product.price}</span>
           </div>
         </div>
       </div>
 
       {/* Points Balance */}
-      <div className="mx-4 mb-5 rounded-xl bg-gradient-to-r from-[hsl(var(--hero-gradient-start))] to-[hsl(var(--hero-gradient-end))] p-4">
+      <div className="mx-4 mb-5 rounded-xl safqah-banner p-4">
         <p className="text-xs text-primary-foreground/70">Your Available Points</p>
         <p className="text-2xl font-bold text-primary-foreground">{AVAILABLE_POINTS.toLocaleString()} pts</p>
       </div>
 
-      {/* Payment Method */}
-      <div className="mx-4 mb-4">
-        <h3 className="text-sm font-semibold text-foreground mb-3">How would you like to pay?</h3>
-        <RadioGroup value={paymentMode} onValueChange={(v) => setPaymentMode(v as PaymentMode)} className="gap-2.5">
-          {/* Points Only */}
-          <label
-            className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-              paymentMode === "points" ? "border-primary bg-primary/5" : "border-border bg-card"
-            }`}
-          >
-            <RadioGroupItem value="points" />
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-              <Coins className="h-4 w-4 text-secondary-foreground" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Points Only</p>
-              <p className="text-xs text-muted-foreground">Use {pointsNeeded.toLocaleString()} points</p>
-            </div>
-            {!hasEnoughPoints && (
-              <span className="text-[10px] text-destructive font-medium">Insufficient</span>
-            )}
-          </label>
-
-          {/* Cash Only */}
-          <label
-            className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-              paymentMode === "cash" ? "border-primary bg-primary/5" : "border-border bg-card"
-            }`}
-          >
-            <RadioGroupItem value="cash" />
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-              <CreditCard className="h-4 w-4 text-secondary-foreground" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Cash Only</p>
-              <p className="text-xs text-muted-foreground">Pay AED {cashNeeded} with Safqah Capital</p>
-            </div>
-          </label>
-
-          {/* Mix */}
-          <label
-            className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-              paymentMode === "mix" ? "border-primary bg-primary/5" : "border-border bg-card"
-            }`}
-          >
-            <RadioGroupItem value="mix" />
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-              <Blend className="h-4 w-4 text-secondary-foreground" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Points + Cash</p>
-              <p className="text-xs text-muted-foreground">Split between points & Safqah Capital</p>
-            </div>
-          </label>
-        </RadioGroup>
-      </div>
-
-      {/* Mix Slider */}
-      {paymentMode === "mix" && (
-        <div className="mx-4 mb-4 rounded-xl bg-card p-4 border border-border">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-xs font-medium text-muted-foreground">Points: {mixPointsPercent}%</span>
-            <span className="text-xs font-medium text-muted-foreground">Cash: {100 - mixPointsPercent}%</span>
-          </div>
-          <Slider
-            value={mixPercent}
-            onValueChange={setMixPercent}
-            max={100}
-            min={5}
-            step={5}
-            className="mb-4"
-          />
-          <div className="flex justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground">Points Used</p>
-              <p className="text-sm font-bold text-reward-gold">{mixPointsUsed.toLocaleString()} pts</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground">Cash to Pay</p>
-              <p className="text-sm font-bold text-foreground">AED {mixCashNeeded}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Pay with Safqah Capital */}
-      {(paymentMode === "cash" || paymentMode === "mix") && (
-        <div className="mx-4 mb-4">
-          <h3 className="text-sm font-semibold text-foreground mb-3">Payment</h3>
-          <div className="flex items-center gap-3 rounded-xl border border-primary bg-primary/5 p-4">
-            <img
-              src={comeraLogo.url}
-              alt="Safqah Capital"
-              className="h-10 w-10 rounded-lg object-contain"
-            />
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Pay with Safqah Capital</p>
-              <p className="text-xs text-muted-foreground">Secure one-tap checkout</p>
-            </div>
-            <Check className="h-5 w-5 text-primary" />
-          </div>
-        </div>
-      )}
-
       {/* Order Summary */}
       <div className="mx-4 mb-6 rounded-2xl bg-card p-4 border border-border">
         <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
-        {paymentMode === "points" && (
-          <div className="flex justify-between text-sm mb-2">
-            <span className="text-muted-foreground">Points</span>
-            <span className="font-semibold text-reward-gold">{pointsNeeded.toLocaleString()} pts</span>
-          </div>
-        )}
-        {paymentMode === "cash" && (
-          <div className="flex justify-between text-sm mb-2">
-            <span className="text-muted-foreground">Safqah Capital</span>
-            <span className="font-semibold text-foreground">AED {cashNeeded}</span>
-          </div>
-        )}
-        {paymentMode === "mix" && (
-          <>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Points</span>
-              <span className="font-semibold text-reward-gold">{mixPointsUsed.toLocaleString()} pts</span>
-            </div>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Safqah Capital</span>
-              <span className="font-semibold text-foreground">AED {mixCashNeeded}</span>
-            </div>
-          </>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-muted-foreground">Points</span>
+          <span className="font-semibold text-reward-gold">{pointsNeeded.toLocaleString()} pts</span>
+        </div>
+        {!hasEnoughPoints && (
+          <p className="text-xs text-destructive font-medium">Insufficient points</p>
         )}
         <div className="border-t border-border pt-3 mt-2 flex justify-between">
           <span className="text-sm font-bold text-foreground">Total</span>
-          <div className="text-right">
-            {(paymentMode === "points" || paymentMode === "mix") && (
-              <span className="text-sm font-bold text-reward-gold">
-                {(paymentMode === "points" ? pointsNeeded : mixPointsUsed).toLocaleString()} pts
-              </span>
-            )}
-            {(paymentMode === "cash" || paymentMode === "mix") && (
-              <span className={`text-sm font-bold text-foreground ${paymentMode === "mix" ? "ml-2" : ""}`}>
-                {paymentMode === "mix" ? `+ AED ${mixCashNeeded}` : `AED ${cashNeeded}`}
-              </span>
-            )}
-          </div>
+          <span className="text-sm font-bold text-reward-gold">{pointsNeeded.toLocaleString()} pts</span>
         </div>
       </div>
 
@@ -276,7 +131,7 @@ const Checkout = () => {
       <div className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md bg-card border-t border-border px-4 py-4 z-40">
         <button
           onClick={handleConfirm}
-          disabled={paymentMode === "points" && !hasEnoughPoints}
+          disabled={!hasEnoughPoints}
           className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
         >
           Confirm Redemption

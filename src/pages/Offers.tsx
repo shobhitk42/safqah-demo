@@ -55,7 +55,7 @@ const Offers = () => {
                 Exclusive perks for Safqah Capital members
               </h2>
               <p className="mt-1.5 text-[11px] text-[#302F2D]/70 leading-relaxed pr-2">
-                Activate deals from top UAE brands — all free with your membership.
+                Activate deals from top Saudi brands — all free with your membership.
               </p>
               <button
                 type="button"

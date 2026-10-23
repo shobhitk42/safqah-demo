@@ -70,7 +70,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
           <Slider value={[pointsPercentage]} onValueChange={(v) => setPointsPercentage(v[0])} max={100} min={0} step={10} className="mb-3" />
           <div className="flex justify-between text-xs">
             <span className="font-semibold text-primary">{pointsUsed.toLocaleString()} Points ({pointsPercentage}%)</span>
-            <span className="font-semibold text-foreground">AED {cashAmount.toFixed(2)} ({100 - pointsPercentage}%)</span>
+            <span className="font-semibold text-foreground">SAR {cashAmount.toFixed(2)} ({100 - pointsPercentage}%)</span>
           </div>
           <p className="mt-2 text-[10px] text-muted-foreground">Available: {USER_POINTS.toLocaleString()} Points</p>
         </div>
@@ -110,7 +110,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-foreground">{card.name}</p>
-                    <p className="mt-0.5 text-xs font-medium text-primary">Earn {card.earnRate} Points per AED spent</p>
+                    <p className="mt-0.5 text-xs font-medium text-primary">Earn {card.earnRate} Points per SAR spent</p>
                   </div>
                   {selectedCard.id === card.id && (
                     <div className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary">
@@ -125,7 +125,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
             <div className="mt-3 flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
               <Trophy className="h-4 w-4 shrink-0 text-primary" />
               <p className="text-xs font-medium text-primary">
-                You'll earn <strong>{earnedPoints.toLocaleString()} Points</strong> on AED {cashAmount.toFixed(2)}
+                You'll earn <strong>{earnedPoints.toLocaleString()} Points</strong> on SAR {cashAmount.toFixed(2)}
               </p>
             </div>
           )}
@@ -136,7 +136,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
         <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-foreground">Order summary</h3>
         <div className="flex justify-between py-1 text-sm">
           <span className="text-muted-foreground">{lineLabel}</span>
-          <span className="font-semibold text-foreground">AED {priceAed.toLocaleString()}</span>
+          <span className="font-semibold text-foreground">SAR {priceAed.toLocaleString()}</span>
         </div>
         {pointsUsed > 0 && (
           <div className="flex justify-between py-1 text-sm">
@@ -150,7 +150,7 @@ const PointsPaymentPanel = ({ priceAed, pointsPrice, lineLabel, ctaLabel = "Conf
           <span className="font-bold text-foreground">
             {pointsUsed > 0 && `${pointsUsed.toLocaleString()} Points`}
             {pointsUsed > 0 && cashAmount > 0 && " + "}
-            {cashAmount > 0 && `AED ${cashAmount.toFixed(2)}`}
+            {cashAmount > 0 && `SAR ${cashAmount.toFixed(2)}`}
           </span>
         </div>
         <div className="mt-3 flex items-center gap-1.5 text-[11px] text-muted-foreground">

@@ -6,12 +6,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import BottomNav from "@/components/BottomNav";
 
 const AVAILABLE_POINTS = 52400;
-const POINTS_PER_AED = 100;
 
 const CONTACTS = [
   { name: "Aisha Rahman", phone: "501234567", initials: "AR" },
-  { name: "Omar Haddad", phone: "552345678", initials: "OH" },
-  { name: "Layla Nasser", phone: "563456789", initials: "LN" },
+  { name: "Omar Al Harbi", phone: "552345678", initials: "OH" },
+  { name: "Layla Al Qahtani", phone: "563456789", initials: "LN" },
   { name: "Yusuf Khan", phone: "544567890", initials: "YK" },
 ];
 
@@ -25,7 +24,7 @@ const PeerTransfer = () => {
 
   const recipientPhone = tab === "contacts" ? selected ?? "" : phone;
   const recipientName =
-    tab === "contacts" ? CONTACTS.find((c) => c.phone === selected)?.name ?? "" : `+971 ${phone}`;
+    tab === "contacts" ? CONTACTS.find((c) => c.phone === selected)?.name ?? "" : `+966 ${phone}`;
   const valid = recipientPhone.length === 9 && amount > 0 && amount <= AVAILABLE_POINTS;
 
   return (
@@ -37,7 +36,7 @@ const PeerTransfer = () => {
         <h1 className="text-lg font-semibold text-foreground">Peer to Peer Transfer</h1>
       </div>
 
-      <div className="mx-4 mb-5 rounded-2xl bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] to-[hsl(var(--hero-gradient-end))] p-5">
+      <div className="mx-4 mb-5 rounded-2xl safqah-banner p-5">
         <div className="mb-1 flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary-foreground/80" />
           <p className="text-xs text-primary-foreground/80">Available Points</p>
@@ -77,7 +76,7 @@ const PeerTransfer = () => {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold text-card-foreground">{c.name}</span>
-                <span className="block text-xs text-muted-foreground">+971 {c.phone}</span>
+                <span className="block text-xs text-muted-foreground">+966 {c.phone}</span>
               </span>
               {selected === c.phone && <Check className="h-4 w-4 text-primary" />}
             </button>
@@ -113,10 +112,6 @@ const PeerTransfer = () => {
           <span>{AVAILABLE_POINTS.toLocaleString()}</span>
         </div>
         <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-sm">
-          <span className="text-muted-foreground">Value</span>
-          <span className="font-bold text-reward-gold">AED {(amount / POINTS_PER_AED).toLocaleString()}</span>
-        </div>
-        <div className="mt-2 flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Remaining balance</span>
           <span className="font-semibold text-foreground">{(AVAILABLE_POINTS - amount).toLocaleString()} Points</span>
         </div>
@@ -144,7 +139,7 @@ const PeerTransfer = () => {
           </DialogHeader>
           <div className="space-y-2 text-center">
             <p className="text-sm text-muted-foreground">
-              {amount.toLocaleString()} Points sent to {recipientName || `+971 ${recipientPhone}`}.
+              {amount.toLocaleString()} Points sent to {recipientName || `+966 ${recipientPhone}`}.
             </p>
             <button
               onClick={() => { setDone(false); navigate("/"); }}

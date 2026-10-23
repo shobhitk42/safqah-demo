@@ -12,12 +12,12 @@ type Segment = {
 };
 
 const SEGMENTS: Segment[] = [
-  { label: "Amazon Voucher", short: "AED 50 voucher", color: "#7C6BE8", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 75 voucher", color: "#F2586F", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 100 voucher", color: "#F58A5B", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 150 voucher", color: "#27A567", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 200 voucher", color: "#5B9BF5", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 250 voucher", color: "#F5B95B", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "5,000 pts voucher", color: "#7C6BE8", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "7,500 pts voucher", color: "#F2586F", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "10,000 pts voucher", color: "#F58A5B", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "15,000 pts voucher", color: "#27A567", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "20,000 pts voucher", color: "#5B9BF5", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "25,000 pts voucher", color: "#F5B95B", type: "reward", emoji: "📦" },
 ];
 
 const SEG = 360 / SEGMENTS.length;

@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { useUser } from "@/contexts/UserContext";
 import { toast } from "sonner";
 
-const POINTS_TO_MUR_RATE = 0.30; // 1 point = AED 0.30
+const POINTS_TO_MUR_RATE = 0.30; // 1 point = 30 pts
 const MIN_POINTS = 1000;
 
 const Cashback = () => {
@@ -40,7 +40,7 @@ const Cashback = () => {
           </div>
           <h2 className="text-lg font-bold text-foreground mb-1">Request Submitted!</h2>
           <p className="text-sm text-muted-foreground mb-1">
-            <span className="font-semibold text-foreground">{selectedPoints.toLocaleString()}</span> points → <span className="font-semibold text-foreground">{cashValue} AED</span>
+            <span className="font-semibold text-foreground">{selectedPoints.toLocaleString()}</span> points → <span className="font-semibold text-foreground">{cashValue} SAR</span>
           </p>
           <p className="text-xs text-muted-foreground mb-6">
             The cashback will be credited to your linked bank account within 3-5 business days.
@@ -64,7 +64,7 @@ const Cashback = () => {
       </div>
 
       {/* Banner */}
-      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-6">
+      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl safqah-banner p-6">
         <div className="flex items-center gap-2 mb-1">
           <CircleDollarSign className="h-5 w-5 text-primary-foreground" />
           <h2 className="text-lg font-bold text-primary-foreground">Convert Points to Cash</h2>
@@ -77,7 +77,7 @@ const Cashback = () => {
         <div className="rounded-xl bg-card border border-border p-4">
           <p className="text-xs text-muted-foreground mb-0.5">Available Points</p>
           <p className="text-2xl font-bold text-foreground">{available.toLocaleString()}</p>
-          <p className="text-xs text-muted-foreground">≈ {(available * POINTS_TO_MUR_RATE).toFixed(2)} AED</p>
+          <p className="text-xs text-muted-foreground">≈ {(available * POINTS_TO_MUR_RATE).toFixed(2)} SAR</p>
         </div>
 
         {/* Points selector */}
@@ -91,7 +91,7 @@ const Cashback = () => {
           <div className="text-center py-3 rounded-lg bg-muted/50">
             <p className="text-3xl font-bold text-foreground">{selectedPoints.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground mt-0.5">points</p>
-            <p className="text-lg font-bold text-primary mt-1">{cashValue} AED</p>
+            <p className="text-lg font-bold text-primary mt-1">{cashValue} SAR</p>
           </div>
 
           {/* Slider */}
@@ -115,7 +115,7 @@ const Cashback = () => {
           <Info className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
           <div>
             <p className="text-[11px] text-muted-foreground">
-              <span className="font-semibold text-foreground">1,000 points = {(1000 * POINTS_TO_MUR_RATE).toFixed(2)} AED</span>
+              <span className="font-semibold text-foreground">1,000 points = {(1000 * POINTS_TO_MUR_RATE).toFixed(2)} SAR</span>
             </p>
             <p className="text-[10px] text-muted-foreground mt-0.5">
               Cashback is credited to your linked bank account within 3-5 business days.
@@ -131,7 +131,7 @@ const Cashback = () => {
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Cash value</span>
-            <span className="font-semibold text-primary">{cashValue} AED</span>
+            <span className="font-semibold text-primary">{cashValue} SAR</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Remaining points</span>
@@ -139,7 +139,7 @@ const Cashback = () => {
           </div>
           <div className="border-t border-border my-1" />
           <Button onClick={handleSubmit} className="w-full" size="lg">
-            Request Cashback — {cashValue} AED
+            Request Cashback — {cashValue} SAR
           </Button>
         </div>
       </div>

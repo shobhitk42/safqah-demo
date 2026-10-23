@@ -1,6 +1,6 @@
 import offerNoon from "@/assets/offer-noon.jpg";
 import offerCosta from "@/assets/offer-costa.jpg";
-import offerDeliveroo from "@/assets/offer-deliveroo.jpg";
+import offerHungerStation from "@/assets/offer-deliveroo.jpg";
 import offerCarrefour from "@/assets/offer-carrefour.jpg";
 import offerBooking from "@/assets/offer-booking.jpg";
 import offerReel from "@/assets/offer-vox.jpg";
@@ -24,33 +24,33 @@ export const offers: Offer[] = [
   {
     slug: "noon-cashback",
     brand: "noon.com",
-    headline: "10% Cashback on next order",
-    value: "10% cashback up to AED 50",
+    headline: "10% points back on next order",
+    value: "10% points back up to 5,000 pts",
     image: offerNoon,
     description:
-      "Shop on noon.com and earn 10% cashback (up to AED 50) on your next purchase. Minimum spend AED 100. Cashback credited as Safqah Capital points within 48 hours.",
+      "Shop on noon.com and earn 10% back in points (up to 5,000 pts) on your next purchase. Minimum spend 10,000 pts. Points credited to your Safqah Capital balance within 48 hours.",
   },
   {
     slug: "costa-bogo",
-    brand: "Costa Coffee UAE",
+    brand: "Costa Coffee KSA",
     headline: "BOGO on handcrafted drinks",
     value: "Buy 1, get 1 free",
     image: offerCosta,
     description:
-      "Enjoy a buy-one-get-one-free handcrafted beverage at any Costa Coffee outlet across the UAE. Show your Safqah Capital app QR code at the counter. One redemption per customer per day.",
+      "Enjoy a buy-one-get-one-free handcrafted beverage at any Costa Coffee outlet across Saudi Arabia. Show your Safqah Capital app QR code at the counter. One redemption per customer per day.",
   },
   {
     slug: "deliveroo-75",
-    brand: "Deliveroo UAE",
-    headline: "AED 75 off orders above AED 150",
-    value: "AED 75 off",
-    image: offerDeliveroo,
+    brand: "HungerStation KSA",
+    headline: "7,500 pts off orders above 15,000 pts",
+    value: "7,500 pts off",
+    image: offerHungerStation,
     description:
-      "Get AED 75 off your Deliveroo order when you spend AED 150 or more. Apply the promo code from your Safqah Capital app at checkout. Valid for one use per customer.",
+      "Get 7,500 pts off your HungerStation order when you spend 15,000 pts or more. Apply the promo code from your Safqah Capital app at checkout. Valid for one use per customer.",
   },
   {
     slug: "carrefour-triple",
-    brand: "Carrefour UAE",
+    brand: "Carrefour KSA",
     headline: "Triple points on Fri–Sat spend",
     value: "3x points weekends",
     image: offerCarrefour,
@@ -60,20 +60,20 @@ export const offers: Offer[] = [
   {
     slug: "booking-100",
     brand: "Booking.com",
-    headline: "AED 100 off stays above AED 500",
-    value: "AED 100 off stays",
+    headline: "10,000 pts off stays above 50,000 pts",
+    value: "10,000 pts off stays",
     image: offerBooking,
     description:
-      "Save AED 100 on your next hotel booking of AED 500 or more on Booking.com. Exclusive for Safqah Capital cardholders. Use the unique link from your Offers screen.",
+      "Save 10,000 pts on your next hotel booking of 50,000 pts or more on Booking.com. Exclusive for Safqah Capital cardholders. Use the unique link from your Offers screen.",
   },
   {
     slug: "reel-cinemas-20",
-    brand: "Reel Cinemas",
+    brand: "VOX Cinemas",
     headline: "20% off any ticket type",
     value: "20% off tickets",
     image: offerReel,
     description:
-      "Get 20% off movie tickets at any Reel Cinemas location in the UAE. Applies to Standard, Premium, and Platinum screens. Show your Safqah Capital QR code at the box office.",
+      "Get 20% off movie tickets at any VOX Cinemas location in Saudi Arabia. Applies to Standard, Premium, and Platinum screens. Show your Safqah Capital QR code at the box office.",
   },
   {
     slug: "namshi-25",
@@ -82,25 +82,25 @@ export const offers: Offer[] = [
     value: "Flat 25% off",
     image: offerNamshi,
     description:
-      "Get a flat 25% discount on fashion, footwear, and accessories on Namshi. Apply the exclusive Safqah Capital promo code at checkout. Valid on full-price items. Minimum order AED 200.",
+      "Get a flat 25% discount on fashion, footwear, and accessories on Namshi. Apply the exclusive Safqah Capital promo code at checkout. Valid on full-price items. Minimum order 20,000 pts.",
   },
   {
     slug: "aster-15",
-    brand: "Aster Pharmacy",
+    brand: "Nahdi Pharmacy",
     headline: "15% off health & wellness",
     value: "15% off wellness",
     image: offerAster,
     description:
-      "Save 15% on vitamins, supplements, skincare, and personal care products at any Aster Pharmacy outlet in the UAE. Show your Safqah Capital app at checkout.",
+      "Save 15% on vitamins, supplements, skincare, and personal care products at any Nahdi Pharmacy outlet in Saudi Arabia. Show your Safqah Capital app at checkout.",
   },
   {
     slug: "sharaf-50",
-    brand: "Sharaf DG",
-    headline: "AED 50 off purchases above AED 300",
-    value: "AED 50 off",
+    brand: "eXtra",
+    headline: "5,000 pts off purchases above 30,000 pts",
+    value: "5,000 pts off",
     image: offerSharaf,
     description:
-      "Get AED 50 off your next purchase of AED 300 or more at Sharaf DG, in-store or online. Covers electronics, accessories, appliances, and more.",
+      "Get 5,000 pts off your next purchase of 30,000 pts or more at eXtra, in-store or online. Covers electronics, accessories, appliances, and more.",
   },
   {
     slug: "talabat-free-delivery",
@@ -112,13 +112,13 @@ export const offers: Offer[] = [
       "Enjoy free delivery on all Talabat orders for an entire week after activation. No minimum order value. Activate from your Safqah Capital Offers screen.",
   },
   {
-    slug: "emirates-10",
-    brand: "Emirates",
+    slug: "saudia-10",
+    brand: "Saudia",
     headline: "Up to 10% off Economy & Business",
     value: "Up to 10% off fares",
     image: offerEmirates,
     description:
-      "Book flights on emirates.com and get up to 10% off Economy and Business class fares. Exclusive for Safqah Capital Platinum and Infinite cardholders.",
+      "Book flights on saudia.com and get up to 10% off Economy and Business class fares. Exclusive for Safqah Capital Platinum and Infinite cardholders.",
   },
   {
     slug: "lulu-b2g1",

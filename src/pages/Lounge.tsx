@@ -5,9 +5,9 @@ import { toast } from "sonner";
 import hotelImg from "@/assets/hotel.jpg";
 
 const lounges = [
-  { name: "Air Mauritius First & Business Lounge", airport: "Port Louis (MCT)", points: "3,000" },
-  { name: "Primeclass Lounge", airport: "Port Louis (MCT)", points: "2,500" },
-  { name: "Al Dhabi Lounge", airport: "Abu Dhabi (AUH)", points: "2,800" },
+  { name: "Saudia Al Fursan Lounge", airport: "Riyadh (RUH)", points: "3,000" },
+  { name: "Plaza Premium Lounge", airport: "Jeddah (JED)", points: "2,500" },
+  { name: "Business Lounge", airport: "Dammam (DMM)", points: "2,800" },
   { name: "Qatar Airways Lounge", airport: "Doha (DOH)", points: "3,500" },
   { name: "Gulf Air Falcon Gold Lounge", airport: "Bahrain (BAH)", points: "2,200" },
 ];

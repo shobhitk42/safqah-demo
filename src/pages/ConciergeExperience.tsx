@@ -16,12 +16,9 @@ import {
   Coins,
   Blend,
 } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
 import { conciergeExperiences } from "@/data/conciergeExperiences";
 import { useUser } from "@/contexts/UserContext";
 import { useBookings } from "@/contexts/BookingsContext";
-import comeraLogo from "@/assets/comera-logo.png.asset.json";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +36,7 @@ const DEFAULT_EXCLUSIONS = [
   "Travel insurance",
 ];
 
-const parseCash = (price: string): number => {
+const parsePoints = (price: string): number => {
   const match = price.match(/([\d,]+)/);
   if (!match) return 0;
   return Number(match[1].replace(/,/g, ""));
@@ -63,8 +60,6 @@ const ConciergeExperience = () => {
   const [confirmed, setConfirmed] = useState(false);
   const [step, setStep] = useState<Step>("details");
   const [slotChosen, setSlotChosen] = useState<number | null>(null);
-  const [payMode, setPayMode] = useState<"points" | "mix" | "cash">("points");
-  const [pointsPct, setPointsPct] = useState(60);
 
   if (!exp) {
     return (
@@ -74,15 +69,13 @@ const ConciergeExperience = () => {
     );
   }
 
-  const cashPrice = parseCash(exp.price);
-  const basePoints = cashPrice * 100;
+  const basePoints = parsePoints(exp.price);
   const rateTypes = [
     { label: "Private experience", points: basePoints },
     { label: "Concierge Plus (fully arranged)", points: Math.round(basePoints * 1.25) },
   ];
   const currentRate = rateTypes[rate];
   const totalPoints = currentRate.points * guests;
-  const totalCash = cashPrice * guests;
 
   const timeSlots = ["09:00", "11:30", "14:00", "16:30", "19:00"];
 
@@ -93,20 +86,6 @@ const ConciergeExperience = () => {
     letterSpacing: "0.04em",
     boxShadow: "0 8px 24px -6px rgba(2, 173, 76,0.45), inset 0 1px 0 rgba(255,255,255,0.18)",
   };
-
-  // Payment split calculations
-  const pointsToUse =
-    payMode === "points"
-      ? totalPoints
-      : payMode === "mix"
-        ? Math.round((totalPoints * pointsPct) / 100)
-        : 0;
-  const cashToPay =
-    payMode === "cash"
-      ? totalCash
-      : payMode === "mix"
-        ? Math.round(totalCash * (1 - pointsPct / 100))
-        : 0;
 
   const toggle = (s: string) => setOpenSection(openSection === s ? "" : s);
 
@@ -300,10 +279,6 @@ const ConciergeExperience = () => {
               style={{ fontWeight: 400, letterSpacing: "0.005em" }}
             >
               <span style={{ color: "#02AD4C" }}>{basePoints.toLocaleString()} pts</span>
-              <span className="text-[13px] text-[#8A8A98] font-light">
-                {" "}
-                · AED {cashPrice.toLocaleString()}
-              </span>
             </p>
             <p className="mt-1 text-[11px] text-[#8A8A98]">
               per guest · free cancellation up to 24h
@@ -486,9 +461,6 @@ const ConciergeExperience = () => {
                   </span>
                 </p>
               </div>
-              <p className="text-[11px] text-[#8A8A98]">
-                or AED {totalCash.toLocaleString()}
-              </p>
             </div>
             <button
               onClick={() => setStep("review")}
@@ -518,7 +490,6 @@ const ConciergeExperience = () => {
                 <span className="text-xs font-bold" style={{ color: "#02AD4C" }}>
                   {totalPoints.toLocaleString()} pts
                 </span>
-                <span className="text-xs text-muted-foreground">or AED {totalCash.toLocaleString()}</span>
               </div>
               <p className="mt-1 text-[11px] text-muted-foreground">
                 {date} · {time} · {guests} guest{guests > 1 ? "s" : ""} · {currentRate.label}
@@ -537,144 +508,23 @@ const ConciergeExperience = () => {
             </p>
           </div>
 
-          {/* Payment Method */}
-          <div className="mx-4 mb-4">
-            <h3 className="text-sm font-semibold text-foreground mb-3">How would you like to pay?</h3>
-            <RadioGroup
-              value={payMode}
-              onValueChange={(v) => setPayMode(v as "points" | "mix" | "cash")}
-              className="gap-2.5"
-            >
-              <label
-                className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-                  payMode === "points" ? "border-primary bg-primary/5" : "border-border bg-card"
-                }`}
-              >
-                <RadioGroupItem value="points" />
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-                  <Coins className="h-4 w-4 text-secondary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">Points Only</p>
-                  <p className="text-xs text-muted-foreground">
-                    Use {totalPoints.toLocaleString()} points
-                  </p>
-                </div>
-                {user.availablePoints < totalPoints && (
-                  <span className="text-[10px] text-destructive font-medium">Insufficient</span>
-                )}
-              </label>
-
-              <label
-                className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-                  payMode === "cash" ? "border-primary bg-primary/5" : "border-border bg-card"
-                }`}
-              >
-                <RadioGroupItem value="cash" />
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-                  <CreditCard className="h-4 w-4 text-secondary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">Cash Only</p>
-                  <p className="text-xs text-muted-foreground">
-                    Pay AED {totalCash.toLocaleString()} with Safqah Capital
-                  </p>
-                </div>
-              </label>
-
-              <label
-                className={`flex items-center gap-3 rounded-xl border p-4 cursor-pointer transition-all ${
-                  payMode === "mix" ? "border-primary bg-primary/5" : "border-border bg-card"
-                }`}
-              >
-                <RadioGroupItem value="mix" />
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary">
-                  <Blend className="h-4 w-4 text-secondary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">Points + Cash</p>
-                  <p className="text-xs text-muted-foreground">Split between points & Safqah Capital</p>
-                </div>
-              </label>
-            </RadioGroup>
-          </div>
-
-          {/* Mix Slider */}
-          {payMode === "mix" && (
-            <div className="mx-4 mb-4 rounded-xl bg-card p-4 border border-border">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs font-medium text-muted-foreground">Points: {pointsPct}%</span>
-                <span className="text-xs font-medium text-muted-foreground">Cash: {100 - pointsPct}%</span>
-              </div>
-              <Slider
-                value={[pointsPct]}
-                onValueChange={(v) => setPointsPct(v[0])}
-                max={90}
-                min={10}
-                step={5}
-                className="mb-4"
-              />
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">Points Used</p>
-                  <p className="text-sm font-bold" style={{ color: "#02AD4C" }}>
-                    {pointsToUse.toLocaleString()} pts
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-muted-foreground">Cash to Pay</p>
-                  <p className="text-sm font-bold text-foreground">AED {cashToPay.toLocaleString()}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Safqah Capital payment option */}
-          {(payMode === "cash" || payMode === "mix") && (
-            <div className="mx-4 mb-4">
-              <h3 className="text-sm font-semibold text-foreground mb-3">Payment</h3>
-              <div className="flex items-center gap-3 rounded-xl border border-primary bg-primary/5 p-4">
-                <img src={comeraLogo.url} alt="Safqah Capital" className="h-10 w-10 rounded-lg object-contain" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-foreground">Pay with Safqah Capital</p>
-                  <p className="text-xs text-muted-foreground">Secure one-tap checkout</p>
-                </div>
-                <Check className="h-5 w-5 text-primary" />
-              </div>
-            </div>
-          )}
-
           {/* Order Summary */}
           <div className="mx-4 mb-6 rounded-2xl bg-card p-4 border border-border">
             <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
-            {pointsToUse > 0 && (
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Points</span>
-                <span className="font-semibold" style={{ color: "#02AD4C" }}>
-                  {pointsToUse.toLocaleString()} pts
-                </span>
-              </div>
-            )}
-            {cashToPay > 0 && (
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Safqah Capital</span>
-                <span className="font-semibold text-foreground">AED {cashToPay.toLocaleString()}</span>
-              </div>
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-muted-foreground">Points</span>
+              <span className="font-semibold" style={{ color: "#02AD4C" }}>
+                {totalPoints.toLocaleString()} pts
+              </span>
+            </div>
+            {user.availablePoints < totalPoints && (
+              <p className="text-xs text-destructive font-medium">Insufficient points</p>
             )}
             <div className="border-t border-border pt-3 mt-2 flex justify-between">
               <span className="text-sm font-bold text-foreground">Total</span>
-              <div className="text-right">
-                {pointsToUse > 0 && (
-                  <span className="text-sm font-bold" style={{ color: "#02AD4C" }}>
-                    {pointsToUse.toLocaleString()} pts
-                  </span>
-                )}
-                {cashToPay > 0 && (
-                  <span className={`text-sm font-bold text-foreground ${pointsToUse > 0 ? "ml-2" : ""}`}>
-                    {pointsToUse > 0 ? `+ AED ${cashToPay.toLocaleString()}` : `AED ${cashToPay.toLocaleString()}`}
-                  </span>
-                )}
-              </div>
+              <span className="text-sm font-bold" style={{ color: "#02AD4C" }}>
+                {totalPoints.toLocaleString()} pts
+              </span>
             </div>
           </div>
 
@@ -685,16 +535,14 @@ const ConciergeExperience = () => {
                 addBooking({
                   item: exp.title,
                   category: "Concierge",
-                  points: pointsToUse,
+                  points: totalPoints,
                   date: `${date} · ${time}`,
                   status: "Confirmed",
-                  meta: `${guests} guest${guests > 1 ? "s" : ""} · ${currentRate.label}${
-                    cashToPay > 0 ? ` · AED ${cashToPay.toLocaleString()}` : ""
-                  }`,
+                  meta: `${guests} guest${guests > 1 ? "s" : ""} · ${currentRate.label}`,
                 });
                 setConfirmed(true);
               }}
-              disabled={payMode === "points" && user.availablePoints < totalPoints}
+              disabled={user.availablePoints < totalPoints}
               className="w-full rounded-xl py-3.5 text-sm font-semibold text-white disabled:opacity-50 transition-all hover:brightness-110 active:scale-[0.98]"
               style={primaryBtnStyle}
             >

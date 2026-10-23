@@ -11,7 +11,7 @@ const GamificationSection = () => {
   // const [gameOpen, setGameOpen] = useState(false);
 
   return (
-    <div className="px-5 mb-10">
+    <div className="px-5 mb-8">
       {SHOW_KICK_WIN && (
       <div className="mb-10">
         <p className="text-[10px] tracking-[0.28em] uppercase text-foreground/50 mb-3">

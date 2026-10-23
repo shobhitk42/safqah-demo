@@ -21,7 +21,7 @@ const highlights = [
 
 const perks = [
   { icon: Sparkles, title: "Redeem fully with Points.", body: "Every Galaxy device is available for your reward Points — no card needed." },
-  { icon: Truck, title: "Free next-day delivery.", body: "Delivered anywhere in Dubai and across the UAE at no extra cost." },
+  { icon: Truck, title: "Free next-day delivery.", body: "Delivered anywhere in Riyadh and across Saudi Arabia at no extra cost." },
   { icon: ShieldCheck, title: "2-year Galaxy warranty.", body: "Official regional warranty and support included with every device." },
 ];
 

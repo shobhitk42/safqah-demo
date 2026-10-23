@@ -37,7 +37,7 @@ const GAMES = [
 const PlayAndWinSection = () => {
   const navigate = useNavigate();
   return (
-    <section className="px-4">
+    <section className="mb-8 px-5">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent">

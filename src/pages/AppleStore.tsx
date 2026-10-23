@@ -20,7 +20,7 @@ const latest = [
 
 const difference = [
   { icon: CreditCard, title: "Pay entirely with Points.", body: "Redeem your reward Points for any Apple product in the store." },
-  { icon: Truck, title: "Fast delivery across Dubai.", body: "Free next-day delivery to your address anywhere in Dubai and the UAE." },
+  { icon: Truck, title: "Fast delivery across Riyadh.", body: "Free next-day delivery to your address anywhere in Riyadh and across Saudi Arabia." },
 ];
 
 const featuredProducts = appleProducts.slice(0, 6);

@@ -16,10 +16,10 @@ type Partner = {
 };
 
 const partners: Partner[] = [
-  { id: "citilink", name: "CitiLink Miles", program: "Redeem online", category: "Airline", ratio: "1 Reward = 0.55 Miles", perReward: 0.55, denominations: [100, 500, 1000, 2500, 5000], gradient: "from-emerald-500 to-green-600", initials: "CL" },
+  { id: "citilink", name: "Saudia", program: "Alfursan", category: "Airline", ratio: "1 Reward = 0.55 Miles", perReward: 0.55, denominations: [100, 500, 1000, 2500, 5000], gradient: "from-emerald-500 to-green-600", initials: "CL" },
   { id: "qatar", name: "Qatar Airways", program: "Privilege Club", category: "Airline", ratio: "1 Reward = 1 Qmiles", perReward: 1, denominations: [500, 1000, 2500, 5000, 10000], gradient: "from-fuchsia-800 to-purple-900", initials: "QR" },
-  { id: "emirates", name: "Emirates", program: "Skywards", category: "Airline", ratio: "1 Reward = 1 Skywards Mile", perReward: 1, denominations: [500, 1000, 2500, 5000, 10000], gradient: "from-red-600 to-red-800", initials: "EK" },
-  { id: "etihad", name: "Etihad Airways", program: "Etihad Guest", category: "Airline", ratio: "1 Reward = 0.8 Miles", perReward: 0.8, denominations: [500, 1000, 2500, 5000], gradient: "from-amber-700 to-yellow-800", initials: "EY" },
+  { id: "flynas", name: "flynas", program: "nasmiles", category: "Airline", ratio: "1 Reward = 1 nasmile", perReward: 1, denominations: [500, 1000, 2500, 5000, 10000], gradient: "from-red-600 to-red-800", initials: "EK" },
+  { id: "gulfair", name: "Gulf Air", program: "Falconflyer", category: "Airline", ratio: "1 Reward = 0.8 Miles", perReward: 0.8, denominations: [500, 1000, 2500, 5000], gradient: "from-amber-700 to-yellow-800", initials: "EY" },
   { id: "singapore", name: "Singapore Airlines", program: "KrisFlyer", category: "Airline", ratio: "1 Reward = 0.9 KrisFlyer Miles", perReward: 0.9, denominations: [1000, 2500, 5000, 10000], gradient: "from-blue-700 to-indigo-900", initials: "SQ" },
   { id: "shukran", name: "Shukran", program: "Landmark Group", category: "Retail", ratio: "1 Reward = 0.5 Shukran Points", perReward: 0.5, denominations: [500, 1000, 2500], gradient: "from-teal-600 to-emerald-700", initials: "SK" },
   { id: "marriott", name: "Marriott Bonvoy", program: "Hotel Points", category: "Hotel", ratio: "1 Reward = 1.2 Bonvoy Points", perReward: 1.2, denominations: [1000, 2500, 5000, 10000], gradient: "from-stone-700 to-neutral-900", initials: "MR" },
@@ -52,7 +52,7 @@ const PointsExchangePage = () => {
       {!selected && (
         <>
           {/* Balance */}
-          <div className="mx-4 mb-5 rounded-2xl bg-gradient-to-br from-primary to-primary/80 p-4 shadow-lg">
+          <div className="mx-4 mb-5 rounded-2xl safqah-banner p-4 shadow-lg">
             <p className="text-xs text-primary-foreground/80">Your Available Rewards</p>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-3xl font-bold text-primary-foreground">{availableRewards.toLocaleString()}</span>

@@ -20,10 +20,10 @@ const sections = [
     subtext: "Curated moments, wherever you find yourself.",
     link: "/experiences",
     items: [
-      { name: "Fine Dining", image: fashion2Img, price: "Start From AED 5" },
-      { name: "Maldives Diving", image: hotelBeach, price: "Start From AED 25" },
-      { name: "Desert Safari", image: hotelDesert, price: "Start From AED 8" },
-      { name: "City Tour", image: hotelModern, price: "Start From AED 3" },
+      { name: "Fine Dining", image: fashion2Img, price: "Start From 500 pts" },
+      { name: "Maldives Diving", image: hotelBeach, price: "Start From 2,500 pts" },
+      { name: "Desert Safari", image: hotelDesert, price: "Start From 800 pts" },
+      { name: "City Tour", image: hotelModern, price: "Start From 300 pts" },
     ],
   },
   {
@@ -32,10 +32,10 @@ const sections = [
     subtext: "A refined selection of the season's favourites.",
     link: "/gift-cards?filter=fashion",
     items: [
-      { name: "Aldo Mauritius", image: fashionImg, price: "Start From AED 1" },
-      { name: "Charles & Keith", image: shoesBagsImg, price: "Start From AED 1" },
-      { name: "Marks & Spencer", image: fashion2Img, price: "Start From AED 1" },
-      { name: "H&M Mauritius", image: gamingImg, price: "Start From AED 1" },
+      { name: "Aldo KSA", image: fashionImg, price: "Start From 100 pts" },
+      { name: "Charles & Keith", image: shoesBagsImg, price: "Start From 100 pts" },
+      { name: "Marks & Spencer", image: fashion2Img, price: "Start From 100 pts" },
+      { name: "H&M KSA", image: gamingImg, price: "Start From 100 pts" },
     ],
   },
   {
@@ -44,10 +44,10 @@ const sections = [
     subtext: "Objects worth returning to.",
     link: "/merchandise",
     items: [
-      { name: "Designer Perfumes", image: perfumeImg, price: "AED 45" },
-      { name: "iPhone 16 Pro", image: iphoneImg, price: "AED 599" },
-      { name: "Bose Headphones", image: headphonesImg, price: "AED 149" },
-      { name: "Apple Watch S10", image: smartwatchImg, price: "AED 199" },
+      { name: "Designer Perfumes", image: perfumeImg, price: "4,500 pts" },
+      { name: "iPhone 16 Pro", image: iphoneImg, price: "59,900 pts" },
+      { name: "Bose Headphones", image: headphonesImg, price: "14,900 pts" },
+      { name: "Apple Watch S10", image: smartwatchImg, price: "19,900 pts" },
     ],
   },
   {
@@ -56,7 +56,7 @@ const sections = [
     subtext: "Where the well-travelled are staying.",
     link: "/hotels",
     items: [
-      { name: "The Ritz-Carlton, Dubai", image: hotelModern, price: "View options" },
+      { name: "The Ritz-Carlton, Riyadh", image: hotelModern, price: "View options" },
       { name: "Four Seasons Istanbul", image: hotelClassic, price: "View options" },
       { name: "Raffles London", image: hotelDesert, price: "View options" },
       { name: "Mandarin Oriental", image: hotelBeach, price: "View options" },

@@ -14,10 +14,10 @@ interface Operator {
 }
 
 const operators: Operator[] = [
-  { id: "myt", name: "my.t (Mauritius Telecom)", color: "hsl(210, 90%, 45%)", initials: "MT" },
-  { id: "emtel", name: "Emtel", color: "hsl(350, 80%, 50%)", initials: "EM" },
-  { id: "chili", name: "Chili", color: "hsl(24, 90%, 50%)", initials: "CH" },
-  { id: "mtml", name: "MTML Mahanagar", color: "hsl(140, 60%, 40%)", initials: "MT" },
+  { id: "myt", name: "STC", color: "hsl(280, 70%, 45%)", initials: "ST" },
+  { id: "emtel", name: "Mobily", color: "hsl(350, 80%, 50%)", initials: "MO" },
+  { id: "chili", name: "Zain KSA", color: "hsl(24, 90%, 50%)", initials: "ZN" },
+  { id: "mtml", name: "Virgin Mobile KSA", color: "hsl(140, 60%, 40%)", initials: "VM" },
 ];
 
 const denominations = [
@@ -38,7 +38,7 @@ const MobileTopup = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const selectedDenomObj = denominations.find((d) => d.value === selectedDenom);
-  const canProceed = phoneNumber.length >= 8 && selectedOperator && selectedDenom && (selectedDenomObj?.points ?? 0) <= user.availablePoints;
+  const canProceed = phoneNumber.length >= 9 && selectedOperator && selectedDenom && (selectedDenomObj?.points ?? 0) <= user.availablePoints;
 
   const handleSubmit = () => {
     if (!canProceed) return;
@@ -61,10 +61,10 @@ const MobileTopup = () => {
           </div>
           <h2 className="text-lg font-bold text-foreground mb-1">Top-up Successful!</h2>
           <p className="text-sm text-muted-foreground mb-1">
-            <span className="font-semibold text-foreground">{selectedDenom} AED</span> recharged to <span className="font-semibold text-foreground">+230 {phoneNumber}</span>
+            <span className="font-semibold text-foreground">{selectedDenomObj?.points.toLocaleString()} pts</span> recharged to <span className="font-semibold text-foreground">+966 {phoneNumber}</span>
           </p>
           <p className="text-xs text-muted-foreground mb-1">
-            {selectedDenomObj?.points.toLocaleString()} points redeemed from your balance.
+            Points redeemed from your balance.
           </p>
           <p className="text-xs text-muted-foreground mb-6">
             Operator: {operators.find((o) => o.id === selectedOperator)?.name}
@@ -88,7 +88,7 @@ const MobileTopup = () => {
       </div>
 
       {/* Banner */}
-      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-6">
+      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl safqah-banner p-6">
         <div className="flex items-center gap-2 mb-1">
           <Smartphone className="h-5 w-5 text-primary-foreground" />
           <h2 className="text-lg font-bold text-primary-foreground">Prepaid Mobile Recharge</h2>
@@ -102,15 +102,15 @@ const MobileTopup = () => {
           <p className="text-sm font-semibold text-card-foreground">Enter Mobile Number</p>
           <div className="flex items-center gap-2">
             <div className="flex h-10 items-center justify-center rounded-lg bg-muted px-3">
-              <span className="text-sm font-medium text-muted-foreground">+230</span>
+              <span className="text-sm font-medium text-muted-foreground">+966</span>
             </div>
             <Input
               type="tel"
               placeholder="Enter number"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 8))}
+              onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 9))}
               className="flex-1"
-              maxLength={8}
+              maxLength={9}
             />
           </div>
         </div>
@@ -161,8 +161,7 @@ const MobileTopup = () => {
                     }`}
                     disabled={!affordable}
                   >
-                    <p className="text-sm font-bold text-card-foreground">{d.value} AED</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{d.points.toLocaleString()} pts</p>
+                    <p className="text-sm font-bold text-card-foreground">{d.points.toLocaleString()} pts</p>
                   </button>
                 );
               })}
@@ -173,10 +172,6 @@ const MobileTopup = () => {
         {/* Summary & Proceed */}
         {selectedDenom && selectedDenomObj && (
           <div className="rounded-xl bg-card border border-border p-4 space-y-3">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Recharge amount</span>
-              <span className="font-semibold text-foreground">{selectedDenom} AED</span>
-            </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Points required</span>
               <span className="font-semibold text-primary">{selectedDenomObj.points.toLocaleString()}</span>

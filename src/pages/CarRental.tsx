@@ -5,11 +5,11 @@ import { toast } from "sonner";
 import travelImg from "@/assets/travel.jpg";
 
 const providers = [
-  { name: "Europcar Mauritius", model: "Nissan Almera", type: "Economy", seats: 5, fuel: "Petrol", pts: 2500, cash: 750 },
-  { name: "Avis Mauritius", model: "Toyota Yaris", type: "Economy", seats: 5, fuel: "Petrol", pts: 2800, cash: 840 },
-  { name: "Hertz Mauritius", model: "Hyundai Tucson", type: "SUV", seats: 5, fuel: "Diesel", pts: 4500, cash: 1350 },
-  { name: "Sixt Mauritius", model: "BMW 3 Series", type: "Luxury", seats: 5, fuel: "Petrol", pts: 8500, cash: 2550 },
-  { name: "Budget Mauritius", model: "Kia Picanto", type: "Compact", seats: 4, fuel: "Petrol", pts: 2200, cash: 660 },
+  { name: "Europcar Saudi Arabia", model: "Nissan Almera", type: "Economy", seats: 5, fuel: "Petrol", pts: 2500 },
+  { name: "Avis Saudi Arabia", model: "Toyota Yaris", type: "Economy", seats: 5, fuel: "Petrol", pts: 2800 },
+  { name: "Hertz Saudi Arabia", model: "Hyundai Tucson", type: "SUV", seats: 5, fuel: "Diesel", pts: 4500 },
+  { name: "Sixt Saudi Arabia", model: "BMW 3 Series", type: "Luxury", seats: 5, fuel: "Petrol", pts: 8500 },
+  { name: "Budget Saudi Arabia", model: "Kia Picanto", type: "Compact", seats: 4, fuel: "Petrol", pts: 2200 },
 ];
 
 const CarRentalPage = () => {
@@ -53,7 +53,7 @@ const CarRentalPage = () => {
             <div className="mb-4">
               <label className="text-xs font-semibold text-foreground mb-1.5 block">Pick-up Location*</label>
               <div className="flex items-center rounded-lg border border-border px-3 py-2.5">
-                <input value={pickup} onChange={(e) => setPickup(e.target.value)} type="text" placeholder="Port Louis, SSR Airport, Grand Baie" className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
+                <input value={pickup} onChange={(e) => setPickup(e.target.value)} type="text" placeholder="Riyadh, King Khalid Airport, Jeddah" className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
                 <MapPin className="h-4 w-4 text-muted-foreground ml-2" />
               </div>
             </div>
@@ -85,7 +85,7 @@ const CarRentalPage = () => {
             {providers.map((p) => (
               <button
                 key={p.name}
-                onClick={() => toast.success(`Booking ${p.model} from ${p.name}`, { description: `${p.pts.toLocaleString()} pts or AED ${p.cash.toLocaleString()} / day` })}
+                onClick={() => toast.success(`Booking ${p.model} from ${p.name}`, { description: `${p.pts.toLocaleString()} pts / day` })}
                 className="w-full text-left rounded-xl bg-card border border-border shadow-sm p-4 active:scale-[0.99] transition-transform"
               >
                 <div className="flex items-start gap-3">
@@ -102,7 +102,6 @@ const CarRentalPage = () => {
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-sm font-bold text-reward-gold">{p.pts.toLocaleString()} pts</p>
-                    <p className="text-[10px] text-muted-foreground">or AED {p.cash.toLocaleString()}/day</p>
                   </div>
                 </div>
               </button>

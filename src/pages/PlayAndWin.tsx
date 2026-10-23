@@ -84,7 +84,7 @@ const PlayAndWin = () => {
         <h1 className="text-lg font-semibold text-foreground">Play & Win</h1>
       </div>
 
-      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary to-accent p-6">
+      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl safqah-banner p-6">
         <div className="relative z-10">
           <div className="flex items-center gap-2 mb-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-foreground/20">

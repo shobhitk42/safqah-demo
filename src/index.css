@@ -6,8 +6,6 @@
    Palette: Aureolin #FCEE21, Green #02AD4C, Viridian #277D57, Jet #302F2D, Isabelline #F6F3EF.
    All colors MUST be HSL. */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   :root {
     /* Core surfaces */
@@ -357,6 +355,48 @@
       0 10px 30px -18px rgba(2, 173, 76, 0.35);
     transition: box-shadow 500ms ease, transform 500ms ease, border-color 500ms ease;
   }
+  /* Safqah banner surface — solid green with soft corner glows and a faded dot grid */
+  .safqah-banner {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #FFFFFF;
+    background:
+      radial-gradient(70% 90% at 0% 0%, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0) 60%),
+      radial-gradient(75% 105% at 100% 100%, rgba(8, 40, 24, 0.80) 0%, rgba(8, 40, 24, 0.35) 40%, rgba(8, 40, 24, 0) 75%),
+      #0E9A48;
+  }
+  .safqah-banner :where(h1, h2, h3, h4, p, span, div, button, svg) {
+    color: #FFFFFF !important;
+  }
+  .safqah-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.45) 1px, transparent 1.4px);
+    background-size: 16px 16px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 100% at 100% 0%, #000 0%, transparent 70%);
+            mask-image: radial-gradient(ellipse 75% 100% at 100% 0%, #000 0%, transparent 70%);
+  }
+
+  /* Platinum finish — cool brushed-metal surface */
+  .tier-platinum {
+    background:
+      linear-gradient(115deg, rgba(255,255,255,0) 35%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 65%),
+      linear-gradient(135deg, #F4F6F8 0%, #E3E7EB 45%, #F7F8FA 70%, #D9DEE3 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 1px 2px rgba(48, 47, 45, 0.06),
+      0 14px 34px -18px rgba(48, 47, 45, 0.35);
+  }
+  .tier-platinum-text {
+    background: linear-gradient(180deg, #302F2D 0%, #6C7278 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
   .tier-premium::before {
     content: "";
     position: absolute;
@@ -365,11 +405,11 @@
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(2, 173, 76, 0.55) 0%,
-      rgba(2, 173, 76, 0.10) 25%,
-      rgba(2, 173, 76, 0) 50%,
-      rgba(2, 173, 76, 0.10) 75%,
-      rgba(2, 173, 76, 0.55) 100%
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(160, 168, 176, 0.45) 25%,
+      rgba(160, 168, 176, 0.15) 50%,
+      rgba(160, 168, 176, 0.45) 75%,
+      rgba(255, 255, 255, 0.95) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -388,9 +428,9 @@
     background: linear-gradient(
       115deg,
       transparent 38%,
-      rgba(2, 173, 76, 0.35) 47%,
-      rgba(2, 173, 76, 0.9) 50%,
-      rgba(2, 173, 76, 0.35) 53%,
+      rgba(255, 255, 255, 0.45) 47%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0.45) 53%,
       transparent 62%
     );
     background-size: 220% 100%;
@@ -403,9 +443,9 @@
   .tier-premium:hover {
     transform: translateY(-1px);
     box-shadow:
-      0 1px 0 rgba(2, 173, 76, 0.35) inset,
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
       0 2px 6px rgba(48, 47, 45, 0.05),
-      0 22px 60px -22px rgba(2, 173, 76, 0.55);
+      0 22px 60px -22px rgba(48, 47, 45, 0.4);
   }
   .tier-premium:hover::before {
     opacity: 1;
@@ -423,11 +463,11 @@
   .tier-gilt-edge {
     background: linear-gradient(
       90deg,
-      rgba(2, 173, 76, 0) 0%,
-      rgba(2, 173, 76, 0.35) 20%,
-      rgba(2, 173, 76, 0.9) 50%,
-      rgba(2, 173, 76, 0.35) 80%,
-      rgba(2, 173, 76, 0) 100%
+      rgba(190, 198, 206, 0) 0%,
+      rgba(190, 198, 206, 0.6) 20%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(190, 198, 206, 0.6) 80%,
+      rgba(190, 198, 206, 0) 100%
     );
   }
 

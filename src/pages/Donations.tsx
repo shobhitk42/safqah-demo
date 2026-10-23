@@ -27,8 +27,6 @@ import mangroveImg from "@/assets/don-mangrove.jpg";
 import turtleImg from "@/assets/don-turtle.jpg";
 import solarImg from "@/assets/don-solar.jpg";
 
-const MILES_TO_AED = 0.01; // 100 Points = AED 1
-
 const categories = [
   { id: "animals", label: "Animal Welfare", image: animalsImg },
   { id: "humanitarian", label: "Humanitarian", image: foodImg },
@@ -48,30 +46,30 @@ interface Campaign {
 }
 
 const campaigns: Campaign[] = [
-  // Animal Welfare — Dubai
-  { id: "hdu", category: "animals", title: "High Dependency Unit for vulnerable sick animals", org: "Dubai Animal Rescue Centre", location: "Al Quoz, Dubai", image: hduImg },
-  { id: "stray-trauma", category: "animals", title: "Trauma care centre for stray animals and birds", org: "K9 Friends Dubai", location: "Al Barsha, Dubai", image: birdsImg },
-  { id: "street-animals", category: "animals", title: "Rescue sick & injured street animals across Dubai", org: "Stray Dogs Centre Umm Al Quwain", location: "Dubai & Northern Emirates", image: streetImg },
-  { id: "falcon-birds", category: "animals", title: "Protect endangered desert birds and falcons", org: "Dubai Desert Conservation Reserve", location: "Al Marmoom, Dubai", image: falconImg },
-  { id: "spay-neuter", category: "animals", title: "Spay & neuter 5,000 stray cats and dogs", org: "Animal Welfare Dubai", location: "Dubai", image: spayImg },
-  { id: "disabled-dogs", category: "animals", title: "Lifelong care for disabled dogs in a new shelter", org: "Paws & Claws Shelter", location: "Al Ruwayyah, Dubai", image: disabledDogImg },
-  { id: "care-wheels", category: "animals", title: "Animal care on wheels — mobile vet ambulance", org: "Dubai Municipality Vet Services", location: "Dubai", image: mobileVetImg },
-  { id: "working-animals", category: "animals", title: "Help working camels and horses in desperate need", org: "Emirates Equine Welfare", location: "Dubai Outskirts", image: workingAnimalsImg },
+  // Animal Welfare — Saudi Arabia
+  { id: "hdu", category: "animals", title: "High Dependency Unit for vulnerable sick animals", org: "Riyadh Animal Rescue Centre", location: "Al Malaz, Riyadh", image: hduImg },
+  { id: "stray-trauma", category: "animals", title: "Trauma care centre for stray animals and birds", org: "K9 Friends Riyadh", location: "Al Olaya, Riyadh", image: birdsImg },
+  { id: "street-animals", category: "animals", title: "Rescue sick & injured street animals across Riyadh", org: "Stray Animals Care Centre", location: "Riyadh & Central Region", image: streetImg },
+  { id: "falcon-birds", category: "animals", title: "Protect endangered desert birds and falcons", org: "Saudi Falcons Conservation Reserve", location: "Thumamah, Riyadh", image: falconImg },
+  { id: "spay-neuter", category: "animals", title: "Spay & neuter 5,000 stray cats and dogs", org: "Animal Welfare Riyadh", location: "Riyadh", image: spayImg },
+  { id: "disabled-dogs", category: "animals", title: "Lifelong care for disabled dogs in a new shelter", org: "Paws & Claws Shelter", location: "Al Nakheel, Riyadh", image: disabledDogImg },
+  { id: "care-wheels", category: "animals", title: "Animal care on wheels — mobile vet ambulance", org: "Riyadh Municipality Vet Services", location: "Riyadh", image: mobileVetImg },
+  { id: "working-animals", category: "animals", title: "Help working camels and horses in desperate need", org: "Saudi Equine Welfare", location: "Riyadh Outskirts", image: workingAnimalsImg },
 
   // Humanitarian
-  { id: "food-kit", category: "humanitarian", title: "Food kits for labour camp workers", org: "Beit Al Khair Society", location: "Al Quoz, Dubai", image: foodKitImg },
-  { id: "iftar", category: "humanitarian", title: "10,000 hot meals for families in need", org: "UAE Food Bank", location: "Dubai", image: mealsImg },
-  { id: "medical-aid", category: "humanitarian", title: "Emergency medical aid for low-income patients", org: "Dubai Charity Association", location: "Deira, Dubai", image: medicalImg },
+  { id: "food-kit", category: "humanitarian", title: "Food kits for labour camp workers", org: "Ehsan Charity Platform", location: "Al Batha, Riyadh", image: foodKitImg },
+  { id: "iftar", category: "humanitarian", title: "10,000 hot meals for families in need", org: "Itaam Saudi Food Bank", location: "Riyadh", image: mealsImg },
+  { id: "medical-aid", category: "humanitarian", title: "Emergency medical aid for low-income patients", org: "Riyadh Charity Association", location: "Al Murabba, Riyadh", image: medicalImg },
 
   // Education
-  { id: "school-kits", category: "education", title: "School kits for 1,000 underprivileged children", org: "Dubai Cares", location: "Dubai", image: schoolKitImg },
-  { id: "sponsor-student", category: "education", title: "Sponsor a student's full academic year", org: "Al Jalila Foundation", location: "Dubai Healthcare City", image: studentImg },
-  { id: "digital-learning", category: "education", title: "Tablets & digital learning for people of determination", org: "Rashid Centre for People of Determination", location: "Al Garhoud, Dubai", image: digitalImg },
+  { id: "school-kits", category: "education", title: "School kits for 1,000 underprivileged children", org: "Sanad Education Initiative", location: "Riyadh", image: schoolKitImg },
+  { id: "sponsor-student", category: "education", title: "Sponsor a student's full academic year", org: "Scholars Foundation", location: "King Abdullah Financial District, Riyadh", image: studentImg },
+  { id: "digital-learning", category: "education", title: "Tablets & digital learning for people of determination", org: "Centre for People with Disabilities", location: "Al Wurud, Riyadh", image: digitalImg },
 
   // Environment
-  { id: "mangroves", category: "environment", title: "Plant 10,000 mangroves along Dubai Creek", org: "Emirates Nature-WWF", location: "Ras Al Khor, Dubai", image: mangroveImg },
-  { id: "beach-clean", category: "environment", title: "Clean Dubai's beaches and protect marine turtles", org: "Dubai Turtle Rehabilitation Project", location: "Jumeirah, Dubai", image: turtleImg },
-  { id: "solar", category: "environment", title: "Solar power for community shelters", org: "Emirates Green Building Council", location: "Dubai", image: solarImg },
+  { id: "mangroves", category: "environment", title: "Plant 10,000 mangroves along the Red Sea coast", org: "Saudi Green Initiative", location: "Jeddah", image: mangroveImg },
+  { id: "beach-clean", category: "environment", title: "Clean Jeddah's beaches and protect marine turtles", org: "Red Sea Turtle Rehabilitation Project", location: "Jeddah Corniche", image: turtleImg },
+  { id: "solar", category: "environment", title: "Solar power for community shelters", org: "Saudi Green Building Council", location: "Riyadh", image: solarImg },
 ];
 
 const amountOptions = [500, 1000, 2500, 5000];
@@ -111,12 +109,12 @@ const Donations = () => {
       </div>
 
       <div className="px-4">
-        <div className="rounded-2xl bg-primary/10 p-4">
-          <p className="text-sm font-medium text-foreground">Give back with your Points</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Support verified causes across Dubai. 100 Points = AED 1 donated.
+        <div className="safqah-banner rounded-2xl p-5">
+          <p className="text-lg font-bold leading-tight">Give back with your Points</p>
+          <p className="mt-1 text-xs">
+            Support verified causes across Saudi Arabia.
           </p>
-          <p className="mt-2 text-xs font-semibold text-primary">
+          <p className="mt-3 text-xs font-semibold">
             Balance: {user.availablePoints.toLocaleString()} Points
           </p>
         </div>
@@ -196,10 +194,6 @@ const Donations = () => {
                   <span className="font-semibold text-foreground">{amount.toLocaleString()} Points</span>
                 </div>
                 <div className="mt-1 flex justify-between">
-                  <span className="text-muted-foreground">Value</span>
-                  <span className="font-semibold text-foreground">AED {(amount * MILES_TO_AED).toFixed(2)}</span>
-                </div>
-                <div className="mt-1 flex justify-between">
                   <span className="text-muted-foreground">Remaining balance</span>
                   <span className="font-semibold text-foreground">
                     {Math.max(user.availablePoints - amount, 0).toLocaleString()} Points
@@ -219,7 +213,7 @@ const Donations = () => {
                 <DialogTitle className="text-center text-base">Donation Successful</DialogTitle>
               </DialogHeader>
               <p className="mt-2 text-sm text-muted-foreground">
-                {amount.toLocaleString()} Points (AED {(amount * MILES_TO_AED).toFixed(2)}) donated to {selected?.org}.
+                {amount.toLocaleString()} Points donated to {selected?.org}.
               </p>
               <Button className="mt-4 w-full" onClick={() => setSelected(null)}>
                 Done

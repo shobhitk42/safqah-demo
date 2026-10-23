@@ -10,20 +10,20 @@ import hotelDesert from "@/assets/hotel-desert.jpg";
 import hotelImg from "@/assets/hotel.jpg";
 
 const popular = [
-  { name: "LUX* Grand Baie", price: 24000, cash: 7200, image: hotelBeach, rating: 4.9 },
-  { name: "Constance Prince Maurice", price: 32000, cash: 9600, image: hotelClassic, rating: 4.9 },
-  { name: "One&Only Le Saint Géran", price: 45000, cash: 13500, image: hotelModern, rating: 5.0 },
-  { name: "Shangri-La Le Touessrok", price: 38000, cash: 11400, image: hotelBeach, rating: 4.8 },
-  { name: "Four Seasons Anahita", price: 42000, cash: 12600, image: hotelDesert, rating: 4.9 },
-  { name: "Maradiva Villas Resort", price: 36000, cash: 10800, image: hotelClassic, rating: 4.8 },
+  { name: "Park Hyatt Jeddah", price: 24000, image: hotelBeach, rating: 4.9 },
+  { name: "Four Seasons Hotel Riyadh", price: 32000, image: hotelClassic, rating: 4.9 },
+  { name: "The Ritz-Carlton, Riyadh", price: 45000, image: hotelModern, rating: 5.0 },
+  { name: "Rosewood Jeddah", price: 38000, image: hotelBeach, rating: 4.8 },
+  { name: "Banyan Tree AlUla", price: 42000, image: hotelDesert, rating: 4.9 },
+  { name: "Habitas AlUla", price: 36000, image: hotelClassic, rating: 4.8 },
 ];
 
 const searchResults = [
-  { name: "LUX* Grand Baie", area: "Grand Baie", price: 24000, cash: 7200, image: hotelBeach, rating: 4.9, tag: "Beachfront" },
-  { name: "Constance Prince Maurice", area: "Poste de Flacq", price: 32000, cash: 9600, image: hotelClassic, rating: 4.9, tag: "5-Star Villa" },
-  { name: "One&Only Le Saint Géran", price: 45000, cash: 13500, image: hotelModern, area: "Belle Mare", rating: 5.0, tag: "Luxury Icon" },
-  { name: "Shangri-La Le Touessrok", area: "Trou d'Eau Douce", price: 38000, cash: 11400, image: hotelBeach, rating: 4.8, tag: "Private Island" },
-  { name: "Four Seasons Anahita", area: "Beau Champ", price: 42000, cash: 12600, image: hotelDesert, rating: 4.9, tag: "Golf Resort" },
+  { name: "Park Hyatt Jeddah", area: "Jeddah Corniche", price: 24000, image: hotelBeach, rating: 4.9, tag: "Beachfront" },
+  { name: "Four Seasons Hotel Riyadh", area: "Kingdom Centre, Riyadh", price: 32000, image: hotelClassic, rating: 4.9, tag: "5-Star Villa" },
+  { name: "The Ritz-Carlton, Riyadh", price: 45000, image: hotelModern, area: "Al Hada, Riyadh", rating: 5.0, tag: "Luxury Icon" },
+  { name: "Rosewood Jeddah", area: "Jeddah Corniche", price: 38000, image: hotelBeach, rating: 4.8, tag: "Waterfront" },
+  { name: "Banyan Tree AlUla", area: "AlUla", price: 42000, image: hotelDesert, rating: 4.9, tag: "Desert Retreat" },
 ];
 
 const HotelsPage = () => {
@@ -67,7 +67,7 @@ const HotelsPage = () => {
               <label className="text-[10px] font-semibold text-muted-foreground uppercase">Location</label>
               <div className="flex items-center gap-2 mt-1 rounded-lg border border-border px-3 py-2.5">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" placeholder="e.g. Grand Baie, Dubai, Maldives" className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none" />
+                <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" placeholder="e.g. Riyadh, Jeddah, AlUla" className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 mb-3">
@@ -96,7 +96,7 @@ const HotelsPage = () => {
               <div>
                 <label className="text-[10px] font-semibold text-muted-foreground uppercase">Nationality</label>
                 <div className="flex items-center gap-1 mt-1 rounded-lg border border-border px-3 py-2.5">
-                  <span className="text-sm font-medium text-foreground">Mauritius</span>
+                  <span className="text-sm font-medium text-foreground">Saudi Arabia</span>
                   <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
                 </div>
               </div>
@@ -118,9 +118,8 @@ const HotelsPage = () => {
                   topChips={["Luxury stay"]}
                   rows={[
                     { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
-                    { label: "Cash", value: `AED ${h.cash.toLocaleString()}` },
                   ]}
-                  onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts or AED ${h.cash.toLocaleString()}` })}
+                  onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts / night` })}
                 />
               ))}
             </div>
@@ -141,9 +140,8 @@ const HotelsPage = () => {
                 badge={h.area}
                 rows={[
                   { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
-                  { label: "Cash", value: `AED ${h.cash.toLocaleString()}` },
                 ]}
-                onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts or AED ${h.cash.toLocaleString()}` })}
+                onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts / night` })}
               />
             ))}
           </div>

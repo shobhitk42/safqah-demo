@@ -5,37 +5,34 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Slider } from "@/components/ui/slider";
 import travelImg from "@/assets/travel.jpg";
-import comeraLogo from "@/assets/comera-logo.png.asset.json";
 
 const CITIES = [
-  { code: "MCT", name: "Port Louis", country: "Mauritius" },
-  { code: "DXB", name: "Dubai", country: "UAE" },
+  { code: "JED", name: "Jeddah", country: "Saudi Arabia" },
+  { code: "DMM", name: "Dammam", country: "Saudi Arabia" },
   { code: "DOH", name: "Doha", country: "Qatar" },
   { code: "BAH", name: "Bahrain", country: "Bahrain" },
-  { code: "AUH", name: "Abu Dhabi", country: "UAE" },
+  { code: "MED", name: "Madinah", country: "Saudi Arabia" },
   { code: "RUH", name: "Riyadh", country: "Saudi Arabia" },
   { code: "KWI", name: "Kuwait", country: "Kuwait" },
 ];
 
 const FLIGHTS = [
-  { id: 1, airline: "CitiLink", code: "QG 601", depart: "06:15", arrive: "07:45", duration: "1h 30m", stops: "Non-stop", price: 42, points: 4200, logo: "✈️" },
-  { id: 2, airline: "Emirates", code: "EK 863", depart: "08:30", arrive: "10:00", duration: "1h 30m", stops: "Non-stop", price: 65, points: 6500, logo: "🇦🇪" },
-  { id: 3, airline: "CitiLink", code: "QG 102", depart: "09:45", arrive: "11:20", duration: "1h 35m", stops: "Non-stop", price: 29, points: 2900, logo: "✈️" },
-  { id: 4, airline: "CitiLink", code: "QG 605", depart: "11:00", arrive: "12:30", duration: "1h 30m", stops: "Non-stop", price: 47, points: 4700, logo: "✈️" },
-  { id: 5, airline: "FlyDubai", code: "FZ 8044", depart: "13:20", arrive: "14:50", duration: "1h 30m", stops: "Non-stop", price: 35, points: 3500, logo: "🛩️" },
-  { id: 6, airline: "Emirates", code: "EK 865", depart: "15:00", arrive: "16:30", duration: "1h 30m", stops: "Non-stop", price: 58, points: 5800, logo: "🇦🇪" },
-  { id: 7, airline: "CitiLink", code: "QG 106", depart: "16:40", arrive: "18:15", duration: "1h 35m", stops: "Non-stop", price: 31, points: 3100, logo: "✈️" },
-  { id: 8, airline: "CitiLink", code: "QG 609", depart: "18:45", arrive: "20:15", duration: "1h 30m", stops: "Non-stop", price: 48, points: 4800, logo: "✈️" },
-  { id: 9, airline: "FlyDubai", code: "FZ 8048", depart: "20:30", arrive: "22:00", duration: "1h 30m", stops: "Non-stop", price: 38, points: 3800, logo: "🛩️" },
-  { id: 10, airline: "CitiLink", code: "QG 613", depart: "22:15", arrive: "23:45", duration: "1h 30m", stops: "Non-stop", price: 44, points: 4400, logo: "✈️" },
+  { id: 1, airline: "Saudia", code: "SV 601", depart: "06:15", arrive: "07:45", duration: "1h 30m", stops: "Non-stop", price: 42, points: 4200, logo: "✈️" },
+  { id: 2, airline: "flynas", code: "XY 301", depart: "08:30", arrive: "10:00", duration: "1h 30m", stops: "Non-stop", price: 65, points: 6500, logo: "🇸🇦" },
+  { id: 3, airline: "Saudia", code: "SV 102", depart: "09:45", arrive: "11:20", duration: "1h 35m", stops: "Non-stop", price: 29, points: 2900, logo: "✈️" },
+  { id: 4, airline: "Saudia", code: "SV 605", depart: "11:00", arrive: "12:30", duration: "1h 30m", stops: "Non-stop", price: 47, points: 4700, logo: "✈️" },
+  { id: 5, airline: "flyadeal", code: "F3 410", depart: "13:20", arrive: "14:50", duration: "1h 30m", stops: "Non-stop", price: 35, points: 3500, logo: "🛩️" },
+  { id: 6, airline: "flynas", code: "XY 305", depart: "15:00", arrive: "16:30", duration: "1h 30m", stops: "Non-stop", price: 58, points: 5800, logo: "🇸🇦" },
+  { id: 7, airline: "Saudia", code: "SV 106", depart: "16:40", arrive: "18:15", duration: "1h 35m", stops: "Non-stop", price: 31, points: 3100, logo: "✈️" },
+  { id: 8, airline: "Saudia", code: "SV 609", depart: "18:45", arrive: "20:15", duration: "1h 30m", stops: "Non-stop", price: 48, points: 4800, logo: "✈️" },
+  { id: 9, airline: "flyadeal", code: "F3 418", depart: "20:30", arrive: "22:00", duration: "1h 30m", stops: "Non-stop", price: 38, points: 3800, logo: "🛩️" },
+  { id: 10, airline: "Saudia", code: "SV 613", depart: "22:15", arrive: "23:45", duration: "1h 30m", stops: "Non-stop", price: 44, points: 4400, logo: "✈️" },
 ];
 
 const USER_POINTS = 24580;
 
 type Step = "search" | "results" | "payment" | "success";
-type PaymentMode = "points" | "cash" | "mix";
 
 const FlightsPage = () => {
   const navigate = useNavigate();
@@ -51,8 +48,6 @@ const FlightsPage = () => {
 
   // Payment state
   const [selectedFlight, setSelectedFlight] = useState<typeof FLIGHTS[0] | null>(null);
-  const [paymentMode, setPaymentMode] = useState<PaymentMode>("mix");
-  const [pointsPercentage, setPointsPercentage] = useState(50);
 
   const canSearch = from && to && date;
 
@@ -78,11 +73,9 @@ const FlightsPage = () => {
     );
 
   // Payment calculations
-  const flightPrice = selectedFlight?.price || 0;
   const flightPoints = selectedFlight?.points || 0;
 
-  const pointsUsed = paymentMode === "points" ? flightPoints : paymentMode === "cash" ? 0 : Math.round(flightPoints * (pointsPercentage / 100));
-  const cashAmount = paymentMode === "points" ? 0 : paymentMode === "cash" ? flightPrice : Math.round(flightPrice * ((100 - pointsPercentage) / 100) * 100) / 100;
+  const pointsUsed = flightPoints;
 
   // ─── SUCCESS SCREEN ───
   if (step === "success") {
@@ -128,18 +121,6 @@ const FlightsPage = () => {
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Points redeemed</span>
                 <span className="font-semibold text-foreground">{pointsUsed.toLocaleString()} pts</span>
-              </div>
-            )}
-            {cashAmount > 0 && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Cash paid</span>
-                <span className="font-semibold text-foreground">AED {cashAmount.toFixed(2)}</span>
-              </div>
-            )}
-            {cashAmount > 0 && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Payment method</span>
-                <span className="font-semibold text-foreground">Safqah Capital</span>
               </div>
             )}
             <div className="h-px bg-border" />
@@ -202,56 +183,12 @@ const FlightsPage = () => {
           </div>
           <div className="mt-2 pt-2 border-t border-border flex justify-between text-xs">
             <span className="text-muted-foreground">{date && format(date, "EEE, dd MMM")}</span>
-            <span className="font-semibold text-foreground">AED {selectedFlight.price} / {selectedFlight.points.toLocaleString()} pts</span>
+            <span className="font-semibold text-foreground">{selectedFlight.points.toLocaleString()} pts</span>
           </div>
         </div>
-
-        {/* Payment Mode */}
-        <div className="mx-4 mt-4">
-          <h3 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">Pay with</h3>
-          <div className="grid grid-cols-3 gap-2">
-            {(["points", "cash", "mix"] as PaymentMode[]).map((mode) => (
-              <button
-                key={mode}
-                onClick={() => setPaymentMode(mode)}
-                className={cn(
-                  "rounded-xl py-3 text-xs font-semibold border transition-colors",
-                  paymentMode === mode
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card text-foreground border-border hover:border-primary/40"
-                )}
-              >
-                {mode === "points" ? "Points Only" : mode === "cash" ? "Cash Only" : "Points + Cash"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Points slider for mix mode */}
-        {paymentMode === "mix" && (
-          <div className="mx-4 mt-4 rounded-2xl bg-card border border-border p-4">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-semibold text-foreground">Points</span>
-              <span className="text-xs font-semibold text-foreground">Cash</span>
-            </div>
-            <Slider
-              value={[pointsPercentage]}
-              onValueChange={(v) => setPointsPercentage(v[0])}
-              max={100}
-              min={0}
-              step={10}
-              className="mb-3"
-            />
-            <div className="flex justify-between text-xs">
-              <span className="text-primary font-semibold">{pointsUsed.toLocaleString()} pts ({pointsPercentage}%)</span>
-              <span className="text-foreground font-semibold">AED {cashAmount.toFixed(2)} ({100 - pointsPercentage}%)</span>
-            </div>
-            <p className="text-[10px] text-muted-foreground mt-2">Available: {USER_POINTS.toLocaleString()} pts</p>
-          </div>
-        )}
 
         {/* Points only summary */}
-        {paymentMode === "points" && (
+        {(
           <div className="mx-4 mt-4 rounded-2xl bg-card border border-border p-4">
             <div className="flex justify-between text-sm mb-1">
               <span className="text-muted-foreground">Points required</span>
@@ -260,23 +197,6 @@ const FlightsPage = () => {
             <div className="flex justify-between text-xs">
               <span className="text-muted-foreground">Available balance</span>
               <span className="text-primary font-medium">{USER_POINTS.toLocaleString()} pts</span>
-            </div>
-          </div>
-        )}
-
-        {/* Safqah Capital payment option */}
-        {(paymentMode === "cash" || paymentMode === "mix") && cashAmount > 0 && (
-          <div className="mx-4 mt-4">
-            <h3 className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wider">Payment</h3>
-            <div className="flex items-center gap-3 rounded-2xl border border-primary bg-primary/5 p-4 shadow-sm">
-              <img src={comeraLogo.url} alt="Safqah Capital" className="h-10 w-10 rounded-lg object-contain" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground">Pay with Safqah Capital</p>
-                <p className="text-xs text-muted-foreground">Secure one-tap checkout</p>
-              </div>
-              <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
-                <Check className="h-3 w-3 text-primary-foreground" />
-              </div>
             </div>
           </div>
         )}
@@ -291,19 +211,11 @@ const FlightsPage = () => {
                 <span className="font-semibold text-foreground">{pointsUsed.toLocaleString()} pts</span>
               </div>
             )}
-            {cashAmount > 0 && (
-              <div className="flex justify-between text-sm py-1">
-                <span className="text-muted-foreground">Cash</span>
-                <span className="font-semibold text-foreground">AED {cashAmount.toFixed(2)}</span>
-              </div>
-            )}
             <div className="h-px bg-border my-1.5" />
             <div className="flex justify-between text-sm py-1">
               <span className="font-semibold text-foreground">Total</span>
               <span className="font-bold text-foreground">
-                {pointsUsed > 0 && `${pointsUsed.toLocaleString()} pts`}
-                {pointsUsed > 0 && cashAmount > 0 && " + "}
-                {cashAmount > 0 && `AED ${cashAmount.toFixed(2)}`}
+                {pointsUsed.toLocaleString()} pts
               </span>
             </div>
           </div>
@@ -362,8 +274,7 @@ const FlightsPage = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-foreground">AED {flight.price}</p>
-                  <p className="text-[10px] text-primary font-medium">{flight.points.toLocaleString()} pts</p>
+                  <p className="text-sm font-bold text-primary">{flight.points.toLocaleString()} pts</p>
                 </div>
               </div>
               <div className="flex items-center justify-between">

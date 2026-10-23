@@ -31,35 +31,35 @@ const allGiftCards: GiftCard[] = [
   { name: "Swype Global Virtual Mastercard-3 years", tags: ["Recommended", "Instant"], category: "general", gradient: "from-neutral-900 to-black", image: swypeImg.url },
   { name: "Swype Global Virtual Mastercard®", tags: ["Recommended", "Instant"], category: "general", gradient: "from-neutral-900 to-black", image: swypeImg.url },
   { name: "Binance Gift Card (USDT)", tags: ["Recommended", "Delayed"], category: "general", gradient: "from-amber-700 to-yellow-900", image: binanceImg.url },
-  { name: "Noon eVoucher for UAE", tags: ["Recommended", "Instant"], category: "general", gradient: "from-amber-600 to-yellow-800", logoDomain: "noon.com" },
-  { name: "MS Office 365 Business Premium AED", tags: ["Recommended", "Instant"], category: "general", gradient: "from-orange-700 to-red-900", logoDomain: "office.com" },
+  { name: "Noon eVoucher for KSA", tags: ["Recommended", "Instant"], category: "general", gradient: "from-amber-600 to-yellow-800", logoDomain: "noon.com" },
+  { name: "MS Office 365 Business Premium", tags: ["Recommended", "Instant"], category: "general", gradient: "from-orange-700 to-red-900", logoDomain: "office.com" },
 
   // Fashion & Lifestyle
-  { name: "Undiz UAE", tags: ["Recommended", "Instant"], category: "fashion", gradient: "from-neutral-800 to-neutral-950", logoDomain: "undiz.com" },
-  { name: "1847 UAE", tags: ["Recommended", "Instant"], category: "fashion", gradient: "from-neutral-800 to-neutral-950", logoDomain: "1847.com" },
+  { name: "Undiz KSA", tags: ["Recommended", "Instant"], category: "fashion", gradient: "from-neutral-800 to-neutral-950", logoDomain: "undiz.com" },
+  { name: "1847 KSA", tags: ["Recommended", "Instant"], category: "fashion", gradient: "from-neutral-800 to-neutral-950", logoDomain: "1847.com" },
 
   // Home & Kitchen
-  { name: "Marmarland UAE", tags: ["Recommended", "Instant"], category: "home", gradient: "from-amber-500 to-yellow-600", logoDomain: "marmarland.com" },
-  { name: "Togas UAE", tags: ["Recommended", "Instant"], category: "home", gradient: "from-zinc-800 to-zinc-950", image: togasImg.url },
-  { name: "Home Centre AED", tags: ["Recommended", "Instant"], category: "home", gradient: "from-lime-700 to-emerald-900", slug: "urban-home", image: homecentreImg.url },
-  { name: "Better Life UAE", tags: ["Recommended", "Instant"], category: "home", gradient: "from-stone-700 to-stone-900", image: betterlifeImg.url },
+  { name: "Marmarland KSA", tags: ["Recommended", "Instant"], category: "home", gradient: "from-amber-500 to-yellow-600", logoDomain: "marmarland.com" },
+  { name: "Togas KSA", tags: ["Recommended", "Instant"], category: "home", gradient: "from-zinc-800 to-zinc-950", image: togasImg.url },
+  { name: "Home Centre", tags: ["Recommended", "Instant"], category: "home", gradient: "from-lime-700 to-emerald-900", slug: "urban-home", image: homecentreImg.url },
+  { name: "Better Life KSA", tags: ["Recommended", "Instant"], category: "home", gradient: "from-stone-700 to-stone-900", image: betterlifeImg.url },
 
   // Travel & Entertainment
-  { name: "Dubai Autodrome UAE", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-red-800 to-red-950", logoDomain: "dubaiautodrome.com" },
-  { name: "Airalo UAE", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-stone-700 to-stone-900", logoDomain: "airalo.com" },
-  { name: "Vox Cinema UAE", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-neutral-900 to-black", logoDomain: "voxcinemas.com" },
-  { name: "Ski Dubai UAE", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-sky-800 to-blue-950", logoDomain: "skidxb.com" },
+  { name: "Boulevard Riyadh City KSA", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-red-800 to-red-950", logoDomain: "dubaiautodrome.com" },
+  { name: "Airalo KSA", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-stone-700 to-stone-900", logoDomain: "airalo.com" },
+  { name: "Vox Cinema KSA", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-neutral-900 to-black", logoDomain: "voxcinemas.com" },
+  { name: "Riyadh Season KSA", tags: ["Recommended", "Instant"], category: "travel", gradient: "from-sky-800 to-blue-950", logoDomain: "skidxb.com" },
 
   // Food & Dining
-  { name: "Gazebo UAE", tags: ["Recommended", "Instant"], category: "food", gradient: "from-neutral-800 to-neutral-950", slug: "le-connoisseur", logoDomain: "gazeborestaurant.com" },
+  { name: "Gazebo KSA", tags: ["Recommended", "Instant"], category: "food", gradient: "from-neutral-800 to-neutral-950", slug: "le-connoisseur", logoDomain: "gazeborestaurant.com" },
   { name: "Give a Ghaf", tags: ["Recommended", "Instant"], category: "food", gradient: "from-emerald-700 to-teal-900", logoDomain: "giveaghaf.org" },
 
   // Baby & Kids
-  { name: "Mumzworld.com UAE", tags: ["Recommended", "Instant"], category: "general", gradient: "from-rose-600 to-pink-800", image: mumzworldImg.url },
-  { name: "Babyshop UAE", tags: ["Recommended", "Instant"], category: "general", gradient: "from-orange-700 to-amber-900", image: babyshopImg.url },
+  { name: "Mumzworld.com KSA", tags: ["Recommended", "Instant"], category: "general", gradient: "from-rose-600 to-pink-800", image: mumzworldImg.url },
+  { name: "Babyshop KSA", tags: ["Recommended", "Instant"], category: "general", gradient: "from-orange-700 to-amber-900", image: babyshopImg.url },
 
   // Beauty & Personal Care
-  { name: "N.BAR UAE", tags: ["Recommended", "Instant"], category: "beauty", gradient: "from-rose-600 to-pink-800", image: nbarImg.url },
+  { name: "N.BAR KSA", tags: ["Recommended", "Instant"], category: "beauty", gradient: "from-rose-600 to-pink-800", image: nbarImg.url },
   { name: "Tips and Toes", tags: ["Recommended", "Instant"], category: "beauty", gradient: "from-rose-700 to-pink-900", logoDomain: "tipsandtoes.com" },
 ];
 

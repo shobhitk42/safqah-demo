@@ -3,10 +3,10 @@ import { ArrowLeft, Package, Gift, Plane, ShoppingBag, Sparkles } from "lucide-r
 import { useBookings } from "@/contexts/BookingsContext";
 
 const staticOrders = [
-  { id: "ORD-20260402", item: "Sharaf DG Gift Card", category: "Gift Card", points: 2500, date: "Apr 2, 2026", status: "Delivered", icon: Gift },
-  { id: "ORD-20260322", item: "PlayStation Network UAE", category: "Gift Card", points: 5000, date: "Mar 22, 2026", status: "Delivered", icon: Gift },
+  { id: "ORD-20260402", item: "eXtra Gift Card", category: "Gift Card", points: 2500, date: "Apr 2, 2026", status: "Delivered", icon: Gift },
+  { id: "ORD-20260322", item: "PlayStation Network KSA", category: "Gift Card", points: 5000, date: "Mar 22, 2026", status: "Delivered", icon: Gift },
   { id: "ORD-20260315", item: "JBL Flip 6 Speaker", category: "Electronics", points: 12000, date: "Mar 15, 2026", status: "Shipped", icon: Package },
-  { id: "ORD-20260310", item: "Dubai – Istanbul Flight", category: "Travel", points: 18000, date: "Mar 10, 2026", status: "Confirmed", icon: Plane },
+  { id: "ORD-20260310", item: "Riyadh – Istanbul Flight", category: "Travel", points: 18000, date: "Mar 10, 2026", status: "Confirmed", icon: Plane },
   { id: "ORD-20260305", item: "Carrefour Gift Card", category: "Gift Card", points: 1500, date: "Mar 5, 2026", status: "Delivered", icon: Gift },
   { id: "ORD-20260228", item: "Nike Running Shoes", category: "Merchandise", points: 8500, date: "Feb 28, 2026", status: "Delivered", icon: ShoppingBag },
   { id: "ORD-20260220", item: "IKEA Gift Card", category: "Gift Card", points: 3000, date: "Feb 20, 2026", status: "Delivered", icon: Gift },

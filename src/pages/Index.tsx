@@ -23,11 +23,11 @@ const Index = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-transparent pb-24">
       <UserHeader />
+      {mode === "points" && <TierBanner />}
       {/* <UserSwitcher /> */}
       {/* <CategoryNav /> */}
       <CategoryGrid />
       <HeroBanner />
-      {mode === "points" && <TierBanner />}
       
       
       <PickedForYou />

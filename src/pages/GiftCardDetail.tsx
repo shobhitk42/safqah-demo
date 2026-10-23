@@ -7,7 +7,7 @@ const catalog: Record<string, { name: string; category: string; blurb: string }>
   "iconic": { name: "Iconic", category: "Fashion & Lifestyle", blurb: "Curated fashion and lifestyle across the region's most-loved storefronts." },
   "urban-home": { name: "Urban Home", category: "Home & Living", blurb: "Refined homeware, furniture and decor from a single voucher." },
   "happy-card": { name: "Happy Card", category: "Fashion & Lifestyle", blurb: "One card, dozens of premium brands under a single group." },
-  "decathlon": { name: "Decathlon Mauritius", category: "Sport & Outdoor", blurb: "Everything for the field, court and open road." },
+  "decathlon": { name: "Decathlon KSA", category: "Sport & Outdoor", blurb: "Everything for the field, court and open road." },
   "espace-maison": { name: "Espace Maison", category: "Home & Kitchen", blurb: "Interiors, garden and DIY across Espace Maison stores." },
   "le-connoisseur": { name: "Le Connoisseur", category: "Dining", blurb: "A private table across Le Connoisseur restaurants." },
   "dominos": { name: "Domino's Pizza MRU", category: "Dining", blurb: "Delivered, hot, whenever the evening calls for it." },
@@ -16,9 +16,7 @@ const catalog: Record<string, { name: string; category: string; blurb: string }>
   "playstation": { name: "PlayStation Network", category: "Gaming & Entertainment", blurb: "Games, add-ons and PS Plus, straight to your account." },
 };
 
-const denominations = [50, 100, 250, 500, 1000, 2500];
-// 100 pts = AED 1 (per project spec)
-const ptsPerMur = 100;
+const denominations = [5000, 10000, 25000, 50000, 100000, 250000];
 
 const GiftCardDetail = () => {
   const navigate = useNavigate();
@@ -26,11 +24,11 @@ const GiftCardDetail = () => {
   const { user } = useUser();
   const card = catalog[slug];
 
-  const [amount, setAmount] = useState<number>(100);
+  const [amount, setAmount] = useState<number>(10000);
   const [recipient, setRecipient] = useState("");
   const [step, setStep] = useState<"select" | "success">("select");
 
-  const pointsNeeded = useMemo(() => amount * ptsPerMur, [amount]);
+  const pointsNeeded = amount;
   const canAfford = user.availablePoints >= pointsNeeded;
 
   if (!card) {
@@ -58,7 +56,7 @@ const GiftCardDetail = () => {
           </h1>
           <span aria-hidden className="mt-5 block h-px" style={{ width: 60, backgroundColor: "#02AD4C" }} />
           <p className="mt-6 text-[13px] leading-relaxed text-foreground/60 max-w-[300px]">
-            AED {amount.toLocaleString()} delivered to {recipient || "your registered email"} within moments. A copy is filed under your orders.
+            Your gift card is delivered to {recipient || "your registered email"} within moments. A copy is filed under your orders.
           </p>
 
           <div className="mt-10 w-full rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(2, 173, 76,0.06)" }}>
@@ -67,11 +65,6 @@ const GiftCardDetail = () => {
               <span className="text-[13px] tabular-nums" style={{ color: "#02AD4C", fontWeight: 500 }}>
                 {pointsNeeded.toLocaleString()} PTS
               </span>
-            </div>
-            <div className="my-4 h-px bg-[#E8E8EE]" />
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.24em] text-foreground/50">Card value</span>
-              <span className="text-[13px] text-foreground" style={{ fontWeight: 400 }}>AED {amount.toLocaleString()}</span>
             </div>
           </div>
 
@@ -121,10 +114,10 @@ const GiftCardDetail = () => {
           <h1 className="mt-4 text-[30px] leading-[1.1] text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>{card.name}</h1>
           <p className="mt-5 max-w-[300px] text-[13px] leading-relaxed text-[hsl(0_0%_100%/0.6)]">{card.blurb}</p>
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#02AD4C" }}>AED</span>
             <span className="text-[38px] leading-none tabular-nums text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>
               {amount.toLocaleString()}
             </span>
+            <span className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#02AD4C" }}>PTS</span>
           </div>
         </div>
       </div>
@@ -150,7 +143,7 @@ const GiftCardDetail = () => {
                   fontWeight: 400,
                 }}
               >
-                AED {d.toLocaleString()}
+                {d.toLocaleString()} pts
               </button>
             );
           })}

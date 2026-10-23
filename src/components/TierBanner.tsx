@@ -1,4 +1,4 @@
-import { BadgeCheck, ChevronRight } from "lucide-react";
+import { Crown, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
 
@@ -39,39 +39,38 @@ const TierBanner = () => {
       <div className="tier-gilt-edge absolute left-6 right-6 -top-px h-px rounded-full" />
       <button
         onClick={() => navigate("/rewards")}
-        className="tier-premium group w-full rounded-md border border-[#02AD4C]/40 bg-white p-6 text-left overflow-hidden shadow-[0_10px_30px_-12px_rgba(2, 173, 76,0.35),0_2px_6px_-2px_rgba(26, 26, 46,0.06)] ring-1 ring-[#02AD4C]/10 dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)] dark:ring-0"
+        className="tier-premium tier-platinum group w-full rounded-2xl border border-[#C9CED3] p-6 text-left overflow-hidden shadow-[0_10px_30px_-12px_rgba(48,47,45,0.3)] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)] dark:ring-0"
       >
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <p className="text-[10px] tracking-[0.28em] uppercase" style={{ color: "#02AD4C" }}>
-              Current tier
-            </p>
-            <p
-              className="mt-2 text-[22px] leading-none text-foreground transition-colors duration-500 group-hover:text-[#02AD4C]"
-              style={{ fontWeight: 300, letterSpacing: "0.02em" }}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3.5">
+            <span
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
+              style={{
+                background: "linear-gradient(145deg, #FFFFFF 0%, #DDE1E5 100%)",
+                boxShadow: "0 0 0 1.5px #02AD4C, 0 6px 14px -6px rgba(2, 173, 76, 0.55)",
+              }}
             >
-              <span className="inline-flex items-center gap-2">
-                <BadgeCheck className="h-6 w-6" style={{ color: "#02AD4C" }} strokeWidth={1.75} />
+              <Crown className="h-6 w-6" style={{ color: "#277D57" }} strokeWidth={1.75} />
+            </span>
+            <div>
+              <p className="text-[10px] tracking-[0.28em] uppercase" style={{ color: "#277D57", fontWeight: 600 }}>
+                Current tier
+              </p>
+              <p className="tier-platinum-text mt-1.5 text-[26px] leading-none" style={{ fontWeight: 600, letterSpacing: "0.04em" }}>
                 {currentTier.name}
-              </span>
-            </p>
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-1 text-[11px] tracking-[0.14em] text-foreground/50 transition-all duration-500 group-hover:text-[#02AD4C] group-hover:gap-2">
+          <div className="flex items-center gap-1 text-[11px] tracking-[0.14em] text-foreground/60 transition-all duration-500 group-hover:text-[#02AD4C] group-hover:gap-2">
             <span>Details</span>
             <ChevronRight className="h-3 w-3" strokeWidth={1.25} />
           </div>
         </div>
 
         {/* Progress bar */}
-        {nextTier && (
-          <p className="mb-2 flex items-center gap-2 text-[13px] text-foreground/80">
-            <span className="h-3.5 w-3.5 rounded-sm bg-[#302F2D]" />
-            Next tier, {nextTier.name}: <span className="tabular-nums font-semibold">{nextTier.min.toLocaleString()} pts</span>
-          </p>
-        )}
-        <div className="relative h-9 overflow-hidden rounded-md bg-[#E6F6EC]">
-          <div className="h-full rounded-md bg-[#02AD4C]" style={{ width: `${Math.max(progressInTier, 4)}%` }} />
+        <div className="relative h-9 overflow-hidden rounded-lg bg-white/70 ring-1 ring-[#C9CED3]">
+          <div className="h-full rounded-lg bg-gradient-to-r from-[#277D57] to-[#02AD4C]" style={{ width: `${Math.max(progressInTier, 4)}%` }} />
           <span className="absolute inset-y-0 left-3 flex items-center whitespace-nowrap text-[13px] text-[#302F2D]">
             Points earned: <span className="ml-1 tabular-nums font-semibold">{totalEarned.toLocaleString()}</span>
           </span>
@@ -84,10 +83,10 @@ const TierBanner = () => {
             </span>
           ))}
         </div>
-        <div className="mb-6 text-[11px] text-foreground/60">
+        <div className="mb-6 text-center">
           {nextTier ? (
             <span>
-              <span className="tabular-nums" style={{ color: "#02AD4C" }}>{pointsToNext.toLocaleString()}</span> to {nextTier.name}
+              <span className="tabular-nums text-[18px] font-bold" style={{ color: "#277D57" }}>{pointsToNext.toLocaleString()}</span> <span className="text-[14px] font-semibold text-foreground/80">pts to {nextTier.name}</span>
             </span>
           ) : (
             <span>Top tier reached</span>
@@ -95,7 +94,7 @@ const TierBanner = () => {
         </div>
 
         {/* Tier ladder — text only */}
-        <div className="flex items-center justify-between border-t border-[#E6F6EC] pt-4 tier-ladder">
+        <div className="flex items-center justify-between border-t border-[#C9CED3] pt-4 tier-ladder">
           {tiers.map((tier, i) => {
             const current = i === currentIndex;
             return (

@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 const pointsToOmr = (pts: string): string => {
   const num = parseInt(pts.replace(/,/g, ""), 10);
   if (isNaN(num)) return pts;
-  return `AED ${(num * 0.01).toFixed(3)}`;
+  return `${num.toLocaleString()} pts`;
 };
 
 const PickedForYou = () => {
@@ -13,7 +13,7 @@ const PickedForYou = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="px-5 pt-8 pb-6">
+    <section className="px-5 pb-8">
       <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A8A98]">
         {mode === "points" ? "Personalised for you" : "Recommended"}
       </p>

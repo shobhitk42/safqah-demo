@@ -146,7 +146,7 @@ const AppleMacProduct = () => {
         </div>
         <span className="h-4 w-px bg-border" />
         <div className="flex items-center gap-2 text-sm text-card-foreground">
-          <Store className="h-4 w-4" /> Pick up in Dubai
+          <Store className="h-4 w-4" /> Pick up in Riyadh
         </div>
       </div>
 

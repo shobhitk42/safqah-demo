@@ -11,12 +11,12 @@ type Prize = {
 };
 
 const PRIZES: Prize[] = [
-  { label: "Amazon Voucher", short: "AED 50 voucher", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 75 voucher", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 100 voucher", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 150 voucher", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 200 voucher", type: "reward", emoji: "📦" },
-  { label: "Amazon Voucher", short: "AED 250 voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "5,000 pts voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "7,500 pts voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "10,000 pts voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "15,000 pts voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "20,000 pts voucher", type: "reward", emoji: "📦" },
+  { label: "Amazon Voucher", short: "25,000 pts voucher", type: "reward", emoji: "📦" },
 ];
 
 const COST = 100;

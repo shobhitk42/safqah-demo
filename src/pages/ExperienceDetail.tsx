@@ -38,7 +38,6 @@ const ExperienceDetail = () => {
 
   const currentRate = experience.rateTypes[rate];
   const totalPoints = currentRate.points * guests;
-  const totalCash = experience.cashPrice * guests;
 
   const timeSlots = ["09:00", "11:30", "14:00", "16:30", "19:00"];
 
@@ -142,7 +141,6 @@ const ExperienceDetail = () => {
             <p className="text-[11px] text-muted-foreground">From</p>
             <p className="text-2xl font-bold text-primary">
               {experience.points.toLocaleString()} pts
-              <span className="text-sm text-muted-foreground font-normal"> · AED {experience.cashPrice}</span>
             </p>
             <p className="text-[11px] text-muted-foreground mt-0.5">per guest · free cancellation up to 24h</p>
           </div>
@@ -286,7 +284,6 @@ const ExperienceDetail = () => {
                 <span className="text-sm font-semibold text-foreground">Total</span>
                 <div className="text-right">
                   <p className="text-base font-bold text-primary">{totalPoints.toLocaleString()} pts</p>
-                  <p className="text-[11px] text-muted-foreground">or AED {totalCash.toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -306,7 +303,6 @@ const ExperienceDetail = () => {
                   <span className="text-xs text-muted-foreground font-normal"> · per guest</span>
                 </p>
               </div>
-              <p className="text-[11px] text-muted-foreground">or AED {experience.cashPrice}</p>
             </div>
             <button
               onClick={() => setStep("availability")}
@@ -326,7 +322,6 @@ const ExperienceDetail = () => {
                   <span className="text-xs text-muted-foreground font-normal"> · {guests} guest{guests > 1 ? "s" : ""}</span>
                 </p>
               </div>
-              <p className="text-[11px] text-muted-foreground">or AED {totalCash.toFixed(2)}</p>
             </div>
             <button
               onClick={() => setStep("review")}

@@ -15,10 +15,10 @@ const titles: Record<string, string> = {
 const descriptions: Record<string, string> = {
   "mobile-topup": "Recharge your mobile using reward points. Select your operator and top-up amount.",
   "cashback": "Convert your reward points to cashback directly to your bank account.",
-  "charity": "Donate your reward points to charitable organizations across Mauritius.",
+  "charity": "Donate your reward points to charitable organizations across Saudi Arabia.",
   "sports": "Redeem points for sports events, gym memberships, and fitness gear.",
   "play-win": "Try your luck! Use points to enter exciting contests and win prizes.",
-  "car-rental": "Book rental cars across Mauritius and Réunion using your reward points.",
+  "car-rental": "Book rental cars across Saudi Arabia using your reward points.",
   "experiences": "Discover unique experiences — desert safaris, diving, spa retreats and more.",
   "lounge": "Access premium airport lounges worldwide with your reward points.",
 };

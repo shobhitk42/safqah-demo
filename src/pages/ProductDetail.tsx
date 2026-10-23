@@ -87,22 +87,17 @@ const ProductDetail = () => {
       </div>
 
       {/* Premium Price Card */}
-      <div className="mx-4 mb-4 rounded-2xl bg-gradient-to-br from-primary to-primary/85 p-5 shadow-lg">
+      <div className="mx-4 mb-4 rounded-2xl safqah-banner p-5 shadow-lg">
         <div className="flex items-baseline justify-between">
           <div>
             <p className="text-[10px] text-primary-foreground/80 uppercase tracking-widest">Redeem with points</p>
             <p className="text-3xl font-bold text-primary-foreground mt-0.5">{product.points.toLocaleString()}</p>
             <p className="text-[10px] text-primary-foreground/80">reward points</p>
           </div>
-          <div className="text-right border-l border-primary-foreground/20 pl-4">
-            <p className="text-[10px] text-primary-foreground/80 uppercase tracking-widest">Or pay cash</p>
-            <p className="text-3xl font-bold text-primary-foreground mt-0.5">AED {product.price.toLocaleString()}</p>
-            <p className="text-[10px] text-primary-foreground/80">AED incl. tax</p>
-          </div>
         </div>
         <div className="mt-3 pt-3 border-t border-primary-foreground/20 flex items-center gap-2">
           <Sparkles className="h-3.5 w-3.5 text-reward-gold" />
-          <p className="text-[11px] text-primary-foreground/95">Mix points & cash · Earn up to {Math.round(product.price * 1.5)} pts with Comera Platinum</p>
+          <p className="text-[11px] text-primary-foreground/95">Earn bonus points with Safqah Platinum</p>
         </div>
       </div>
 

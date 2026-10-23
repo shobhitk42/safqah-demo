@@ -16,7 +16,7 @@ const ShopByCategory = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="px-5 pt-8 pb-6">
+    <section className="px-5 pb-8">
       <p className="text-[10px] uppercase tracking-[0.18em] text-[#8A8A98]">Shop by category</p>
       <h2
         className="mt-2 text-[26px] leading-[1.15] text-foreground"

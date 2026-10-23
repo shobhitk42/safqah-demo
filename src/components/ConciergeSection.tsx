@@ -22,21 +22,21 @@ const personas: Record<
     offers: [
       {
         title: "Talabat Dining Credit",
-        price: "AED 100",
+        price: "10,000 pts",
         description:
-          "AED 100 Talabat credit for food delivery or dine-in across thousands of UAE restaurants.",
+          "10,000 pts Talabat credit for food delivery or dine-in across thousands of Saudi restaurants.",
       },
       {
         title: "VOX Cinemas Experience",
-        price: "AED 120",
+        price: "12,000 pts",
         description:
           "Two GOLD cinema tickets at any VOX Cinemas location. Includes premium seating and F&B voucher.",
       },
       {
         title: "Carrefour Grocery Voucher",
-        price: "AED 200",
+        price: "20,000 pts",
         description:
-          "AED 200 Carrefour voucher for groceries, electronics, and household items across UAE.",
+          "20,000 pts Carrefour voucher for groceries, electronics, and household items across Saudi Arabia.",
       },
     ],
   },
@@ -48,19 +48,19 @@ const personas: Record<
     offers: [
       {
         title: "Business Analytics Dashboard Pro",
-        price: "AED 300",
+        price: "30,000 pts",
         description:
           "Unlock advanced sales insights, customer trends, and inventory analytics for your storefront.",
       },
       {
         title: "Premium POS Display Stand",
-        price: "AED 180",
+        price: "18,000 pts",
         description:
           "Sleek countertop POS display stand designed to elevate your customer checkout experience.",
       },
       {
         title: "Staff Training Voucher — Alison",
-        price: "AED 250",
+        price: "25,000 pts",
         description:
           "Certified training voucher for staff development across retail, hospitality, and service skills.",
       },

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Mail, Phone, MapPin, ChevronRight, CreditCard, Crown, ShoppingBag, Sun, Moon, Wallet, Store } from "lucide-react";
+import { ChevronLeft, ChevronRight, Crown, ShoppingBag, Sun, Moon, Wallet, Store } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -47,6 +47,36 @@ const WalletCard = ({ title, icon, redeemable, pending, pendingLabel, footnote }
   );
 };
 
+const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+  <h3 className="mb-1 text-[13px] font-bold text-foreground">{children}</h3>
+);
+
+const InfoRow = ({ label, value, badge }: { label: string; value: string; badge?: string }) => (
+  <div className="flex items-center justify-between gap-3 border-b border-border py-4">
+    <div className="min-w-0">
+      <p className="text-[14px] font-bold text-foreground">{label}</p>
+      <p className="mt-1.5 break-all text-[15px] text-muted-foreground">{value}</p>
+    </div>
+    <div className="flex shrink-0 items-center gap-3">
+      {badge && (
+        <span className="rounded-md bg-[#E58A12] px-2.5 py-1 text-[11px] font-medium text-white">{badge}</span>
+      )}
+      <button className="text-[13px] text-muted-foreground">Edit</button>
+    </div>
+  </div>
+);
+
+const LinkRow = ({ icon: Icon, title, subtitle, onClick }: { icon: typeof Crown; title: string; subtitle: string; onClick: () => void }) => (
+  <button onClick={onClick} className="flex w-full items-center gap-3 border-b border-border py-4 text-left">
+    <Icon className="h-5 w-5 text-[#02AD4C]" strokeWidth={1.75} />
+    <div className="flex-1">
+      <p className="text-[14px] font-bold text-foreground">{title}</p>
+      <p className="mt-0.5 text-[13px] text-muted-foreground">{subtitle}</p>
+    </div>
+    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+  </button>
+);
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { user, role } = useUser();
@@ -54,157 +84,92 @@ const ProfilePage = () => {
   const initials = user.name.split(" ").map((n) => n[0]).join("").slice(0, 2);
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-background pb-20">
-      <div className="flex items-center gap-3 px-4 py-4">
-        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
-          <ArrowLeft className="h-4 w-4 text-foreground" />
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
+      <div className="px-5 pt-5">
+        <button onClick={() => navigate("/")} aria-label="Back" className="-ml-1 flex h-9 w-9 items-center justify-center">
+          <ChevronLeft className="h-6 w-6 text-foreground" strokeWidth={1.5} />
         </button>
-        <h1 className="text-lg font-semibold text-foreground">Profile</h1>
+        <h1 className="mt-5 text-[22px] font-bold text-foreground">Profile</h1>
       </div>
 
-      {/* Profile Card */}
-      <div className="mx-4 rounded-2xl bg-white border border-[#02AD4C]/40 shadow-[0_8px_28px_rgba(2, 173, 76,0.15)] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)] p-5 mb-6">
-        <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#02AD4C]/15 text-[#302F2D] dark:text-[#FFFFFF] text-xl font-bold">
+      <div className="mt-4 border-t border-border px-5">
+        <div className="flex items-center gap-4 border-b border-border py-5">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#02AD4C]/15 text-lg font-bold text-foreground">
             {initials}
           </div>
           <div>
-            <h2 className="text-lg font-bold text-[#302F2D] dark:text-[#FFFFFF]">{user.name}</h2>
+            <p className="text-[18px] font-bold text-foreground">{user.name}</p>
+            <p className="text-[13px] text-muted-foreground">{user.tier} Member</p>
           </div>
         </div>
-      </div>
 
-      {/* My Wallets */}
-      <div className="px-4 mb-6">
-        <h3 className="text-sm font-semibold text-foreground mb-3">My Wallet</h3>
-        <div className="space-y-3">
-          {role === "consumer" ? (
-            <WalletCard
-              title="Consumer Points"
-              icon={<Wallet className="h-3.5 w-3.5" strokeWidth={1.75} />}
-              redeemable={user.wallets.consumer.redeemable}
-              pending={user.wallets.consumer.pending}
-              pendingLabel="Pending Approval"
-              footnote="Pending points are reviewed within 48 hours"
-            />
-          ) : (
-            <WalletCard
-              title="Merchant Points"
-              icon={<Store className="h-3.5 w-3.5" strokeWidth={1.75} />}
-              redeemable={user.wallets.merchant.redeemable}
-              pending={user.wallets.merchant.pending}
-              pendingLabel="Pending Points"
-              footnote="Pending points clear after transaction settlement"
-            />
-          )}
+        <div className="mt-6">
+          <SectionTitle>My Wallet</SectionTitle>
+          <div className="mt-3">
+            {role === "consumer" ? (
+              <WalletCard
+                title="Consumer Points"
+                icon={<Wallet className="h-3.5 w-3.5" strokeWidth={1.75} />}
+                redeemable={user.wallets.consumer.redeemable}
+                pending={user.wallets.consumer.pending}
+                pendingLabel="Pending Approval"
+                footnote="Pending points are reviewed within 48 hours"
+              />
+            ) : (
+              <WalletCard
+                title="Merchant Points"
+                icon={<Store className="h-3.5 w-3.5" strokeWidth={1.75} />}
+                redeemable={user.wallets.merchant.redeemable}
+                pending={user.wallets.merchant.pending}
+                pendingLabel="Pending Points"
+                footnote="Pending points clear after transaction settlement"
+              />
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Info */}
-      <div className="px-4 mb-6">
-        <h3 className="text-sm font-semibold text-foreground mb-3">Personal Information</h3>
-        <div className="rounded-xl bg-card border border-border overflow-hidden">
-          {[
-            { icon: Mail, label: "Email", value: "ahmed.balushi@email.com" },
-            { icon: Phone, label: "Phone", value: "+971 50 123 4567" },
-            { icon: MapPin, label: "Location", value: "Dubai, UAE" },
-            { icon: CreditCard, label: "Card", value: "•••• •••• •••• 4521" },
-          ].map((item, i) => (
-            <div key={item.label} className={`flex items-center gap-3 px-4 py-3 ${i > 0 ? "border-t border-border" : ""}`}>
-              <item.icon className="h-4 w-4 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-[10px] text-muted-foreground">{item.label}</p>
-                <p className="text-sm text-card-foreground">{item.value}</p>
-              </div>
-            </div>
-          ))}
+        <div className="mt-8">
+          <SectionTitle>Account Information</SectionTitle>
+          <InfoRow label="Phone number" value="+966 50 123 4567" />
+          <InfoRow label="Email address" value="ahmed.alrashid@email.com" badge="Pending verification" />
+          <InfoRow label="Location" value="Riyadh, Saudi Arabia" />
+          <InfoRow label="Card" value="•••• •••• •••• 4521" />
         </div>
-      </div>
 
-      {/* Tier Section */}
-      <div className="px-4">
-        <h3 className="text-sm font-semibold text-foreground mb-3">Loyalty Tier</h3>
-        <button
-          onClick={() => navigate("/rewards")}
-          className="w-full rounded-xl bg-card border border-border overflow-hidden p-4 text-left transition-colors hover:bg-muted/50"
-        >
-          <div className="flex items-center justify-between">
+        <div className="mt-8">
+          <SectionTitle>Membership</SectionTitle>
+          <LinkRow icon={Crown} title={`${user.tier} Member`} subtitle="View tier benefits" onClick={() => navigate("/rewards")} />
+          <LinkRow icon={ShoppingBag} title="My Orders" subtitle="View your redemption history" onClick={() => navigate("/orders")} />
+        </div>
+
+        <div className="mt-8">
+          <SectionTitle>Appearance</SectionTitle>
+          <div className="flex items-center justify-between gap-3 border-b border-border py-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: "hsl(38, 85%, 52%, 0.15)", color: "hsl(38, 85%, 52%)" }}>
-                <Crown className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-card-foreground">{user.tier} Member</p>
-                <p className="text-[10px] text-muted-foreground">View tier benefits</p>
-              </div>
-            </div>
-            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          </div>
-        </button>
-      </div>
-
-      {/* My Orders */}
-      <div className="px-4 mt-4">
-        <button
-          onClick={() => navigate("/orders")}
-          className="w-full flex items-center gap-3 rounded-xl bg-card border border-border p-4 transition-colors hover:bg-muted/50"
-        >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <ShoppingBag className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1 text-left">
-            <p className="text-sm font-bold text-card-foreground">My Orders</p>
-            <p className="text-[10px] text-muted-foreground">View your redemption history</p>
-          </div>
-          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-        </button>
-      </div>
-
-      {/* Appearance */}
-      <div className="px-4 mt-6">
-        <h3 className="text-[10px] tracking-[0.28em] uppercase mb-3" style={{ color: "#02AD4C", fontWeight: 600 }}>
-          Appearance
-        </h3>
-        <div className="rounded-xl border overflow-hidden bg-white border-[#E8E8EE] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)]">
-          <div className="flex items-center gap-3 px-4 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: "rgba(2, 173, 76,0.12)" }}>
               {theme === "dark" ? (
-                <Moon className="h-4 w-4" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
+                <Moon className="h-5 w-5 text-[#02AD4C]" strokeWidth={1.75} />
               ) : (
-                <Sun className="h-4 w-4" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
+                <Sun className="h-5 w-5 text-[#02AD4C]" strokeWidth={1.75} />
               )}
+              <div>
+                <p className="text-[14px] font-bold text-foreground">Theme</p>
+                <p className="mt-0.5 text-[13px] text-muted-foreground">{theme === "dark" ? "Dark" : "Light"}</p>
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-[#302F2D] dark:text-[#FFFFFF]">Theme</p>
-              <p className="text-[11px] text-[#6B6B7A] dark:text-[#FFFFFF]/60">
-                {theme === "dark" ? "After-hours — dark ivory on charcoal" : "Daylight — warm ivory"}
-              </p>
-            </div>
-            <div
-              className="flex rounded-full p-0.5 border bg-[rgba(26, 26, 46,0.06)] border-[#E8E8EE] dark:bg-[rgba(2, 173, 76,0.08)] dark:border-[#02AD4C]/30"
-            >
-              <button
-                onClick={() => setTheme("light")}
-                className="px-3 py-1 text-[10px] tracking-[0.22em] uppercase rounded-full transition-all"
-                style={{
-                  backgroundColor: theme === "light" ? "#302F2D" : "transparent",
-                  color: theme === "light" ? "#02AD4C" : "#6B6B7A",
-                  fontWeight: 500,
-                }}
-              >
-                Light
-              </button>
-              <button
-                onClick={() => setTheme("dark")}
-                className="px-3 py-1 text-[10px] tracking-[0.22em] uppercase rounded-full transition-all"
-                style={{
-                  backgroundColor: theme === "dark" ? "#02AD4C" : "transparent",
-                  color: theme === "dark" ? "#302F2D" : "#6B6B7A",
-                  fontWeight: 500,
-                }}
-              >
-                Dark
-              </button>
+            <div className="flex rounded-full border border-border p-0.5">
+              {(["light", "dark"] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTheme(t)}
+                  className="rounded-full px-3 py-1 text-[11px] font-medium capitalize transition-all"
+                  style={{
+                    backgroundColor: theme === t ? "#02AD4C" : "transparent",
+                    color: theme === t ? "#FFFFFF" : "#6B6B7A",
+                  }}
+                >
+                  {t}
+                </button>
+              ))}
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export type SamsungProductItem = {
   id: string;
   name: string;
   tagline: string;
-  price: number; // AED
+  price: number; // SAR
   image: string;
   category: SamsungCategory;
 };

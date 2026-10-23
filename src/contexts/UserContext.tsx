@@ -74,14 +74,14 @@ const ahmedProfile: UserProfile = {
   milestones: [
     { id: "m1", label: "Verify your account on Absher", target: 3, current: 1, reward: "🎁 5,000 Bonus Points", role: "consumer" },
     { id: "m2", label: "Complete your investment account information", target: 4, current: 1, reward: "✈️ Complimentary Airport Lounge Pass", role: "consumer" },
-    { id: "m3", label: "Process AED 20,000 in sales through Safqah Capital", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
+    { id: "m3", label: "Process 2,000,000 pts in sales through Safqah Capital", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
     { id: "m4", label: "Onboard 10 customers via Safqah Capital", target: 10, current: 6, reward: "🏷️ Merchant Fee Waiver", role: "merchant" },
   ],
   pickedForYou: [
     { id: "esports-arena", name: "F1 Esports Arena Night", category: "Experiences", points: "View options", image: esportsImg, tag: "For you" },
     { id: "vr-experience", name: "VR Adventure Zone", category: "Experiences", points: "3,500", image: vrImg, tag: "New" },
     { id: "concert-live", name: "Live Concert Experience", category: "Events", points: "View options", image: concertImg, tag: "Trending" },
-    { id: "ritz-dubai", name: "The Ritz-Carlton, Dubai", category: "Hotels", points: "View options", image: ritzDubai, tag: "Popular" },
+    { id: "ritz-dubai", name: "The Ritz-Carlton, Riyadh", category: "Hotels", points: "View options", image: ritzDubai, tag: "Popular" },
   ],
 };
 
