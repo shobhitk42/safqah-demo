@@ -1,0 +1,576 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Comera Pay — Modern fintech design system.
+   Palette: white #FFFFFF, charcoal #1A1A2E, teal accent #2B8CA8.
+   All colors MUST be HSL. */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Core surfaces */
+    --background: 0 0% 100%;              /* #FFFFFF */
+    --foreground: 240 27% 14%;            /* #1A1A2E */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 27% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 27% 14%;
+
+    /* Teal accent */
+    --primary: 194 59% 41%;                 /* #2B8CA8 */
+    --primary-foreground: 0 0% 100%;
+    --primary-deep: 200 65% 32%;
+    --primary-soft: 194 33% 93%;           /* #E6F2F6 */
+
+    --secondary: 220 14% 97%;             /* #F7F8FA */
+    --secondary-foreground: 240 27% 14%;
+
+    --muted: 220 14% 97%;
+    --muted-foreground: 240 6% 45%;       /* cool gray */
+
+    --accent: 194 59% 41%;                /* teal */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 8% 92%;                 /* #E8E8EE */
+    --input: 240 8% 92%;
+    --ring: 194 59% 41%;
+
+    --radius: 0.75rem;
+
+    /* Legacy token aliases — remap onto the new palette */
+    --reward-gold: 194 59% 41%;
+    --reward-gold-foreground: 0 0% 100%;
+
+    --tier-silver: 240 6% 60%;
+    --tier-gold: 194 59% 41%;
+    --tier-platinum: 194 59% 41%;
+    --tier-diamond: 194 59% 41%;
+
+    --tint-green: 220 14% 97%;
+    --tint-green-accent: 194 59% 41%;
+    --tint-orange: 220 14% 97%;
+    --tint-orange-accent: 194 59% 41%;
+    --tint-pink: 194 33% 93%;
+    --tint-pink-accent: 194 59% 41%;
+    --tint-yellow: 194 33% 93%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
+    --gradient-warm: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
+    --gradient-game: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
+    --gradient-gold: linear-gradient(135deg, hsl(194 55% 50%), hsl(200 65% 32%));
+    --shadow-card: 0 1px 2px rgba(26, 26, 46, 0.04), 0 2px 8px rgba(26, 26, 46, 0.04);
+    --shadow-elegant: 0 20px 50px -24px hsl(240 27% 14% / 0.18);
+
+    --hero-gradient-start: 194 59% 41%;
+    --hero-gradient-end: 200 65% 32%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 27% 14%;
+    --sidebar-primary: 194 59% 41%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 97%;
+    --sidebar-accent-foreground: 240 27% 14%;
+    --sidebar-border: 240 8% 92%;
+    --sidebar-ring: 194 59% 41%;
+  }
+
+  .dark {
+    --background: 240 27% 10%;
+    --foreground: 0 0% 100%;
+    --card: 240 20% 14%;
+    --card-foreground: 0 0% 100%;
+    --popover: 240 20% 14%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 194 55% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 15% 18%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 15% 18%;
+    --muted-foreground: 240 10% 70%;
+    --accent: 194 55% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 15% 22%;
+    --input: 240 15% 22%;
+    --ring: 194 55% 55%;
+    --sidebar-background: 240 27% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 194 55% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 15% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 240 15% 22%;
+    --sidebar-ring: 194 55% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    font-size: 15.5px;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11", "kern", "liga", "calt";
+    font-optical-sizing: auto;
+    color: #1A1A2E;
+    min-height: 100vh;
+    /* Elegant canvas — soft cool white with a whisper of teal at the top edge */
+    background-color: #F7F8FA;
+    background-image:
+      radial-gradient(1200px 600px at 50% -20%, rgba(43, 140, 168, 0.05), transparent 70%),
+      linear-gradient(180deg, #FFFFFF 0%, #F7F8FA 260px);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+
+  /* Dark theme body */
+  html.dark body {
+    background-color: #14142B;
+    color: #F5F5FA;
+    color: #E8E8EE;
+  }
+  html.dark h1, html.dark h2, html.dark h3,
+  html.dark h4, html.dark h5, html.dark h6 {
+    color: #F7F8FA;
+  }
+  /* Neutralize hardcoded light-mode charcoal text */
+  html.dark [style*="#1A1A2E"],
+  html.dark [style*="#1A1A2E"],
+  html.dark [style*="hsl(240 27% 14%)"] {
+    color: #F7F8FA !important;
+  }
+  /* Convert white surfaces to deep charcoal cards */
+  html.dark .bg-white,
+  html.dark [style*="#FFFFFF"],
+  html.dark [style*="#ffffff"] {
+    background-color: #1B2029 !important;
+    box-shadow:
+      0 1px 0 rgba(43, 140, 168, 0.10) inset,
+      0 8px 24px -18px rgba(0, 0, 0, 0.6) !important;
+  }
+  /* Soften ivory borders to a whisper of teal */
+  html.dark [style*="#E8E8EE"],
+  html.dark [style*="#E8E8EE"],
+  html.dark [style*="#E6F2F6"],
+  html.dark [style*="#F7F8FA"] {
+    border-color: rgba(43, 140, 168, 0.28) !important;
+  }
+  /* Muted foreground text (near-black to warm ivory) */
+  html.dark [style*="#6B6B7A"],
+  html.dark [style*="#8A8A98"],
+  html.dark [style*="#6B6B7A"] {
+    color: rgba(245, 239, 224, 0.6) !important;
+  }
+  /* Progress track darker */
+  html.dark .bg-\[\#E6F2F6\] { background-color: rgba(43, 140, 168,0.15) !important; }
+
+  /* Tier premium card — retune for dark */
+  html.dark .tier-premium {
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(43, 140, 168, 0.10) 0%, rgba(43, 140, 168, 0) 55%),
+      #1A1A2E !important;
+    box-shadow:
+      0 1px 0 rgba(43, 140, 168, 0.25) inset,
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 10px 30px -18px rgba(43, 140, 168, 0.35);
+  }
+
+  /* Hero banner (charcoal on charcoal) — lift with teal hairline */
+  html.dark [style*="hsl(240 27% 14%)"] {
+    /* text color already handled above; when used as bg, add a soft teal outline */
+    box-shadow: inset 0 0 0 1px rgba(43, 140, 168, 0.18);
+  }
+  /* Hero container specifically — deepen bg so it separates from page */
+  html.dark section > div[style*="background-color: hsl(240 27% 14%)"],
+  html.dark div[style*="background-color: hsl(240 27% 14%)"] {
+    background-color: #1F242D !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(43, 140, 168, 0.28),
+      0 10px 30px -18px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Tier ladder labels & hairlines — swap dark charcoal for warm ivory */
+  html.dark [style*="hsl(240 27% 14% / 0.4)"] { color: rgba(245, 239, 224, 0.45) !important; }
+  html.dark [style*="hsl(240 27% 14% / 0.2)"] { background-color: rgba(43, 140, 168, 0.25) !important; }
+  html.dark .border-\[\#E8E8EE\] { border-color: rgba(43, 140, 168, 0.18) !important; }
+  html.dark .bg-\[\#E6F2F6\] { background-color: rgba(43, 140, 168, 0.18) !important; }
+  html.dark [class*="border-[hsl(0_0%_100%"] { border-color: rgba(43, 140, 168, 0.14) !important; }
+
+  /* Progress bar fill — force teal in dark */
+  html.dark [role="progressbar"] > * { background-color: #2B8CA8 !important; }
+
+  /* Concierge notification remains dark; ensure inner text stays ivory */
+  html.dark [style*="#F7F8FA"], html.dark [style*="#FFFFFF"] { color: #F7F8FA !important; }
+
+  /* Tier ladder — theme-aware */
+  .tier-dot-on  { background-color: #2B8CA8; }
+  .tier-dot-off { background-color: rgba(26, 26, 46, 0.2); }
+  .tier-label-on  { color: hsl(240 27% 14%); }
+  .tier-label-off { color: hsl(240 27% 14% / 0.4); }
+  html.dark .tier-dot-off  { background-color: rgba(43, 140, 168, 0.3); }
+  html.dark .tier-label-on { color: #F7F8FA; }
+  html.dark .tier-label-off{ color: rgba(245, 239, 224, 0.5); }
+  html.dark .tier-ladder   { border-top-color: rgba(43, 140, 168, 0.18) !important; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: #1A1A2E;
+    font-optical-sizing: auto;
+    font-feature-settings: "ss01", "kern", "liga";
+  }
+
+  h1 { letter-spacing: -0.028em; }
+  h2 { letter-spacing: -0.022em; }
+  h3 { letter-spacing: -0.018em; }
+
+  p { line-height: 1.6; }
+
+  .tabular-nums, [class*="tabular-nums"] {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum", "lnum", "kern";
+  }
+
+  .font-display {
+    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-optical-sizing: auto;
+    font-feature-settings: "ss01", "kern", "liga", "dlig", "lnum";
+    letter-spacing: -0.022em;
+  }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #2B8CA8;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Unified card treatment */
+  .card-surface {
+    background: #FFFFFF;
+    border: 1px solid #E8E8EE;
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  /* Press feedback — every tappable element */
+  button, a, [role="button"], .pressable {
+    transition: transform 160ms ease-out, color 200ms cubic-bezier(0.23, 1, 0.32, 1), background-color 200ms cubic-bezier(0.23, 1, 0.32, 1), border-color 200ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  button:active, a:active, [role="button"]:active, .pressable:active {
+    transform: scale(0.97);
+  }
+
+  /* Home stagger entrance */
+  @keyframes stagger-rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .stagger-item {
+    opacity: 0;
+    animation: stagger-rise 300ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+  .stagger-1 { animation-delay: 0ms; }
+  .stagger-2 { animation-delay: 50ms; }
+  .stagger-3 { animation-delay: 100ms; }
+  .stagger-4 { animation-delay: 150ms; }
+  .stagger-5 { animation-delay: 200ms; }
+}
+
+@layer utilities {
+  @keyframes tier-glow-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 1px rgba(43, 140, 168, 0.10),
+        0 2px 14px rgba(43, 140, 168, 0.16),
+        0 8px 40px rgba(43, 140, 168, 0.12);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px rgba(43, 140, 168, 0.18),
+        0 4px 20px rgba(43, 140, 168, 0.28),
+        0 12px 56px rgba(43, 140, 168, 0.22);
+    }
+  }
+  .tier-card-glow {
+    animation: tier-glow-pulse 4.5s ease-in-out infinite;
+  }
+  .tier-card-glow__ring {
+    background: linear-gradient(
+      135deg,
+      rgba(43, 140, 168, 0.35) 0%,
+      rgba(43, 140, 168, 0) 40%,
+      rgba(43, 140, 168, 0) 60%,
+      rgba(43, 140, 168, 0.25) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    padding: 1px;
+    opacity: 0.7;
+  }
+
+  /* Premium tier card — gilt edge + shine sweep on hover */
+  .tier-premium {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(43, 140, 168, 0.06) 0%, rgba(43, 140, 168, 0) 55%),
+      #FFFFFF;
+    box-shadow:
+      0 1px 0 rgba(43, 140, 168, 0.18) inset,
+      0 1px 2px rgba(26, 26, 46, 0.04),
+      0 10px 30px -18px rgba(43, 140, 168, 0.35);
+    transition: box-shadow 500ms ease, transform 500ms ease, border-color 500ms ease;
+  }
+  .tier-premium::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(43, 140, 168, 0.55) 0%,
+      rgba(43, 140, 168, 0.10) 25%,
+      rgba(43, 140, 168, 0) 50%,
+      rgba(43, 140, 168, 0.10) 75%,
+      rgba(43, 140, 168, 0.55) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+  }
+  .tier-premium::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      115deg,
+      transparent 38%,
+      rgba(43, 140, 168, 0.35) 47%,
+      rgba(43, 140, 168, 0.9) 50%,
+      rgba(43, 140, 168, 0.35) 53%,
+      transparent 62%
+    );
+    background-size: 220% 100%;
+    background-position: 200% 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease;
+    mix-blend-mode: normal;
+  }
+  .tier-premium:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 1px 0 rgba(43, 140, 168, 0.35) inset,
+      0 2px 6px rgba(26, 26, 46, 0.05),
+      0 22px 60px -22px rgba(43, 140, 168, 0.55);
+  }
+  .tier-premium:hover::before {
+    opacity: 1;
+  }
+  .tier-premium:hover::after {
+    animation: tier-shine-sweep 1400ms ease-out forwards;
+  }
+  @keyframes tier-shine-sweep {
+    0%   { background-position: 200% 0; opacity: 0; }
+    15%  { opacity: 1; }
+    100% { background-position: -60% 0; opacity: 0; }
+  }
+
+  /* Gilt top hairline accent above card */
+  .tier-gilt-edge {
+    background: linear-gradient(
+      90deg,
+      rgba(43, 140, 168, 0) 0%,
+      rgba(43, 140, 168, 0.35) 20%,
+      rgba(43, 140, 168, 0.9) 50%,
+      rgba(43, 140, 168, 0.35) 80%,
+      rgba(43, 140, 168, 0) 100%
+    );
+  }
+
+  /* Badge motion — quiet-luxury reveal + shine */
+  .badge-earned {
+    opacity: 0;
+    animation: badge-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes badge-reveal {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .badge-shine {
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(43, 140, 168, 0.18) 48%,
+      rgba(43, 140, 168, 0.42) 50%,
+      rgba(43, 140, 168, 0.18) 52%,
+      transparent 70%
+    );
+    background-size: 220% 100%;
+    background-position: 200% 0;
+  }
+  .group:hover .badge-shine {
+    animation: badge-shine-sweep 900ms ease-out forwards;
+  }
+  @keyframes badge-shine-sweep {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -60% 0; }
+  }
+
+  .badge-icon-pulse {
+    animation: badge-icon-glow 3.4s ease-in-out infinite;
+    filter: drop-shadow(0 0 0 rgba(43, 140, 168, 0));
+  }
+  @keyframes badge-icon-glow {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(43, 140, 168, 0)); }
+    50%      { filter: drop-shadow(0 0 6px rgba(43, 140, 168, 0.55)); }
+  }
+}
+
+@layer utilities {
+  /* Platinum tier chip — metallic shimmer with orbiting highlight */
+  .platinum-chip {
+    position: relative;
+    isolation: isolate;
+    animation: platinum-glow 3.6s ease-in-out infinite;
+  }
+  .platinum-chip::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255,255,255,0) 0deg,
+      rgba(255,255,255,0.95) 40deg,
+      rgba(180,192,208,0.4) 90deg,
+      rgba(255,255,255,0) 160deg,
+      rgba(255,255,255,0) 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: platinum-orbit 3.2s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .platinum-chip__shine {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      115deg,
+      transparent 35%,
+      rgba(255, 255, 255, 0.85) 50%,
+      transparent 65%
+    );
+    background-size: 220% 100%;
+    background-position: 200% 0;
+    animation: platinum-sweep 3.6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+  @keyframes platinum-orbit {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes platinum-sweep {
+    0%   { background-position: 200% 0; }
+    55%  { background-position: -60% 0; }
+    100% { background-position: -60% 0; }
+  }
+  @keyframes platinum-glow {
+    0%, 100% {
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 -1px 0 rgba(0,0,0,0.08) inset,
+        0 4px 14px -4px rgba(90, 104, 122, 0.45);
+    }
+    50% {
+      box-shadow:
+        0 1px 0 rgba(255,255,255,1) inset,
+        0 -1px 0 rgba(0,0,0,0.08) inset,
+        0 6px 22px -4px rgba(90, 104, 122, 0.75);
+    }
+  }
+}
+
+@layer utilities {
+  /* Milestone progress shimmer — a soft highlight sweeping across the fill */
+  .milestone-shimmer {
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 9999px;
+  }
+  .milestone-shimmer__bar {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.55) 45%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.55) 55%,
+      transparent 80%
+    );
+    background-size: 220% 100%;
+    background-position: 200% 0;
+    animation: milestone-shimmer-sweep 2.6s ease-in-out infinite;
+    mix-blend-mode: overlay;
+  }
+  .milestone-card:hover .milestone-shimmer__bar {
+    animation-duration: 1.2s;
+  }
+  @keyframes milestone-shimmer-sweep {
+    0%   { background-position: 200% 0; }
+    60%  { background-position: -60% 0; }
+    100% { background-position: -60% 0; }
+  }
+
+  /* Gentle scale-in on the milestone card icon on hover already handled inline */
+}

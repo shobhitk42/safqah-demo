@@ -1,0 +1,200 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Smartphone, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useUser } from "@/contexts/UserContext";
+import { toast } from "sonner";
+
+interface Operator {
+  id: string;
+  name: string;
+  color: string;
+  initials: string;
+}
+
+const operators: Operator[] = [
+  { id: "myt", name: "my.t (Mauritius Telecom)", color: "hsl(210, 90%, 45%)", initials: "MT" },
+  { id: "emtel", name: "Emtel", color: "hsl(350, 80%, 50%)", initials: "EM" },
+  { id: "chili", name: "Chili", color: "hsl(24, 90%, 50%)", initials: "CH" },
+  { id: "mtml", name: "MTML Mahanagar", color: "hsl(140, 60%, 40%)", initials: "MT" },
+];
+
+const denominations = [
+  { value: 1, points: 334 },
+  { value: 2, points: 667 },
+  { value: 3, points: 1000 },
+  { value: 5, points: 1667 },
+  { value: 10, points: 3334 },
+  { value: 20, points: 6667 },
+];
+
+const MobileTopup = () => {
+  const navigate = useNavigate();
+  const { user } = useUser();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedOperator, setSelectedOperator] = useState<string | null>(null);
+  const [selectedDenom, setSelectedDenom] = useState<number | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  const selectedDenomObj = denominations.find((d) => d.value === selectedDenom);
+  const canProceed = phoneNumber.length >= 8 && selectedOperator && selectedDenom && (selectedDenomObj?.points ?? 0) <= user.availablePoints;
+
+  const handleSubmit = () => {
+    if (!canProceed) return;
+    setSubmitted(true);
+    toast.success("Mobile top-up successful!");
+  };
+
+  if (submitted) {
+    return (
+      <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
+        <div className="flex items-center gap-3 px-4 py-4">
+          <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+            <ArrowLeft className="h-4 w-4 text-foreground" />
+          </button>
+          <h1 className="text-lg font-semibold text-foreground">Mobile Top-up</h1>
+        </div>
+        <div className="flex flex-col items-center justify-center px-6 pt-16 pb-8 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
+            <CheckCircle2 className="h-8 w-8 text-primary" />
+          </div>
+          <h2 className="text-lg font-bold text-foreground mb-1">Top-up Successful!</h2>
+          <p className="text-sm text-muted-foreground mb-1">
+            <span className="font-semibold text-foreground">{selectedDenom} AED</span> recharged to <span className="font-semibold text-foreground">+230 {phoneNumber}</span>
+          </p>
+          <p className="text-xs text-muted-foreground mb-1">
+            {selectedDenomObj?.points.toLocaleString()} points redeemed from your balance.
+          </p>
+          <p className="text-xs text-muted-foreground mb-6">
+            Operator: {operators.find((o) => o.id === selectedOperator)?.name}
+          </p>
+          <Button onClick={() => { setSubmitted(false); setPhoneNumber(""); setSelectedOperator(null); setSelectedDenom(null); }} variant="outline" size="sm">
+            Recharge Another Number
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-4">
+        <button onClick={() => navigate("/")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+          <ArrowLeft className="h-4 w-4 text-foreground" />
+        </button>
+        <h1 className="text-lg font-semibold text-foreground">Mobile Top-up</h1>
+      </div>
+
+      {/* Banner */}
+      <div className="relative mx-4 mb-6 overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <Smartphone className="h-5 w-5 text-primary-foreground" />
+          <h2 className="text-lg font-bold text-primary-foreground">Prepaid Mobile Recharge</h2>
+        </div>
+        <p className="text-xs text-primary-foreground/80">Recharge your mobile using reward points</p>
+      </div>
+
+      <div className="px-4 pb-8 space-y-5">
+        {/* Phone Number */}
+        <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+          <p className="text-sm font-semibold text-card-foreground">Enter Mobile Number</p>
+          <div className="flex items-center gap-2">
+            <div className="flex h-10 items-center justify-center rounded-lg bg-muted px-3">
+              <span className="text-sm font-medium text-muted-foreground">+230</span>
+            </div>
+            <Input
+              type="tel"
+              placeholder="Enter number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 8))}
+              className="flex-1"
+              maxLength={8}
+            />
+          </div>
+        </div>
+
+        {/* Choose Operator */}
+        <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+          <p className="text-sm font-semibold text-card-foreground">Choose Operator</p>
+          <div className="grid grid-cols-2 gap-2">
+            {operators.map((op) => (
+              <button
+                key={op.id}
+                onClick={() => setSelectedOperator(op.id)}
+                className={`flex items-center gap-2.5 rounded-xl p-3 border transition-colors ${
+                  selectedOperator === op.id
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:bg-muted"
+                }`}
+              >
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-lg shrink-0 text-[10px] font-bold text-primary-foreground"
+                  style={{ backgroundColor: op.color }}
+                >
+                  {op.initials.length <= 2 ? op.initials : op.initials.slice(0, 2)}
+                </div>
+                <span className="text-xs font-medium text-card-foreground text-left leading-tight">{op.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Select Amount */}
+        {selectedOperator && (
+          <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+            <p className="text-sm font-semibold text-card-foreground">Select Amount</p>
+            <div className="grid grid-cols-3 gap-2">
+              {denominations.map((d) => {
+                const affordable = d.points <= user.availablePoints;
+                return (
+                  <button
+                    key={d.value}
+                    onClick={() => affordable && setSelectedDenom(d.value)}
+                    className={`rounded-xl p-3 border text-center transition-colors ${
+                      selectedDenom === d.value
+                        ? "border-primary bg-primary/5"
+                        : affordable
+                        ? "border-border hover:bg-muted"
+                        : "border-border opacity-40 cursor-not-allowed"
+                    }`}
+                    disabled={!affordable}
+                  >
+                    <p className="text-sm font-bold text-card-foreground">{d.value} AED</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{d.points.toLocaleString()} pts</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Summary & Proceed */}
+        {selectedDenom && selectedDenomObj && (
+          <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Recharge amount</span>
+              <span className="font-semibold text-foreground">{selectedDenom} AED</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Points required</span>
+              <span className="font-semibold text-primary">{selectedDenomObj.points.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Remaining points</span>
+              <span className="font-medium text-foreground">{(user.availablePoints - selectedDenomObj.points).toLocaleString()}</span>
+            </div>
+            <div className="border-t border-border my-1" />
+            <Button onClick={handleSubmit} disabled={!canProceed} className="w-full gap-1.5" size="lg">
+              Proceed to Recharge
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MobileTopup;

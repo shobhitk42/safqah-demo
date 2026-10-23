@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OAB Rewards – Flight Booking &amp; Payment Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#0F172A; --text:#F1F5F9; --text-muted:#94A3B8; --gold:#D4A853;
+    --green:#22C55E; --primary:#006B3F; --blue:#2563EB;
+    --phone-shell:#D1D5DB; --screen-bg:#F5F5F7;
+    --s-text:#111827; --s-muted:#6B7280; --card-border:#E5E7EB;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh;padding:40px 16px;}
+
+  .page-header{text-align:center;margin-bottom:32px;}
+  .page-header h1{font-size:30px;font-weight:800;color:var(--text);letter-spacing:-0.5px;}
+  .page-header p{font-size:13px;color:var(--text-muted);margin-top:6px;max-width:700px;margin-inline:auto;}
+
+  /* Flow steps */
+  .flow-steps{display:flex;justify-content:center;gap:10px;margin-bottom:36px;flex-wrap:wrap;}
+  .step-pill{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:var(--text);}
+  .step-num{width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+  .step-label{font-size:11px;font-weight:600;}
+  .step-arrow{color:var(--gold);font-size:16px;font-weight:700;display:flex;align-items:center;}
+
+  /* Phones */
+  .phones-row{display:flex;gap:20px;justify-content:center;align-items:flex-start;flex-wrap:wrap;}
+  .phone-column{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .phone-label{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+  .phone-label .num{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;}
+
+  .phone-frame{width:300px;background:#F0F0F3;border-radius:36px;border:5px solid var(--phone-shell);padding:8px;box-shadow:0 24px 60px rgba(0,0,0,0.4);position:relative;}
+  .phone-notch{width:110px;height:22px;background:var(--phone-shell);border-radius:0 0 11px 11px;position:absolute;top:5px;left:50%;transform:translateX(-50%);z-index:10;}
+  .phone-screen{background:var(--screen-bg);border-radius:30px;overflow-y:auto;height:580px;}
+  .phone-screen::-webkit-scrollbar{width:0;}
+
+  .status-bar{display:flex;justify-content:space-between;padding:10px 18px 4px;font-size:10px;font-weight:600;color:var(--s-text);position:sticky;top:0;background:var(--screen-bg);z-index:5;}
+
+  /* Arrow connector */
+  .arrow-connector{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);font-weight:700;gap:3px;align-self:center;padding:0 2px;}
+  .arrow-connector svg{width:28px;height:28px;}
+  .arrow-connector span{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;}
+
+  /* App bar */
+  .app-bar{display:flex;align-items:center;gap:8px;padding:6px 14px 10px;background:var(--screen-bg);}
+  .app-bar .back{font-size:16px;color:var(--s-text);}
+  .app-bar .title{font-size:13px;font-weight:700;color:var(--s-text);}
+
+  /* Search screen */
+  .search-card{margin:0 12px 10px;background:white;border-radius:14px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+  .search-field{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#F9FAFB;border-radius:10px;margin-bottom:8px;border:1px solid var(--card-border);}
+  .search-field .icon{font-size:14px;}
+  .search-field .field-content{flex:1;}
+  .search-field .field-label{font-size:8px;color:var(--s-muted);text-transform:uppercase;letter-spacing:0.5px;}
+  .search-field .field-value{font-size:12px;font-weight:700;color:var(--s-text);}
+  .search-row{display:flex;gap:8px;}
+  .search-row .search-field{flex:1;margin-bottom:0;}
+  .swap-icon{width:28px;height:28px;border-radius:50%;background:#006B3F;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;align-self:center;flex-shrink:0;}
+  .search-btn{width:100%;padding:11px;border-radius:10px;border:none;background:#006B3F;color:white;font-size:12px;font-weight:700;cursor:pointer;margin-top:10px;}
+
+  /* Flight results */
+  .results-header{padding:0 12px;margin-bottom:8px;}
+  .results-header .rh-title{font-size:12px;font-weight:700;color:var(--s-text);}
+  .results-header .rh-sub{font-size:9px;color:var(--s-muted);}
+  .flight-card{margin:0 12px 8px;background:white;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border:1px solid transparent;}
+  .flight-card.selected{border-color:#006B3F;background:#F0FDF4;}
+  .fc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .fc-airline{display:flex;align-items:center;gap:6px;}
+  .fc-airline-logo{width:24px;height:24px;border-radius:6px;background:#E0F2FE;display:flex;align-items:center;justify-content:center;font-size:10px;}
+  .fc-airline-name{font-size:10px;font-weight:600;color:var(--s-text);}
+  .fc-price{text-align:right;}
+  .fc-price-pts{font-size:12px;font-weight:800;color:var(--gold);}
+  .fc-price-cash{font-size:9px;color:var(--s-muted);}
+  .fc-route{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+  .fc-airport{text-align:center;}
+  .fc-airport .code{font-size:14px;font-weight:800;color:var(--s-text);}
+  .fc-airport .time{font-size:10px;color:var(--s-muted);}
+  .fc-line{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .fc-line .duration{font-size:8px;color:var(--s-muted);}
+  .fc-line .line{width:100%;height:1px;background:var(--card-border);position:relative;}
+  .fc-line .line::after{content:'✈';position:absolute;right:-2px;top:-7px;font-size:10px;color:#006B3F;}
+  .fc-line .stops{font-size:8px;color:var(--green);font-weight:600;}
+  .select-badge{display:inline-block;margin-top:6px;font-size:8px;font-weight:700;color:#006B3F;background:#DCFCE7;padding:2px 8px;border-radius:6px;}
+
+  /* Payment screen */
+  .pay-section{margin:0 12px 10px;}
+  .pay-section-title{font-size:10px;font-weight:700;color:var(--s-text);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+  .pay-summary{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:10px;}
+  .pay-summary .route-mini{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--s-text);margin-bottom:4px;}
+  .pay-summary .flight-info{font-size:9px;color:var(--s-muted);}
+  .pay-summary .total-row{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--card-border);}
+  .pay-summary .total-label{font-size:10px;color:var(--s-muted);}
+  .pay-summary .total-val{font-size:14px;font-weight:800;color:var(--s-text);}
+
+  /* Payment mode tabs */
+  .pay-tabs{display:flex;gap:4px;background:#F3F4F6;border-radius:10px;padding:3px;margin-bottom:10px;}
+  .pay-tab{flex:1;padding:7px 4px;border-radius:8px;border:none;font-size:9px;font-weight:600;cursor:pointer;background:transparent;color:var(--s-muted);text-align:center;}
+  .pay-tab.active{background:white;color:var(--s-text);box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+
+  /* Slider */
+  .slider-section{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:10px;}
+  .slider-labels{display:flex;justify-content:space-between;margin-bottom:6px;}
+  .slider-label{font-size:9px;}
+  .slider-label .sl-title{color:var(--s-muted);}
+  .slider-label .sl-val{font-weight:700;color:var(--s-text);font-size:11px;}
+  .slider-track{width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--gold) 60%,#E5E7EB 60%);margin-bottom:4px;position:relative;}
+  .slider-thumb{width:16px;height:16px;border-radius:50%;background:white;border:3px solid var(--gold);position:absolute;top:-5px;left:57%;transform:translateX(-50%);}
+  .slider-note{font-size:8px;color:var(--s-muted);text-align:center;}
+
+  /* Card selector */
+  .card-option{display:flex;align-items:center;gap:10px;background:white;border-radius:12px;padding:10px 12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:6px;border:2px solid transparent;}
+  .card-option.selected{border-color:#006B3F;}
+  .card-chip{width:40px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:white;flex-shrink:0;}
+  .card-chip.platinum{background:linear-gradient(135deg,#6B7B99,#8B9DC3);}
+  .card-chip.gold-card{background:linear-gradient(135deg,#B8942F,#D4A853);}
+  .card-details{flex:1;}
+  .card-name{font-size:10px;font-weight:700;color:var(--s-text);}
+  .card-num{font-size:8px;color:var(--s-muted);}
+  .card-earn{font-size:8px;font-weight:600;color:var(--green);}
+  .card-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--card-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .card-radio.checked{border-color:#006B3F;}
+  .card-radio.checked::after{content:'';width:8px;height:8px;border-radius:50%;background:#006B3F;}
+
+  .pay-btn{width:calc(100% - 24px);margin:0 12px 12px;padding:12px;border-radius:12px;border:none;background:#006B3F;color:white;font-size:12px;font-weight:700;cursor:pointer;}
+
+  /* Confirmation screen */
+  .confirm-screen{display:flex;flex-direction:column;align-items:center;padding:24px 16px;text-align:center;}
+  .confirm-icon{font-size:48px;margin-bottom:12px;}
+  .confirm-title{font-size:18px;font-weight:800;color:#166534;margin-bottom:4px;}
+  .confirm-sub{font-size:11px;color:#15803D;margin-bottom:18px;}
+  .confirm-card{background:white;border-radius:14px;padding:14px 16px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:12px;text-align:left;}
+  .confirm-card .cc-title{font-size:10px;font-weight:700;color:var(--s-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+  .confirm-card .row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;}
+  .confirm-card .row .label{color:var(--s-muted);}
+  .confirm-card .row .val{font-weight:700;color:var(--s-text);}
+  .confirm-card .divider{height:1px;background:#E5E7EB;margin:5px 0;}
+  .earned-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;width:100%;margin-bottom:14px;text-align:center;}
+  .earned-box .eb-label{font-size:9px;color:#15803D;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+  .earned-box .eb-pts{font-size:28px;font-weight:900;color:#166534;}
+  .earned-box .eb-sub{font-size:9px;color:#22C55E;font-weight:500;}
+  .done-btn{width:100%;padding:11px;border-radius:12px;border:none;background:#006B3F;color:white;font-size:12px;font-weight:700;cursor:pointer;}
+
+  .boarding-pass{background:white;border-radius:14px;padding:14px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:12px;position:relative;overflow:hidden;}
+  .bp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .bp-airline{font-size:10px;font-weight:700;color:var(--s-text);}
+  .bp-flight{font-size:9px;color:var(--s-muted);}
+  .bp-route{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .bp-city{text-align:center;}
+  .bp-city .code{font-size:18px;font-weight:900;color:var(--s-text);}
+  .bp-city .name{font-size:8px;color:var(--s-muted);}
+  .bp-mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:0 8px;}
+  .bp-mid .plane{font-size:14px;color:#006B3F;}
+  .bp-mid .bp-line{width:100%;height:1px;border-top:1px dashed var(--card-border);}
+  .bp-mid .bp-dur{font-size:8px;color:var(--s-muted);}
+  .bp-details{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding-top:8px;border-top:1px dashed var(--card-border);}
+  .bp-detail .bd-label{font-size:7px;color:var(--s-muted);text-transform:uppercase;}
+  .bp-detail .bd-val{font-size:10px;font-weight:700;color:var(--s-text);}
+
+  @media(max-width:1400px){
+    .phones-row{flex-wrap:wrap;justify-content:center;}
+  }
+  @media(max-width:700px){
+    .phones-row{flex-direction:column;align-items:center;gap:20px;}
+    .arrow-connector{transform:rotate(90deg);}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>✈️ Flight Booking &amp; Payment Flow</h1>
+  <p>Ahmed searches Port Louis → Réunion, selects a flight, pays with points + cash using his OAB Platinum Credit Card, and earns reward points on the transaction</p>
+</div>
+
+<div class="flow-steps">
+  <div class="step-pill"><span class="step-num">1</span><span class="step-label">Search Flights</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">2</span><span class="step-label">Select Flight</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">3</span><span class="step-label">Pay with Points + Card</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">4</span><span class="step-label">Confirmation + Points Earned</span></div>
+</div>
+
+<div class="phones-row">
+
+  <!-- Phone 1: Search -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">1</span> Search Flights</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+        <div class="app-bar"><span class="back">‹</span><span class="title">✈️ Flights</span></div>
+        <div class="search-card">
+          <div style="display:flex;gap:6px;margin-bottom:10px;">
+            <div style="padding:5px 12px;border-radius:8px;background:#006B3F;color:white;font-size:9px;font-weight:700;">One Way</div>
+            <div style="padding:5px 12px;border-radius:8px;background:#F3F4F6;color:#6B7280;font-size:9px;font-weight:600;">Round Trip</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="flex:1;">
+              <div class="search-field">
+                <span class="icon">🛫</span>
+                <div class="field-content">
+                  <div class="field-label">From</div>
+                  <div class="field-value">Port Louis (MCT)</div>
+                </div>
+              </div>
+            </div>
+            <div class="swap-icon">⇄</div>
+            <div style="flex:1;">
+              <div class="search-field">
+                <span class="icon">🛬</span>
+                <div class="field-content">
+                  <div class="field-label">To</div>
+                  <div class="field-value">Dubai (DXB)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="search-row" style="margin-top:8px;">
+            <div class="search-field">
+              <span class="icon">📅</span>
+              <div class="field-content">
+                <div class="field-label">Date</div>
+                <div class="field-value">15 Apr 2026</div>
+              </div>
+            </div>
+            <div class="search-field">
+              <span class="icon">👤</span>
+              <div class="field-content">
+                <div class="field-label">Passengers</div>
+                <div class="field-value">1 Adult</div>
+              </div>
+            </div>
+          </div>
+          <div class="search-row" style="margin-top:8px;">
+            <div class="search-field">
+              <span class="icon">💺</span>
+              <div class="field-content">
+                <div class="field-label">Class</div>
+                <div class="field-value">Economy</div>
+              </div>
+            </div>
+          </div>
+          <button class="search-btn">🔍 Search Flights</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <span>Search</span>
+  </div>
+
+  <!-- Phone 2: Results -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">2</span> Select Flight</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:42</span><span>⚡ 📶</span></div>
+        <div class="app-bar"><span class="back">‹</span><span class="title">MCT → DXB · 15 Apr</span></div>
+        <div class="results-header">
+          <div class="rh-title">3 flights found</div>
+          <div class="rh-sub">Port Louis → Réunion · Economy · 1 Adult</div>
+        </div>
+
+        <!-- Flight 1 - selected -->
+        <div class="flight-card selected">
+          <div class="fc-top">
+            <div class="fc-airline"><div class="fc-airline-logo">🇴🇲</div><span class="fc-airline-name">Air Mauritius</span></div>
+            <div class="fc-price"><div class="fc-price-pts">8,500 pts</div><div class="fc-price-cash">or Rs 45</div></div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport"><div class="code">MCT</div><div class="time">08:30</div></div>
+            <div class="fc-line"><div class="duration">1h 15m</div><div class="line"></div><div class="stops">Non-stop</div></div>
+            <div class="fc-airport"><div class="code">DXB</div><div class="time">09:45</div></div>
+          </div>
+          <span class="select-badge">✓ Selected</span>
+        </div>
+
+        <!-- Flight 2 -->
+        <div class="flight-card">
+          <div class="fc-top">
+            <div class="fc-airline"><div class="fc-airline-logo">🇦🇪</div><span class="fc-airline-name">Emirates</span></div>
+            <div class="fc-price"><div class="fc-price-pts">12,000 pts</div><div class="fc-price-cash">or Rs 62</div></div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport"><div class="code">MCT</div><div class="time">14:00</div></div>
+            <div class="fc-line"><div class="duration">1h 20m</div><div class="line"></div><div class="stops">Non-stop</div></div>
+            <div class="fc-airport"><div class="code">DXB</div><div class="time">15:20</div></div>
+          </div>
+        </div>
+
+        <!-- Flight 3 -->
+        <div class="flight-card">
+          <div class="fc-top">
+            <div class="fc-airline"><div class="fc-airline-logo">🇶🇦</div><span class="fc-airline-name">SalamAir</span></div>
+            <div class="fc-price"><div class="fc-price-pts">6,200 pts</div><div class="fc-price-cash">or Rs 32</div></div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport"><div class="code">MCT</div><div class="time">19:45</div></div>
+            <div class="fc-line"><div class="duration">1h 10m</div><div class="line"></div><div class="stops">Non-stop</div></div>
+            <div class="fc-airport"><div class="code">DXB</div><div class="time">20:55</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <span>Book</span>
+  </div>
+
+  <!-- Phone 3: Payment -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">3</span> Payment</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:43</span><span>⚡ 📶</span></div>
+        <div class="app-bar"><span class="back">‹</span><span class="title">Payment</span></div>
+
+        <!-- Flight summary -->
+        <div class="pay-section">
+          <div class="pay-summary">
+            <div class="route-mini">🛫 MCT → DXB <span style="font-weight:400;color:#6B7280;font-size:9px;margin-left:auto;">Air Mauritius</span></div>
+            <div class="flight-info">15 Apr 2026 · 08:30 – 09:45 · Economy · 1 Adult</div>
+            <div class="total-row">
+              <span class="total-label">Total</span>
+              <div><span class="total-val">Rs 45</span> <span style="font-size:9px;color:#D4A853;font-weight:600;">or 8,500 pts</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment mode -->
+        <div class="pay-section">
+          <div class="pay-section-title">Payment Method</div>
+          <div class="pay-tabs">
+            <div class="pay-tab">Points Only</div>
+            <div class="pay-tab">Cash Only</div>
+            <div class="pay-tab active">Points + Cash</div>
+          </div>
+        </div>
+
+        <!-- Slider -->
+        <div class="pay-section">
+          <div class="slider-section">
+            <div class="slider-labels">
+              <div class="slider-label"><span class="sl-title">Points</span><br/><span class="sl-val" style="color:#D4A853;">5,100 pts</span></div>
+              <div class="slider-label" style="text-align:right;"><span class="sl-title">Cash</span><br/><span class="sl-val">Rs 18</span></div>
+            </div>
+            <div class="slider-track"><div class="slider-thumb"></div></div>
+            <div class="slider-note">Drag to adjust split · Available: 24,580 pts</div>
+          </div>
+        </div>
+
+        <!-- Card selection -->
+        <div class="pay-section">
+          <div class="pay-section-title">Pay Rs 18 with</div>
+          <div class="card-option selected">
+            <div class="card-chip platinum">VISA</div>
+            <div class="card-details">
+              <div class="card-name">OAB Platinum Credit Card</div>
+              <div class="card-num">•••• •••• •••• 4821</div>
+              <div class="card-earn">✨ Earn 1.5 pts per Rs · Lounge access included</div>
+            </div>
+            <div class="card-radio checked"></div>
+          </div>
+          <div class="card-option">
+            <div class="card-chip gold-card">VISA</div>
+            <div class="card-details">
+              <div class="card-name">OAB Gold Credit Card</div>
+              <div class="card-num">•••• •••• •••• 7362</div>
+              <div class="card-earn">✨ Earn 1 pt per Rs</div>
+            </div>
+            <div class="card-radio"></div>
+          </div>
+        </div>
+
+        <button class="pay-btn">💳 Pay Rs 18 + 5,100 pts</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <span>Confirm</span>
+  </div>
+
+  <!-- Phone 4: Confirmation -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">4</span> Confirmed!</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:linear-gradient(180deg,#F0FDF4 0%,#DCFCE7 100%);">
+        <div class="status-bar" style="background:transparent;"><span>9:44</span><span>⚡ 📶</span></div>
+        <div class="confirm-screen">
+          <div class="confirm-icon">✅</div>
+          <div class="confirm-title">Booking Confirmed!</div>
+          <div class="confirm-sub">Your flight is booked, Ahmed</div>
+
+          <!-- Boarding pass -->
+          <div class="boarding-pass">
+            <div class="bp-header">
+              <span class="bp-airline">🇴🇲 Air Mauritius</span>
+              <span class="bp-flight">WY 611</span>
+            </div>
+            <div class="bp-route">
+              <div class="bp-city"><div class="code">MCT</div><div class="name">Port Louis</div></div>
+              <div class="bp-mid">
+                <div class="bp-dur">1h 15m</div>
+                <div class="bp-line"></div>
+                <div class="plane">✈️</div>
+              </div>
+              <div class="bp-city"><div class="code">DXB</div><div class="name">Dubai</div></div>
+            </div>
+            <div class="bp-details">
+              <div class="bp-detail"><div class="bd-label">Date</div><div class="bd-val">15 Apr</div></div>
+              <div class="bp-detail"><div class="bd-label">Depart</div><div class="bd-val">08:30</div></div>
+              <div class="bp-detail"><div class="bd-label">Class</div><div class="bd-val">Economy</div></div>
+            </div>
+          </div>
+
+          <!-- Payment breakdown -->
+          <div class="confirm-card">
+            <div class="cc-title">Payment Summary</div>
+            <div class="row"><span class="label">Points used</span><span class="val" style="color:#D4A853;">5,100 pts</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Card payment</span><span class="val">Rs 18.000</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Paid with</span><span class="val">Platinum •••• 4821</span></div>
+          </div>
+
+          <!-- Points earned -->
+          <div class="earned-box">
+            <div class="eb-label">Points earned on card transaction</div>
+            <div class="eb-pts">+27</div>
+            <div class="eb-sub">1.5 pts/Rs × Rs 18 = 27 pts earned</div>
+          </div>
+
+          <div class="confirm-card" style="background:#F8FAFC;">
+            <div class="row"><span class="label">Previous balance</span><span class="val">24,580 pts</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Points used</span><span class="val" style="color:#EF4444;">−5,100 pts</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Points earned</span><span class="val" style="color:#22C55E;">+27 pts</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">New balance</span><span class="val" style="color:#166534;font-size:13px;">19,507 pts</span></div>
+          </div>
+
+          <button class="done-btn">🏠 Back to Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

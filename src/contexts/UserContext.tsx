@@ -1,0 +1,135 @@
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import ritzDubai from "@/assets/exp-ritz-dubai.jpg";
+import maldivesImg from "@/assets/exp-maldives.jpg";
+import loungeImg from "@/assets/exp-lounge.jpg";
+import esportsImg from "@/assets/exp-esports.jpg";
+import vrImg from "@/assets/exp-vr.jpg";
+import concertImg from "@/assets/exp-concert.jpg";
+import diningImg from "@/assets/exp-dining.jpg";
+
+export interface UserBadge {
+  id: string;
+  name: string;
+  icon: string;
+  earned: boolean;
+  description: string;
+}
+
+export interface Milestone {
+  id: string;
+  label: string;
+  target: number;
+  current: number;
+  reward: string;
+  role: "consumer" | "merchant";
+}
+
+export interface RecommendedProduct {
+  id: string;
+  name: string;
+  category: string;
+  points: string;
+  image: string;
+  tag?: string;
+}
+
+export interface Wallet {
+  redeemable: number;
+  pending: number;
+}
+
+export interface UserProfile {
+  name: string;
+  tier: "Silver" | "Classic" | "Platinum" | "Diamond";
+  totalPoints: number;
+  availablePoints: number;
+  interests: string[];
+  badges: UserBadge[];
+  milestones: Milestone[];
+  pickedForYou: RecommendedProduct[];
+  wallets: {
+    consumer: Wallet;
+    merchant: Wallet;
+  };
+}
+
+const ahmedProfile: UserProfile = {
+  name: "Ahmed Al Rashid",
+  tier: "Platinum",
+  totalPoints: 22400,
+  availablePoints: 8400,
+  interests: ["tech", "gaming", "gadgets"],
+  wallets: {
+    consumer: { redeemable: 8400, pending: 2150 },
+    merchant: { redeemable: 5600, pending: 3400 },
+  },
+  badges: [
+    { id: "tech-savvy", name: "Pioneer", icon: "📱", earned: true, description: "Redeemed 3 gadgets" },
+    { id: "early-bird", name: "First Light", icon: "🐦", earned: true, description: "First purchase within 7 days" },
+    { id: "streak", name: "Constant", icon: "🔥", earned: true, description: "7-day login streak" },
+    { id: "big-spender", name: "Connoisseur", icon: "💎", earned: false, description: "Redeem 50,000+ pts" },
+    { id: "connector", name: "Connector", icon: "🌐", earned: false, description: "Send remittances to 3 different countries" },
+    { id: "anchor", name: "Anchor", icon: "⚓", earned: false, description: "Pay 6 consecutive monthly bills on time" },
+  ],
+  milestones: [
+    { id: "m1", label: "Spend AED 15,000 with Comera Pay in the UAE", target: 15000, current: 11200, reward: "🎁 5,000 Bonus Points", role: "consumer" },
+    { id: "m2", label: "Complete 5 UAE Merchant Transactions", target: 5, current: 2, reward: "✈️ Complimentary Airport Lounge Pass", role: "consumer" },
+    { id: "m3", label: "Process AED 20,000 in sales through Comera Pay", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
+    { id: "m4", label: "Onboard 10 customers via Comera Pay", target: 10, current: 6, reward: "🏷️ Merchant Fee Waiver", role: "merchant" },
+  ],
+  pickedForYou: [
+    { id: "esports-arena", name: "F1 Esports Arena Night", category: "Experiences", points: "View options", image: esportsImg, tag: "For you" },
+    { id: "vr-experience", name: "VR Adventure Zone", category: "Experiences", points: "3,500", image: vrImg, tag: "New" },
+    { id: "concert-live", name: "Live Concert Experience", category: "Events", points: "View options", image: concertImg, tag: "Trending" },
+    { id: "ritz-dubai", name: "The Ritz-Carlton, Dubai", category: "Hotels", points: "View options", image: ritzDubai, tag: "Popular" },
+  ],
+};
+
+type MarketplaceMode = "points" | "ecommerce";
+export type Role = "consumer" | "merchant";
+
+interface UserContextType {
+  user: UserProfile;
+  role: Role;
+  setRole: (r: Role) => void;
+  /** @deprecated compatibility alias for role */
+  activeUser: Role;
+  /** @deprecated compatibility alias for setRole */
+  switchUser: (r: Role) => void;
+  mode: MarketplaceMode;
+  setMode: (mode: MarketplaceMode) => void;
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined);
+
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [role, setRole] = useState<Role>("consumer");
+  const [mode, setMode] = useState<MarketplaceMode>("points");
+
+  const user: UserProfile = {
+    ...ahmedProfile,
+    availablePoints: ahmedProfile.wallets[role].redeemable,
+  };
+
+  return (
+    <UserContext.Provider
+      value={{
+        user,
+        role,
+        setRole,
+        activeUser: role,
+        switchUser: setRole,
+        mode,
+        setMode,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export const useUser = () => {
+  const ctx = useContext(UserContext);
+  if (!ctx) throw new Error("useUser must be used within UserProvider");
+  return ctx;
+};

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OAB Rewards – Behavioral Rewards Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#0F172A; --card-bg:rgba(255,255,255,0.05); --card-border:rgba(255,255,255,0.08);
+    --text:#F1F5F9; --text-muted:#94A3B8; --gold:#D4A853; --green:#22C55E;
+    --primary:#006B3F; --blue:#2563EB; --phone-shell:#D1D5DB;
+    --screen-bg:#F5F5F7; --screen-text:#111827; --screen-muted:#6B7280;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);min-height:100vh;padding:40px 20px;}
+
+  /* Header */
+  .page-header{text-align:center;margin-bottom:40px;}
+  .page-header h1{font-size:32px;font-weight:800;color:var(--text);letter-spacing:-0.5px;}
+  .page-header p{font-size:13px;color:var(--text-muted);margin-top:6px;max-width:600px;margin-left:auto;margin-right:auto;}
+
+  /* Flow steps row */
+  .flow-steps{display:flex;justify-content:center;gap:12px;margin-bottom:40px;flex-wrap:wrap;}
+  .step-pill{
+    display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;
+    background:var(--card-bg);border:1px solid var(--card-border);color:var(--text);
+  }
+  .step-num{
+    width:24px;height:24px;border-radius:50%;background:var(--gold);color:#1a1a2e;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;
+  }
+  .step-label{font-size:12px;font-weight:600;}
+  .step-arrow{color:var(--gold);font-size:18px;font-weight:700;display:flex;align-items:center;}
+
+  /* Phones row */
+  .phones-row{display:flex;gap:32px;justify-content:center;align-items:flex-start;flex-wrap:wrap;}
+  .phone-column{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .phone-label{
+    font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;
+    letter-spacing:1px;display:flex;align-items:center;gap:6px;
+  }
+  .phone-label .num{
+    width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1a1a2e;
+    display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;
+  }
+
+  /* Phone frame */
+  .phone-frame{
+    width:320px;background:#F0F0F3;border-radius:40px;border:6px solid var(--phone-shell);
+    padding:10px;box-shadow:0 30px 80px rgba(0,0,0,0.4);position:relative;
+  }
+  .phone-notch{
+    width:120px;height:24px;background:var(--phone-shell);border-radius:0 0 12px 12px;
+    position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:10;
+  }
+  .phone-screen{
+    background:var(--screen-bg);border-radius:32px;overflow-y:auto;height:620px;
+  }
+  .phone-screen::-webkit-scrollbar{width:0;}
+
+  .status-bar{
+    display:flex;justify-content:space-between;padding:12px 20px 6px;
+    font-size:11px;font-weight:600;color:var(--screen-text);
+    position:sticky;top:0;background:var(--screen-bg);z-index:5;
+  }
+
+  /* SMS screen */
+  .sms-screen{padding:10px 16px;}
+  .sms-header{
+    display:flex;align-items:center;gap:8px;padding:8px 0 12px;
+    border-bottom:1px solid #E5E7EB;margin-bottom:14px;
+  }
+  .sms-back{font-size:18px;color:var(--blue);}
+  .sms-contact{display:flex;align-items:center;gap:8px;}
+  .sms-avatar{
+    width:32px;height:32px;border-radius:50%;background:#006B3F;color:white;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+  }
+  .sms-name{font-size:13px;font-weight:600;color:var(--screen-text);}
+  .sms-sub{font-size:9px;color:var(--screen-muted);}
+  .sms-time{font-size:10px;color:var(--screen-muted);text-align:center;margin-bottom:10px;}
+  .sms-bubble{
+    background:#E8F5E9;border-radius:14px 14px 14px 4px;padding:14px 16px;
+    font-size:12px;line-height:1.7;color:var(--screen-text);max-width:90%;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .sms-bubble .hl{color:#006B3F;font-weight:700;}
+  .sms-bubble .link{
+    display:inline-block;margin-top:8px;color:var(--blue);text-decoration:underline;font-weight:600;
+  }
+
+  /* Game screen */
+  .game-app-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 16px;background:#006B3F;color:white;
+    border-radius:32px 32px 0 0;
+  }
+  .game-app-bar .back{font-size:16px;}
+  .game-app-bar .title{font-size:13px;font-weight:700;}
+  .game-app-bar .pts{font-size:11px;font-weight:600;background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:12px;}
+
+  .game-prize-bar{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#FEF3C7;padding:8px 16px;font-size:10px;color:#92400E;font-weight:600;
+  }
+  .game-field{
+    background:linear-gradient(180deg,#1a7a3a,#2ba84a);height:280px;
+    display:flex;flex-direction:column;align-items:center;position:relative;
+  }
+  .goal{
+    width:140px;height:54px;border:2px solid rgba(255,255,255,0.7);border-radius:3px;
+    margin-top:24px;position:relative;
+    background:repeating-linear-gradient(90deg,transparent,transparent 14px,rgba(255,255,255,0.12) 14px,rgba(255,255,255,0.12) 15px),
+               repeating-linear-gradient(0deg,transparent,transparent 14px,rgba(255,255,255,0.12) 14px,rgba(255,255,255,0.12) 15px);
+  }
+  .keeper{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:24px;}
+  .ball{font-size:28px;margin-top:auto;margin-bottom:6px;}
+  .kicker{margin-bottom:16px;}
+  .kicker svg{width:48px;height:48px;}
+  .shoot-label{font-size:9px;color:rgba(255,255,255,0.5);margin-bottom:10px;font-style:italic;}
+  .aim-dots{display:flex;gap:12px;margin-top:12px;}
+  .aim-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,0.4);}
+  .aim-dot.active{background:rgba(255,255,255,0.8);border-color:white;}
+
+  .game-bottom-bar{
+    background:white;padding:14px 16px;text-align:center;
+  }
+  .kick-btn{
+    width:100%;padding:12px;border-radius:12px;border:none;
+    background:#006B3F;color:white;font-size:14px;font-weight:700;cursor:pointer;
+  }
+
+  /* Playing screen - ball moving */
+  .game-field.playing .ball{
+    animation:shootBall 0.6s ease-out forwards;
+  }
+  @keyframes shootBall{
+    0%{transform:translateY(0) scale(1);}
+    100%{transform:translateY(-180px) scale(0.6);}
+  }
+
+  /* Success screen */
+  .success-screen{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    height:100%;padding:30px 20px;text-align:center;
+    background:linear-gradient(180deg,#F0FDF4 0%,#DCFCE7 100%);
+    border-radius:32px;
+  }
+  .success-emoji{font-size:56px;margin-bottom:16px;}
+  .success-title{font-size:20px;font-weight:800;color:#166534;margin-bottom:6px;}
+  .success-sub{font-size:13px;color:#15803D;margin-bottom:20px;}
+  .success-points{
+    font-size:36px;font-weight:900;color:#166534;margin-bottom:4px;
+  }
+  .success-pts-label{font-size:12px;color:#22C55E;font-weight:600;margin-bottom:24px;}
+  .success-card{
+    background:white;border-radius:14px;padding:16px 20px;width:100%;
+    box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:16px;text-align:left;
+  }
+  .success-card .row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;}
+  .success-card .row .label{color:var(--screen-muted);}
+  .success-card .row .val{font-weight:700;color:var(--screen-text);}
+  .success-card .divider{height:1px;background:#E5E7EB;margin:6px 0;}
+  .done-btn{
+    width:100%;padding:12px;border-radius:12px;border:none;
+    background:#006B3F;color:white;font-size:13px;font-weight:700;cursor:pointer;
+  }
+
+  /* Arrow connector between phones */
+  .arrow-connector{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--gold);font-weight:700;gap:4px;align-self:center;padding:0 4px;
+  }
+  .arrow-connector svg{width:32px;height:32px;}
+  .arrow-connector span{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;}
+
+  @media(max-width:1100px){
+    .phones-row{flex-direction:column;align-items:center;gap:24px;}
+    .arrow-connector{transform:rotate(90deg);}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>⚽ Behavioral Rewards Flow</h1>
+  <p>Ahmed completes 5 transactions worth Rs 1,000 → receives an SMS → plays Kick &amp; Win → wins 500 bonus points</p>
+</div>
+
+<!-- Flow steps -->
+<div class="flow-steps">
+  <div class="step-pill"><span class="step-num">1</span><span class="step-label">Milestone Reached</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">2</span><span class="step-label">SMS Received</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">3</span><span class="step-label">Play Kick & Win</span></div>
+  <div class="step-arrow">→</div>
+  <div class="step-pill"><span class="step-num">4</span><span class="step-label">Win 500 Points</span></div>
+</div>
+
+<!-- Phones -->
+<div class="phones-row">
+
+  <!-- Phone 1: SMS -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">1</span> SMS Notification</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+        <div class="sms-screen">
+          <div class="sms-header">
+            <span class="sms-back">‹</span>
+            <div class="sms-contact">
+              <div class="sms-avatar">OAB</div>
+              <div><div class="sms-name">OAB Rewards</div><div class="sms-sub">SMS</div></div>
+            </div>
+          </div>
+          <div class="sms-time">Today, 10:32 AM</div>
+          <div class="sms-bubble">
+            🎉 Congratulations <span class="hl">Ahmed</span>!<br><br>
+            You have completed <span class="hl">5 transactions</span> this month worth <span class="hl">Rs 1,000</span>.<br><br>
+            You have won a chance to kick the ball and get a bonus of <span class="hl">500 points</span>! ⚽<br><br>
+            Play now 👉 <span class="link">oab.om/kickwin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow-connector">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <span>Tap link</span>
+  </div>
+
+  <!-- Phone 2: Game -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">2</span> Kick & Win Game</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:#fff;">
+        <div class="status-bar" style="background:white;"><span>9:42</span><span>⚡ 📶</span></div>
+        <div class="game-app-bar">
+          <span class="back">‹</span>
+          <span class="title">⚽ Kick & Win</span>
+          <span class="pts">24,580 pts</span>
+        </div>
+        <div class="game-prize-bar">
+          <span>🎁 Prize: <b>500 Bonus Points</b></span>
+          <span>⏱ 1 attempt</span>
+        </div>
+        <div class="game-field">
+          <div class="goal">
+            <span class="keeper">🧤</span>
+          </div>
+          <div class="aim-dots">
+            <div class="aim-dot"></div>
+            <div class="aim-dot"></div>
+            <div class="aim-dot active"></div>
+            <div class="aim-dot"></div>
+            <div class="aim-dot"></div>
+          </div>
+          <span class="shoot-label">Tap to aim, then kick!</span>
+          <span class="ball">⚽</span>
+        </div>
+        <div class="game-bottom-bar">
+          <button class="kick-btn">⚡ KICK THE BALL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arrow -->
+  <div class="arrow-connector">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <span>Goal!</span>
+  </div>
+
+  <!-- Phone 3: Success -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="num">3</span> Reward Won!</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="success-screen">
+          <div class="success-emoji">🎉</div>
+          <div class="success-title">GOOOAL!</div>
+          <div class="success-sub">You scored! Here's your reward</div>
+          <div class="success-points">+500</div>
+          <div class="success-pts-label">Bonus Points Earned</div>
+          <div class="success-card">
+            <div class="row"><span class="label">Transaction milestone</span><span class="val">5 txns / Rs 1,000</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Reward</span><span class="val" style="color:#166534">500 bonus points</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">Previous balance</span><span class="val">24,580 pts</span></div>
+            <div class="divider"></div>
+            <div class="row"><span class="label">New balance</span><span class="val" style="color:#166534;font-size:14px;">25,080 pts ✨</span></div>
+          </div>
+          <button class="done-btn">🏠 Back to Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

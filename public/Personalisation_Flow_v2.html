@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OAB Rewards – Personalisation Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F5F5F7; --card: #FFFFFF; --card-border: #E5E7EB;
+    --text: #111827; --text-muted: #6B7280;
+    --gold: #D4A853; --gold-light: #F5D98A;
+    --platinum-color: #6B7B99; --platinum-light: #C0CDE0;
+    --gold-tier: #B8942F; --green: #22C55E; --blue: #2563EB;
+    --oab-green: #006B3F;
+    --silver: hsl(210,10%,65%); --diamond: hsl(209,100%,34%);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter',sans-serif; background:#0F172A;
+    min-height:100vh; padding:40px 20px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+
+  /* Title area */
+  .page-header { text-align:center; margin-bottom:36px; }
+  .page-header h1 { font-size:32px; font-weight:800; color:#F1F5F9; letter-spacing:-0.5px; }
+  .page-header p { font-size:13px; color:#94A3B8; margin-top:6px; }
+
+  /* Persona cards row */
+  .personas-row {
+    display:flex; gap:24px; justify-content:center; margin-bottom:32px; flex-wrap:wrap;
+  }
+  .persona-card {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px; padding:20px 24px; width:340px; color:#F1F5F9;
+  }
+  .persona-card h3 { font-size:15px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .persona-avatar {
+    width:32px; height:32px; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:13px; font-weight:800; color:white; flex-shrink:0;
+  }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .info-box {
+    background:rgba(255,255,255,0.04); border-radius:10px; padding:10px;
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .info-label { font-size:9px; color:#94A3B8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px; }
+  .info-value { font-size:16px; font-weight:700; }
+  .tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .tag {
+    padding:3px 9px; border-radius:8px; font-size:10px; font-weight:500;
+    background:rgba(255,255,255,0.06); color:#CBD5E1; border:1px solid rgba(255,255,255,0.08);
+  }
+  .interest-title { font-size:9px; color:#94A3B8; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; font-weight:600; }
+
+  /* Phones side-by-side */
+  .phones-row {
+    display:flex; gap:48px; justify-content:center; align-items:flex-start; flex-wrap:wrap;
+  }
+  .phone-column { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .phone-label {
+    font-size:13px; font-weight:700; color:#F1F5F9; text-transform:uppercase;
+    letter-spacing:1px; display:flex; align-items:center; gap:8px;
+  }
+  .phone-label .dot { width:10px; height:10px; border-radius:50%; }
+
+  .phone-frame {
+    width:360px; background:#F0F0F3; border-radius:44px;
+    border:6px solid #D1D5DB; padding:12px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.4);
+    position:relative;
+  }
+  .phone-notch {
+    width:130px; height:26px; background:#D1D5DB; border-radius:0 0 14px 14px;
+    position:absolute; top:6px; left:50%; transform:translateX(-50%); z-index:10;
+  }
+  .phone-screen {
+    background:var(--bg); border-radius:36px; overflow-y:auto; height:700px;
+  }
+  .phone-screen::-webkit-scrollbar { width:0; }
+
+  /* Status bar */
+  .status-bar {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 22px 8px; font-size:11px; font-weight:600; color:var(--text);
+    position:sticky; top:0; background:var(--bg); z-index:5;
+  }
+
+  /* App header */
+  .app-header { padding:4px 18px 14px; display:flex; justify-content:space-between; align-items:center; }
+  .app-welcome { font-size:10px; color:var(--text-muted); }
+  .app-name { font-size:15px; font-weight:700; color:var(--text); }
+  .app-points {
+    display:flex; align-items:center; gap:5px;
+    background:white; border-radius:18px; padding:5px 12px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+  }
+  .app-points-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); }
+  .app-points-val { font-size:13px; font-weight:800; color:var(--text); }
+  .app-points-label { font-size:9px; color:var(--text-muted); }
+
+  /* Tier banner */
+  .tier-banner {
+    margin:0 14px 14px; padding:14px; border-radius:14px;
+    background:white; box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .tier-top { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .tier-icon-box {
+    width:30px; height:30px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; font-size:14px;
+  }
+  .tier-info-label { font-size:9px; color:var(--text-muted); }
+  .tier-info-name { font-size:13px; font-weight:700; color:var(--text); }
+  .tier-bar { height:7px; border-radius:4px; background:#F3F4F6; overflow:hidden; margin-bottom:5px; }
+  .tier-bar-fill { height:100%; border-radius:4px; }
+  .tier-bar-labels { display:flex; justify-content:space-between; font-size:9px; margin-bottom:8px; }
+  .tier-bar-labels span { color:var(--text-muted); }
+  .tier-bar-labels .pts-earned { font-weight:700; color:var(--text); }
+  .tier-dots { display:flex; justify-content:space-between; padding:0 6px; }
+  .tier-dot-group { display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .tier-dot { width:11px; height:11px; border-radius:50%; border:2px solid; }
+  .tier-dot-name { font-size:8px; color:var(--text-muted); }
+
+  /* Section */
+  .section { padding:0 14px 14px; }
+  .section-eyebrow {
+    display:flex; align-items:center; gap:4px;
+    font-size:8px; color:var(--text-muted); text-transform:uppercase;
+    letter-spacing:0.8px; font-weight:600; margin-bottom:2px;
+  }
+  .section-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px; }
+
+  /* Picked cards */
+  .picked-scroll { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; }
+  .picked-scroll::-webkit-scrollbar { height:0; }
+  .p-card {
+    min-width:130px; border-radius:12px; overflow:hidden;
+    background:white; box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  }
+  .p-card-img {
+    height:80px; display:flex; align-items:center; justify-content:center;
+    font-size:26px; position:relative;
+  }
+  .p-card-tag {
+    position:absolute; top:5px; left:5px;
+    background:var(--gold); color:white; font-size:7px; font-weight:700;
+    padding:2px 6px; border-radius:5px; text-transform:uppercase;
+  }
+  .p-card-body { padding:8px; }
+  .p-card-cat { font-size:7px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; }
+  .p-card-name { font-size:10px; font-weight:600; color:var(--text); margin:2px 0; line-height:1.3; }
+  .p-card-pts { font-size:10px; font-weight:700; color:var(--gold); }
+
+  /* Badges */
+  .badges-scroll { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
+  .badges-scroll::-webkit-scrollbar { height:0; }
+  .badge-item {
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    min-width:66px; padding:8px 6px; border-radius:10px;
+    background:white; box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .badge-item.locked { opacity:0.35; }
+  .badge-emoji { font-size:18px; }
+  .badge-label { font-size:8px; font-weight:600; text-align:center; color:var(--text); line-height:1.2; }
+
+  /* Milestones */
+  .ms-card {
+    background:white; border-radius:10px; padding:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05); margin-bottom:6px;
+  }
+  .ms-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+  .ms-label { font-size:11px; font-weight:600; color:var(--text); }
+  .ms-reward { font-size:8px; color:var(--gold); font-weight:600; }
+  .ms-bar { height:5px; border-radius:3px; background:#F3F4F6; overflow:hidden; margin-bottom:3px; }
+  .ms-bar-fill { height:100%; border-radius:3px; background:var(--green); }
+  .ms-pct { font-size:8px; color:var(--text-muted); }
+
+  /* Connector arrow */
+  .connector {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:#475569; font-size:11px; font-weight:600; gap:4px; padding:0 8px;
+    align-self:center;
+  }
+  .connector svg { width:24px; height:24px; }
+
+  @media (max-width:900px) {
+    .phones-row { flex-direction:column; align-items:center; gap:32px; }
+    .personas-row { flex-direction:column; align-items:center; }
+    .connector { transform:rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🎯 Personalisation Flow</h1>
+  <p>Same app, two distinct experiences — driven by user data, interests &amp; tier</p>
+</div>
+
+<!-- Persona info cards -->
+<div class="personas-row">
+  <div class="persona-card">
+    <h3><span class="persona-avatar" style="background:var(--platinum-color)">A</span> Ahmed Al Balushi</h3>
+    <div class="info-grid">
+      <div class="info-box"><div class="info-label">Tier</div><div class="info-value" style="color:var(--platinum-color)">Platinum</div></div>
+      <div class="info-box"><div class="info-label">Points</div><div class="info-value">48,200</div></div>
+      <div class="info-box"><div class="info-label">Available</div><div class="info-value">24,580</div></div>
+      <div class="info-box"><div class="info-label">Badges</div><div class="info-value">4 / 6</div></div>
+    </div>
+    <div class="interest-title">Interests</div>
+    <div class="tags">
+      <span class="tag">✈️ Travel</span><span class="tag">🏨 Hotels</span><span class="tag">⚽ Football</span><span class="tag">🌍 Experiences</span>
+    </div>
+  </div>
+
+  <div class="persona-card">
+    <h3><span class="persona-avatar" style="background:var(--gold-tier)">H</span> Hassan Al Raisi</h3>
+    <div class="info-grid">
+      <div class="info-box"><div class="info-label">Tier</div><div class="info-value" style="color:var(--gold)">Gold</div></div>
+      <div class="info-box"><div class="info-label">Points</div><div class="info-value">22,400</div></div>
+      <div class="info-box"><div class="info-label">Available</div><div class="info-value">15,200</div></div>
+      <div class="info-box"><div class="info-label">Badges</div><div class="info-value">3 / 6</div></div>
+    </div>
+    <div class="interest-title">Interests</div>
+    <div class="tags">
+      <span class="tag">📱 Tech</span><span class="tag">🎮 Gaming</span><span class="tag">⌚ Gadgets</span><span class="tag">🎧 Audio</span>
+    </div>
+  </div>
+</div>
+
+<!-- Two phones side by side -->
+<div class="phones-row">
+
+  <!-- AHMED phone -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="dot" style="background:var(--platinum-color)"></span> Ahmed's Home</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+        <div class="app-header">
+          <div>
+            <div class="app-welcome">Welcome back,</div>
+            <div class="app-name">Ahmed Al Balushi</div>
+          </div>
+          <div class="app-points">
+            <span class="app-points-dot"></span>
+            <span class="app-points-val">24,580</span>
+            <span class="app-points-label">pts</span>
+          </div>
+        </div>
+
+        <!-- Tier -->
+        <div class="tier-banner">
+          <div class="tier-top">
+            <div class="tier-icon-box" style="background:rgba(107,123,153,0.13);color:var(--platinum-color)">👑</div>
+            <div><div class="tier-info-label">Current Tier</div><div class="tier-info-name">Platinum</div></div>
+          </div>
+          <div class="tier-bar"><div class="tier-bar-fill" style="width:68%;background:var(--platinum-color)"></div></div>
+          <div class="tier-bar-labels">
+            <span class="pts-earned">48,200 pts</span>
+            <span><b style="color:var(--diamond)">11,800</b> pts to Diamond</span>
+          </div>
+          <div class="tier-dots">
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--silver);background:var(--silver)"></div><span class="tier-dot-name">Silver</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--gold);background:var(--gold)"></div><span class="tier-dot-name">Gold</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--platinum-color);background:var(--platinum-color)"></div><span class="tier-dot-name">Platinum</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--diamond);background:transparent"></div><span class="tier-dot-name">Diamond</span></div>
+          </div>
+        </div>
+
+        <!-- Picked for You -->
+        <div class="section">
+          <div class="section-eyebrow">✨ Personalised for you</div>
+          <div class="section-title">Picked for You</div>
+          <div class="picked-scroll">
+            <div class="p-card"><div class="p-card-img" style="background:#E0F2FE"><span class="p-card-tag">Your favourite</span>🏨</div><div class="p-card-body"><div class="p-card-cat">Hotels</div><div class="p-card-name">The Ritz-Carlton, Dubai</div><div class="p-card-pts">View options</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#FEF3C7"><span class="p-card-tag">Trending</span>⚽</div><div class="p-card-body"><div class="p-card-cat">Sports Events</div><div class="p-card-name">Real Madrid vs Barcelona</div><div class="p-card-pts">View options</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#D1FAE5"><span class="p-card-tag">New</span>🤿</div><div class="p-card-body"><div class="p-card-cat">Experiences</div><div class="p-card-name">Maldives Diving</div><div class="p-card-pts">View options</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#EDE9FE"><span class="p-card-tag">Popular</span>✈️</div><div class="p-card-body"><div class="p-card-cat">Lounge</div><div class="p-card-name">Airport Business Lounge</div><div class="p-card-pts">2,500 pts</div></div></div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="section">
+          <div class="section-eyebrow">🏆 Your achievements</div>
+          <div class="section-title">Badges</div>
+          <div class="badges-scroll">
+            <div class="badge-item"><span class="badge-emoji">✈️</span><span class="badge-label">Globe-trotter</span></div>
+            <div class="badge-item"><span class="badge-emoji">🏨</span><span class="badge-label">Luxury Stay</span></div>
+            <div class="badge-item"><span class="badge-emoji">⚽</span><span class="badge-label">Fan Zone</span></div>
+            <div class="badge-item"><span class="badge-emoji">💎</span><span class="badge-label">Big Spender</span></div>
+            <div class="badge-item locked"><span class="badge-emoji">👑</span><span class="badge-label">First Class</span></div>
+            <div class="badge-item locked"><span class="badge-emoji">🌍</span><span class="badge-label">Explorer</span></div>
+          </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="section">
+          <div class="section-eyebrow">🎯 Next goals</div>
+          <div class="section-title">Milestones</div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Redeem 5 products</span><span class="ms-reward">🎁 500 bonus pts</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:80%"></div></div><div class="ms-pct">4 / 5 — 80%</div></div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Reach Diamond tier</span><span class="ms-reward">🎁 2x multiplier</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:80%"></div></div><div class="ms-pct">48,200 / 60,000 — 80%</div></div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Refer 3 friends</span><span class="ms-reward">🎁 1,000 bonus pts</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:33%"></div></div><div class="ms-pct">1 / 3 — 33%</div></div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VS connector -->
+  <div class="connector">
+    <span>VS</span>
+  </div>
+
+  <!-- HASSAN phone -->
+  <div class="phone-column">
+    <div class="phone-label"><span class="dot" style="background:var(--gold)"></span> Hassan's Home</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+        <div class="app-header">
+          <div>
+            <div class="app-welcome">Welcome back,</div>
+            <div class="app-name">Hassan Al Raisi</div>
+          </div>
+          <div class="app-points">
+            <span class="app-points-dot"></span>
+            <span class="app-points-val">15,200</span>
+            <span class="app-points-label">pts</span>
+          </div>
+        </div>
+
+        <!-- Tier -->
+        <div class="tier-banner">
+          <div class="tier-top">
+            <div class="tier-icon-box" style="background:rgba(212,168,83,0.13);color:var(--gold)">👑</div>
+            <div><div class="tier-info-label">Current Tier</div><div class="tier-info-name">Gold</div></div>
+          </div>
+          <div class="tier-bar"><div class="tier-bar-fill" style="width:37%;background:var(--gold)"></div></div>
+          <div class="tier-bar-labels">
+            <span class="pts-earned">22,400 pts</span>
+            <span><b style="color:var(--platinum-color)">12,600</b> pts to Platinum</span>
+          </div>
+          <div class="tier-dots">
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--silver);background:var(--silver)"></div><span class="tier-dot-name">Silver</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--gold);background:var(--gold)"></div><span class="tier-dot-name">Gold</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--platinum-color);background:transparent"></div><span class="tier-dot-name">Platinum</span></div>
+            <div class="tier-dot-group"><div class="tier-dot" style="border-color:var(--diamond);background:transparent"></div><span class="tier-dot-name">Diamond</span></div>
+          </div>
+        </div>
+
+        <!-- Picked for You -->
+        <div class="section">
+          <div class="section-eyebrow">✨ Personalised for you</div>
+          <div class="section-title">Picked for You</div>
+          <div class="picked-scroll">
+            <div class="p-card"><div class="p-card-img" style="background:#F3E8FF"><span class="p-card-tag">Hot deal</span>📱</div><div class="p-card-body"><div class="p-card-cat">Smartphones</div><div class="p-card-name">iPhone 16 Pro</div><div class="p-card-pts">45,000 pts</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#E0F2FE"><span class="p-card-tag">Popular</span>🎧</div><div class="p-card-body"><div class="p-card-cat">Audio</div><div class="p-card-name">Bose QC Headphones</div><div class="p-card-pts">12,000 pts</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#FEF3C7"><span class="p-card-tag">New</span>⌚</div><div class="p-card-body"><div class="p-card-cat">Wearables</div><div class="p-card-name">Apple Watch S10</div><div class="p-card-pts">18,000 pts</div></div></div>
+            <div class="p-card"><div class="p-card-img" style="background:#D1FAE5"><span class="p-card-tag">Your pick</span>🎮</div><div class="p-card-body"><div class="p-card-cat">Gift Cards</div><div class="p-card-name">PS Store Gift Card</div><div class="p-card-pts">5,000 pts</div></div></div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="section">
+          <div class="section-eyebrow">🏆 Your achievements</div>
+          <div class="section-title">Badges</div>
+          <div class="badges-scroll">
+            <div class="badge-item"><span class="badge-emoji">📱</span><span class="badge-label">Tech Savvy</span></div>
+            <div class="badge-item"><span class="badge-emoji">🐦</span><span class="badge-label">Early Bird</span></div>
+            <div class="badge-item"><span class="badge-emoji">🔥</span><span class="badge-label">On a Streak</span></div>
+            <div class="badge-item locked"><span class="badge-emoji">💎</span><span class="badge-label">Big Spender</span></div>
+            <div class="badge-item locked"><span class="badge-emoji">⭐</span><span class="badge-label">Social Star</span></div>
+            <div class="badge-item locked"><span class="badge-emoji">🏆</span><span class="badge-label">Collector</span></div>
+          </div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="section">
+          <div class="section-eyebrow">🎯 Next goals</div>
+          <div class="section-title">Milestones</div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Redeem 3 products</span><span class="ms-reward">🎁 300 bonus pts</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:67%"></div></div><div class="ms-pct">2 / 3 — 67%</div></div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Reach Platinum tier</span><span class="ms-reward">🎁 Double pts weekend</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:64%"></div></div><div class="ms-pct">22,400 / 35,000 — 64%</div></div>
+          <div class="ms-card"><div class="ms-top"><span class="ms-label">Complete your profile</span><span class="ms-reward">🎁 200 bonus pts</span></div><div class="ms-bar"><div class="ms-bar-fill" style="width:0%"></div></div><div class="ms-pct">0 / 1 — 0%</div></div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
