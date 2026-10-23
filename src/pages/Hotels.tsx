@@ -1,3 +1,4 @@
+import DealCard from "@/components/DealCard";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin, Calendar, ChevronsUpDown, Search, Hotel, Star } from "lucide-react";
@@ -108,16 +109,19 @@ const HotelsPage = () => {
 
           <div className="px-4 py-6">
             <h3 className="text-base font-semibold text-foreground mb-3">Popular Luxury Stays</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-6">
               {popular.map((h) => (
-                <div key={h.name} className="rounded-xl bg-card shadow-sm overflow-hidden border border-border">
-                  <img src={h.image} alt={h.name} className="h-24 w-full object-cover" loading="lazy" width={512} height={512} />
-                  <div className="p-2.5">
-                    <p className="text-xs font-semibold text-card-foreground leading-tight">{h.name}</p>
-                    <p className="text-[10px] text-reward-gold font-medium mt-1">{h.price.toLocaleString()} pts / night</p>
-                    <p className="text-[9px] text-muted-foreground">or AED {h.cash.toLocaleString()}</p>
-                  </div>
-                </div>
+                <DealCard
+                  key={h.name}
+                  image={h.image}
+                  title={h.name}
+                  topChips={["Luxury stay"]}
+                  rows={[
+                    { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
+                    { label: "Cash", value: `AED ${h.cash.toLocaleString()}` },
+                  ]}
+                  onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts or AED ${h.cash.toLocaleString()}` })}
+                />
               ))}
             </div>
           </div>
@@ -127,26 +131,20 @@ const HotelsPage = () => {
       {step === "results" && (
         <div className="px-4 py-2">
           <p className="text-xs text-muted-foreground mb-3">{checkIn} - {checkOut} · {searchResults.length} properties</p>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-6">
             {searchResults.map((h) => (
-              <button
+              <DealCard
                 key={h.name}
+                image={h.image}
+                title={h.name}
+                topChips={[h.tag, `★ ${h.rating}`]}
+                badge={h.area}
+                rows={[
+                  { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
+                  { label: "Cash", value: `AED ${h.cash.toLocaleString()}` },
+                ]}
                 onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts or AED ${h.cash.toLocaleString()}` })}
-                className="text-left rounded-xl bg-card shadow-sm overflow-hidden border border-border flex active:scale-[0.99] transition-transform"
-              >
-                <img src={h.image} alt={h.name} className="h-28 w-28 object-cover shrink-0" loading="lazy" />
-                <div className="p-3 flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-card-foreground leading-tight">{h.name}</p>
-                  <p className="text-[11px] text-muted-foreground">{h.area}</p>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Star className="h-3 w-3 fill-reward-gold text-reward-gold" />
-                    <span className="text-[11px] font-medium text-foreground">{h.rating}</span>
-                    <span className="ml-1 px-1.5 py-0.5 rounded bg-secondary text-[9px] text-secondary-foreground">{h.tag}</span>
-                  </div>
-                  <p className="text-sm font-bold text-reward-gold mt-2">{h.price.toLocaleString()} pts</p>
-                  <p className="text-[10px] text-muted-foreground">or AED {h.cash.toLocaleString()} / night</p>
-                </div>
-              </button>
+              />
             ))}
           </div>
         </div>

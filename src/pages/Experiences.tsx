@@ -1,3 +1,4 @@
+import DealCard from "@/components/DealCard";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, Clock, Heart } from "lucide-react";
@@ -79,59 +80,18 @@ const ExperiencesPage = () => {
       {/* Listing */}
       <div className="px-4 grid grid-cols-1 gap-4">
         {items.map((exp) => (
-          <button
+          <DealCard
             key={exp.id}
+            image={exp.image}
+            title={exp.name}
+            topChips={[exp.category, exp.difficulty]}
+            badge={exp.location}
+            rows={[
+              { label: "Points", value: `${exp.points.toLocaleString()} pts` },
+              { label: "Duration", value: exp.duration },
+            ]}
             onClick={() => navigate(`/experience/${exp.id}`)}
-            className="text-left rounded-2xl overflow-hidden bg-card border border-border shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            <div className="relative">
-              <img
-                src={exp.image}
-                alt={exp.name}
-                className="h-44 w-full object-cover"
-                loading="lazy"
-                width={800}
-                height={512}
-              />
-              <span className="absolute top-3 left-3 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-semibold px-2.5 py-1 uppercase tracking-wider">
-                {exp.category}
-              </span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-card/90 backdrop-blur"
-                aria-label="Save"
-              >
-                <Heart className="h-4 w-4 text-foreground" />
-              </button>
-            </div>
-            <div className="p-3.5">
-              <p className="text-[11px] text-muted-foreground uppercase tracking-wide">{exp.location}</p>
-              <h3 className="text-sm font-bold text-foreground leading-snug mt-0.5 line-clamp-2 min-h-[2.4em]">
-                {exp.name}
-              </h3>
-              <div className="flex items-center gap-3 mt-2 text-[11px] text-muted-foreground">
-                <span className="inline-flex items-center gap-1">
-                  <Clock className="h-3 w-3" /> {exp.duration}
-                </span>
-                <span>·</span>
-                <span>{exp.difficulty}</span>
-              </div>
-              <div className="mt-3 flex items-end justify-between border-t border-border pt-3">
-                <div>
-                  <p className="text-[10px] text-muted-foreground">From</p>
-                  <p className="text-sm font-bold text-primary">
-                    {exp.points.toLocaleString()} pts
-                    <span className="text-[11px] text-muted-foreground font-normal"> · AED {exp.cashPrice}</span>
-                  </p>
-                </div>
-                <span className="rounded-full bg-primary/10 text-primary text-[11px] font-semibold px-3 py-1.5">
-                  View
-                </span>
-              </div>
-            </div>
-          </button>
+          />
         ))}
       </div>
     </div>

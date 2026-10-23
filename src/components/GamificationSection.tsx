@@ -1,22 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "@/contexts/UserContext";
 import { Plane, Trophy as TrophyIcon, Gem, Star, ArrowRight, Wallet, Globe, Crown, Gift } from "lucide-react";
-import FootballGame from "@/components/FootballGame";
+// import FootballGame from "@/components/FootballGame";
+
+// Kick & Win is hidden for now; set to true (and restore the FootballGame import/state) to bring it back.
+const SHOW_KICK_WIN = false;
 
 const GamificationSection = () => {
   const { user, role } = useUser();
-  const [gameOpen, setGameOpen] = useState(false);
+  // const [gameOpen, setGameOpen] = useState(false);
 
   return (
     <div className="px-5 mb-10">
-      {/* Play & Win */}
+      {SHOW_KICK_WIN && (
       <div className="mb-10">
         <p className="text-[10px] tracking-[0.28em] uppercase text-foreground/50 mb-3">
           A moment to play
         </p>
 
         <div
-          onClick={() => setGameOpen(true)}
+          onClick={() => { /* setGameOpen(true) */ }}
           className="relative w-full overflow-hidden rounded-[16px] bg-[#E6F6EC] p-[1px] shadow-[0_8px_30px_rgba(2, 173, 76,0.08)] cursor-pointer transition-transform active:scale-[0.99]"
         >
           <div className="relative flex items-center justify-between gap-4 rounded-[15px] bg-white p-5 overflow-hidden">
@@ -60,8 +63,7 @@ const GamificationSection = () => {
           </div>
         </div>
       </div>
-
-      <FootballGame open={gameOpen} onOpenChange={setGameOpen} />
+      )}
 
       {/* Milestones */}
       <MilestonesBlock user={user} role={role} />

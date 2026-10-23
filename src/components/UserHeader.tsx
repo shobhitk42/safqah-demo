@@ -48,7 +48,8 @@ const UserHeader = () => {
         </div>
 
         {/* Greeting — hero */}
-        <div className="relative mt-6">
+        <div className="relative mt-6 flex items-end justify-between gap-4">
+        <div className="min-w-0">
           <p
             className="text-[10px] uppercase"
             style={{
@@ -73,10 +74,16 @@ const UserHeader = () => {
           </h1>
         </div>
 
-        {/* Points + tier row */}
-        <div className="relative mt-5 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <div className="flex items-baseline gap-1.5">
+        {/* Points */}
+        <div className="shrink-0 text-right">
+          <div>
+            <p
+              className="mb-1 text-[12px]"
+              style={{ color: "#6B6B7A", fontWeight: 400 }}
+            >
+              Available to redeem
+            </p>
+            <div className="flex items-baseline justify-end gap-1.5">
               <span
                 className="tabular-nums leading-none"
                 style={{
@@ -99,14 +106,8 @@ const UserHeader = () => {
                 pts
               </span>
             </div>
-            <p
-              className="mt-1 text-[12px]"
-              style={{ color: "#6B6B7A", fontWeight: 400 }}
-            >
-              Available to redeem
-            </p>
           </div>
-
+        </div>
         </div>
       </div>
     </header>

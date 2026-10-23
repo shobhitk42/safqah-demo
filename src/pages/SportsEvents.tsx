@@ -1,3 +1,4 @@
+import DealCard from "@/components/DealCard";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, MapPin, Calendar, ChevronRight, Trophy, Music, Theater, Bike, Star } from "lucide-react";
@@ -193,52 +194,17 @@ const SportsEvents = () => {
           )}
 
           {filtered.map((event) => (
-            <div
+            <DealCard
               key={event.id}
-              className="rounded-2xl bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-            >
-              <div className="flex gap-3 p-3">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-muted overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="h-12 w-12 object-contain"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="text-[10px] font-medium text-primary uppercase tracking-wide">
-                    {event.sport}
-                  </span>
-                  <h4 className="text-sm font-semibold text-card-foreground leading-tight truncate">
-                    {event.title}
-                  </h4>
-                  <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{event.league}</p>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                      <MapPin className="h-3 w-3" />
-                      {event.city}
-                    </span>
-                    <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                      <Calendar className="h-3 w-3" />
-                      {event.date}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-border px-3 py-2 bg-muted/30">
-                <div>
-                  <span className="text-[10px] text-muted-foreground">From</span>
-                  <p className="text-sm font-bold text-primary">
-                    {event.points.toLocaleString()} pts
-                  </p>
-                </div>
-                <button className="flex items-center gap-1 rounded-full bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-                  Get Tickets
-                  <ChevronRight className="h-3 w-3" />
-                </button>
-              </div>
-            </div>
+              image={event.image}
+              title={event.title}
+              topChips={[event.sport, event.league]}
+              badge={event.city}
+              rows={[
+                { label: "From", value: `${event.points.toLocaleString()} pts` },
+                { label: "Date", value: event.date },
+              ]}
+            />
           ))}
         </div>
       </div>
