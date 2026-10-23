@@ -1,5 +1,4 @@
-import { Progress } from "@/components/ui/progress";
-import { ChevronRight } from "lucide-react";
+import { BadgeCheck, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
 
@@ -52,7 +51,10 @@ const TierBanner = () => {
               className="mt-2 text-[22px] leading-none text-foreground transition-colors duration-500 group-hover:text-[#02AD4C]"
               style={{ fontWeight: 300, letterSpacing: "0.02em" }}
             >
-              {currentTier.name}
+              <span className="inline-flex items-center gap-2">
+                <BadgeCheck className="h-6 w-6" style={{ color: "#02AD4C" }} strokeWidth={1.75} />
+                {currentTier.name}
+              </span>
             </p>
           </div>
           <div className="flex items-center gap-1 text-[11px] tracking-[0.14em] text-foreground/50 transition-all duration-500 group-hover:text-[#02AD4C] group-hover:gap-2">
@@ -61,25 +63,34 @@ const TierBanner = () => {
           </div>
         </div>
 
-        {/* Hairline progress */}
-        <div className="mb-3">
-          <Progress value={progressInTier} className="h-[2px] bg-[#E6F6EC]" />
-        </div>
-
-        {/* Labels */}
-        <div className="flex items-center justify-between text-[11px] mb-6">
-          <span className="text-foreground/60 tabular-nums">
-            {totalEarned.toLocaleString()} pts
+        {/* Progress bar */}
+        {nextTier && (
+          <p className="mb-2 flex items-center gap-2 text-[13px] text-foreground/80">
+            <span className="h-3.5 w-3.5 rounded-sm bg-[#302F2D]" />
+            Next tier, {nextTier.name}: <span className="tabular-nums font-semibold">{nextTier.min.toLocaleString()} pts</span>
+          </p>
+        )}
+        <div className="relative h-9 overflow-hidden rounded-md bg-[#E6F6EC]">
+          <div className="h-full rounded-md bg-[#02AD4C]" style={{ width: `${Math.max(progressInTier, 4)}%` }} />
+          <span className="absolute inset-y-0 left-3 flex items-center whitespace-nowrap text-[13px] text-[#302F2D]">
+            Points earned: <span className="ml-1 tabular-nums font-semibold">{totalEarned.toLocaleString()}</span>
           </span>
+        </div>
+        <div className="relative mb-2 mt-1 flex justify-between text-[11px] text-foreground/50 tabular-nums">
+          {[0, 25, 50, 75, 100].map((pct) => (
+            <span key={pct} className="flex flex-col items-center first:items-start last:items-end">
+              <span className="h-2 w-px bg-foreground/25" />
+              {nextTier ? Math.round((currentTier.min + ((nextTier.min - currentTier.min) * pct) / 100) / 1000) + "K" : ""}
+            </span>
+          ))}
+        </div>
+        <div className="mb-6 text-[11px] text-foreground/60">
           {nextTier ? (
-            <span className="text-foreground/60">
-              <span className="tabular-nums" style={{ color: "#02AD4C" }}>
-                {pointsToNext.toLocaleString()}
-              </span>{" "}
-              to {nextTier.name}
+            <span>
+              <span className="tabular-nums" style={{ color: "#02AD4C" }}>{pointsToNext.toLocaleString()}</span> to {nextTier.name}
             </span>
           ) : (
-            <span className="text-foreground/60">Top tier reached</span>
+            <span>Top tier reached</span>
           )}
         </div>
 

@@ -1,49 +1,163 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useUser } from "@/contexts/UserContext";
-import { toast } from "sonner";
-import { FlowPage, FlowSuccess, FlowCard } from "@/components/FlowPage";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Users, Check, Send, Sparkles, UserRound } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import BottomNav from "@/components/BottomNav";
 
-const recents = ["Fatima", "Omar", "Layla"];
+const AVAILABLE_POINTS = 52400;
+const POINTS_PER_AED = 100;
+
+const CONTACTS = [
+  { name: "Aisha Rahman", phone: "501234567", initials: "AR" },
+  { name: "Omar Haddad", phone: "552345678", initials: "OH" },
+  { name: "Layla Nasser", phone: "563456789", initials: "LN" },
+  { name: "Yusuf Khan", phone: "544567890", initials: "YK" },
+];
 
 const PeerTransfer = () => {
-  const { user } = useUser();
-  const [to, setTo] = useState("");
-  const [points, setPoints] = useState("");
-  const [note, setNote] = useState("");
+  const navigate = useNavigate();
+  const [tab, setTab] = useState<"contacts" | "manual">("contacts");
+  const [selected, setSelected] = useState<string | null>(null);
+  const [phone, setPhone] = useState("");
+  const [amount, setAmount] = useState(1000);
   const [done, setDone] = useState(false);
-  const amt = Number(points) || 0;
-  const canSend = to.trim().length >= 3 && amt > 0 && amt <= user.availablePoints;
-  const reset = () => { setDone(false); setTo(""); setPoints(""); setNote(""); };
 
-  if (done)
-    return (
-      <FlowPage title="Peer to Peer Transfer">
-        <FlowSuccess title="Points sent" lines={[`${amt.toLocaleString()} points sent to ${to}`, `New balance: ${(user.availablePoints - amt).toLocaleString()} pts`]} onReset={reset} resetLabel="Send more" />
-      </FlowPage>
-    );
+  const recipientPhone = tab === "contacts" ? selected ?? "" : phone;
+  const recipientName =
+    tab === "contacts" ? CONTACTS.find((c) => c.phone === selected)?.name ?? "" : `+971 ${phone}`;
+  const valid = recipientPhone.length === 9 && amount > 0 && amount <= AVAILABLE_POINTS;
 
   return (
-    <FlowPage title="Peer to Peer Transfer">
-      <div className="space-y-5 px-4 pb-8">
-        <FlowCard title="Send to">
-          <Input placeholder="Name or mobile number" value={to} onChange={(e) => setTo(e.target.value)} />
-          <div className="flex gap-2">
-            {recents.map((r) => (
-              <button key={r} onClick={() => setTo(r)} className="rounded-full border border-border px-3 py-1 text-xs hover:bg-muted">{r}</button>
-            ))}
-          </div>
-        </FlowCard>
-        <FlowCard title="Points to send">
-          <Input type="number" inputMode="numeric" placeholder="0" value={points} onChange={(e) => setPoints(e.target.value)} />
-          <p className="text-xs text-muted-foreground">Available: {user.availablePoints.toLocaleString()} pts</p>
-          {amt > user.availablePoints && <p className="text-xs text-destructive">Amount exceeds your available points.</p>}
-          <Input placeholder="Add a note (optional)" value={note} onChange={(e) => setNote(e.target.value)} />
-          <Button className="w-full" size="lg" disabled={!canSend} onClick={() => { setDone(true); toast.success("Points sent"); }}>Send points</Button>
-        </FlowCard>
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-32">
+      <div className="flex items-center gap-3 px-4 py-4">
+        <button onClick={() => navigate(-1)} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+          <ArrowLeft className="h-4 w-4 text-foreground" />
+        </button>
+        <h1 className="text-lg font-semibold text-foreground">Peer to Peer Transfer</h1>
       </div>
-    </FlowPage>
+
+      <div className="mx-4 mb-5 rounded-2xl bg-gradient-to-br from-[hsl(var(--hero-gradient-start))] to-[hsl(var(--hero-gradient-end))] p-5">
+        <div className="mb-1 flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-primary-foreground/80" />
+          <p className="text-xs text-primary-foreground/80">Available Points</p>
+        </div>
+        <p className="text-2xl font-bold text-primary-foreground">{AVAILABLE_POINTS.toLocaleString()} Points</p>
+        <p className="mt-2 text-[11px] leading-snug text-primary-foreground/75">
+          Share your Points, spread the joy and gift effortlessly. Transfers are instant and free.
+        </p>
+      </div>
+
+      <div className="mx-4 mb-4 flex rounded-xl bg-secondary p-1">
+        {(["contacts", "manual"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`flex-1 rounded-lg py-2 text-xs font-semibold transition-colors ${
+              tab === t ? "bg-card text-primary shadow-sm" : "text-muted-foreground"
+            }`}
+          >
+            {t === "contacts" ? "Family & Friends" : "Enter Manually"}
+          </button>
+        ))}
+      </div>
+
+      {tab === "contacts" ? (
+        <div className="mx-4 mb-4 space-y-2">
+          {CONTACTS.map((c) => (
+            <button
+              key={c.phone}
+              onClick={() => setSelected(c.phone)}
+              className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-all ${
+                selected === c.phone ? "border-primary bg-primary/5" : "border-border bg-card"
+              }`}
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-primary-foreground">
+                {c.initials}
+              </span>
+              <span className="flex-1">
+                <span className="block text-sm font-semibold text-card-foreground">{c.name}</span>
+                <span className="block text-xs text-muted-foreground">+971 {c.phone}</span>
+              </span>
+              {selected === c.phone && <Check className="h-4 w-4 text-primary" />}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div className="mx-4 mb-4 rounded-2xl border border-border bg-card p-4">
+          <p className="mb-2 text-sm font-semibold text-card-foreground">Member's Number*</p>
+          <div className="flex items-center gap-2">
+            <span className="rounded-xl border border-border px-3 py-2.5 text-sm font-semibold text-foreground">+971</span>
+            <input
+              inputMode="numeric"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 9))}
+              placeholder="Enter mobile number"
+              className="flex-1 rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:border-primary"
+            />
+          </div>
+          <p className="mt-2 text-[11px] text-muted-foreground">Must be exactly 9 digits</p>
+        </div>
+      )}
+
+      <div className="mx-4 rounded-2xl border border-border bg-card p-4">
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-sm font-semibold text-card-foreground">Points to transfer</p>
+          <span className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">
+            {amount.toLocaleString()}
+          </span>
+        </div>
+        <Slider value={[amount]} onValueChange={(v) => setAmount(v[0])} min={0} max={AVAILABLE_POINTS} step={100} />
+        <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+          <span>0</span>
+          <span>{AVAILABLE_POINTS.toLocaleString()}</span>
+        </div>
+        <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-sm">
+          <span className="text-muted-foreground">Value</span>
+          <span className="font-bold text-reward-gold">AED {(amount / POINTS_PER_AED).toLocaleString()}</span>
+        </div>
+        <div className="mt-2 flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">Remaining balance</span>
+          <span className="font-semibold text-foreground">{(AVAILABLE_POINTS - amount).toLocaleString()} Points</span>
+        </div>
+      </div>
+
+      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-card px-4 py-4">
+        <button
+          onClick={() => setDone(true)}
+          disabled={!valid}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+        >
+          <Send className="h-4 w-4" /> Proceed to Transfer
+        </button>
+      </div>
+
+      <Dialog open={done} onOpenChange={setDone}>
+        <DialogContent className="mx-auto max-w-sm rounded-2xl">
+          <DialogHeader>
+            <div className="mb-3 flex justify-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/20">
+                <UserRound className="h-8 w-8 text-accent" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-xl">Transfer Successful</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 text-center">
+            <p className="text-sm text-muted-foreground">
+              {amount.toLocaleString()} Points sent to {recipientName || `+971 ${recipientPhone}`}.
+            </p>
+            <button
+              onClick={() => { setDone(false); navigate("/"); }}
+              className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-semibold text-primary-foreground"
+            >
+              Done
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <BottomNav />
+    </div>
   );
 };
 

@@ -31,10 +31,16 @@ import MobileTopup from "./pages/MobileTopup.tsx";
 import Offers from "./pages/Offers.tsx";
 import OfferDetail from "./pages/OfferDetail.tsx";
 
-import BrandStore from "./pages/BrandStore.tsx";
-import InstantPurchase from "./pages/InstantPurchase.tsx";
-import Donations from "./pages/Donations.tsx";
+
+
+import AppleStore from "./pages/AppleStore.tsx";
+import AppleProduct from "./pages/AppleProduct.tsx";
+import AppleMacProduct from "./pages/AppleMacProduct.tsx";
+import SamsungStore from "./pages/SamsungStore.tsx";
+import SamsungProduct from "./pages/SamsungProduct.tsx";
+import PayWithRewards from "./pages/PayWithRewards.tsx";
 import PeerTransfer from "./pages/PeerTransfer.tsx";
+import Donations from "./pages/Donations.tsx";
 
 const queryClient = new QueryClient();
 
@@ -79,10 +85,14 @@ const App = () => (
           <Route path="/play-win" element={<PlayAndWin />} />
           <Route path="/cashback" element={<Cashback />} />
           <Route path="/mobile-topup" element={<MobileTopup />} />
-          <Route path="/store/:brand" element={<BrandStore />} />
-          <Route path="/instant-purchase" element={<InstantPurchase />} />
+          <Route path="/samsung-store" element={<SamsungStore />} />
+          <Route path="/samsung-store/:id" element={<SamsungProduct />} />
+          <Route path="/apple-store" element={<AppleStore />} />
+          <Route path="/apple-store/iphone-17-pro" element={<AppleProduct />} />
+          <Route path="/apple-store/mac/:id" element={<AppleMacProduct />} />
+          <Route path="/pay-with-rewards" element={<PayWithRewards />} />
+          <Route path="/peer-transfer" element={<PeerTransfer />} />
           <Route path="/donations" element={<Donations />} />
-          <Route path="/p2p-transfer" element={<PeerTransfer />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

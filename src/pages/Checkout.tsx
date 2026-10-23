@@ -16,6 +16,8 @@ import televisionImg from "@/assets/television.jpg";
 import laptopImg from "@/assets/laptop.jpg";
 import kitchenImg from "@/assets/kitchen-appliances.jpg";
 import washingImg from "@/assets/washing-machine.jpg";
+import { appleProducts } from "@/data/appleProducts";
+import { samsungProducts } from "@/data/samsungProducts";
 
 const products = [
   { id: "chanel-no5", name: "Chanel No. 5 EDP", points: 4500, price: 45, image: perfumeImg },
@@ -28,6 +30,13 @@ const products = [
   { id: "acer-laptop", name: "Acer Aspire Laptop", points: 30000, price: 300, image: laptopImg },
   { id: "philips-coffee", name: "Philips Coffee Machine", points: 8500, price: 85, image: kitchenImg },
   { id: "lg-washing", name: "LG Front Load Washing Machine", points: 15000, price: 150, image: washingImg },
+  ...[...appleProducts, ...samsungProducts].map((p) => ({
+    id: p.id,
+    name: `${p.name} · ${p.tagline}`,
+    points: p.price * 100,
+    price: p.price,
+    image: p.image,
+  })),
 ];
 
 

@@ -10,6 +10,7 @@ import PickedForYou from "@/components/PickedForYou";
 
 
 import GamificationSection from "@/components/GamificationSection";
+import PlayAndWinSection from "@/components/PlayAndWinSection";
 import PromoBanners from "@/components/PromoBanners";
 
 import { useUser } from "@/contexts/UserContext";
@@ -32,6 +33,7 @@ const Index = () => {
       <PickedForYou />
       <PromoBanners />
       {mode === "points" && <GamificationSection />}
+      <PlayAndWinSection />
       <ShopByCategory />
       <TrendingSection />
       
