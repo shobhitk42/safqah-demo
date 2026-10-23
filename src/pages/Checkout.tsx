@@ -150,7 +150,7 @@ const Checkout = () => {
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold text-foreground">Cash Only</p>
-              <p className="text-xs text-muted-foreground">Pay AED {cashNeeded} with Comera Pay</p>
+              <p className="text-xs text-muted-foreground">Pay AED {cashNeeded} with Safqah Capital</p>
             </div>
           </label>
 
@@ -166,7 +166,7 @@ const Checkout = () => {
             </div>
             <div className="flex-1">
               <p className="text-sm font-semibold text-foreground">Points + Cash</p>
-              <p className="text-xs text-muted-foreground">Split between points & Comera Pay</p>
+              <p className="text-xs text-muted-foreground">Split between points & Safqah Capital</p>
             </div>
           </label>
         </RadioGroup>
@@ -200,18 +200,18 @@ const Checkout = () => {
         </div>
       )}
 
-      {/* Pay with Comera Pay */}
+      {/* Pay with Safqah Capital */}
       {(paymentMode === "cash" || paymentMode === "mix") && (
         <div className="mx-4 mb-4">
           <h3 className="text-sm font-semibold text-foreground mb-3">Payment</h3>
           <div className="flex items-center gap-3 rounded-xl border border-primary bg-primary/5 p-4">
             <img
               src={comeraLogo.url}
-              alt="Comera Pay"
+              alt="Safqah Capital"
               className="h-10 w-10 rounded-lg object-contain"
             />
             <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Pay with Comera Pay</p>
+              <p className="text-sm font-semibold text-foreground">Pay with Safqah Capital</p>
               <p className="text-xs text-muted-foreground">Secure one-tap checkout</p>
             </div>
             <Check className="h-5 w-5 text-primary" />
@@ -230,7 +230,7 @@ const Checkout = () => {
         )}
         {paymentMode === "cash" && (
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-muted-foreground">Comera Pay</span>
+            <span className="text-muted-foreground">Safqah Capital</span>
             <span className="font-semibold text-foreground">AED {cashNeeded}</span>
           </div>
         )}
@@ -241,7 +241,7 @@ const Checkout = () => {
               <span className="font-semibold text-reward-gold">{mixPointsUsed.toLocaleString()} pts</span>
             </div>
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Comera Pay</span>
+              <span className="text-muted-foreground">Safqah Capital</span>
               <span className="font-semibold text-foreground">AED {mixCashNeeded}</span>
             </div>
           </>

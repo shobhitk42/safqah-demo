@@ -52,7 +52,7 @@ const ProductDetail = () => {
         <button onClick={() => navigate("/cart")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border relative">
           <ShoppingCart className="h-4 w-4 text-foreground" />
           {count > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#2B8CA8] px-1 text-[10px] font-semibold text-[#1A1A2E]">
+            <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-[#02AD4C] px-1 text-[10px] font-semibold text-[#302F2D]">
               {count}
             </span>
           )}

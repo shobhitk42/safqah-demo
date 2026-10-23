@@ -21,11 +21,11 @@ const OfferDetail = () => {
         <div className="mx-auto w-full max-w-md px-4 pt-10">
           <button
             onClick={() => navigate("/offers")}
-            className="inline-flex items-center gap-1 text-[13px] text-[#2B8CA8]"
+            className="inline-flex items-center gap-1 text-[13px] text-[#02AD4C]"
           >
             <ArrowLeft className="h-4 w-4" /> Back to offers
           </button>
-          <p className="mt-6 text-[14px] text-[#1A1A2E]">Offer not found.</p>
+          <p className="mt-6 text-[14px] text-[#302F2D]">Offer not found.</p>
         </div>
       </div>
     );
@@ -57,30 +57,30 @@ const OfferDetail = () => {
             aria-label="Back"
             className="absolute top-4 left-4 h-9 w-9 inline-flex items-center justify-center rounded-full bg-white/95 shadow-md"
           >
-            <ArrowLeft className="h-4 w-4 text-[#1A1A2E]" strokeWidth={2} />
+            <ArrowLeft className="h-4 w-4 text-[#302F2D]" strokeWidth={2} />
           </button>
         </div>
 
         <div className="px-5 pt-5">
           {/* Brand */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#E6F2F6]">
-              <Tag className="h-3 w-3 text-[#2B8CA8]" strokeWidth={2} />
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#E6F6EC]">
+              <Tag className="h-3 w-3 text-[#02AD4C]" strokeWidth={2} />
             </span>
-            <span className="text-[13px] font-medium text-[#1A1A2E]">
+            <span className="text-[13px] font-medium text-[#302F2D]">
               {offer.brand}
             </span>
           </div>
 
-          <h1 className="text-[18px] font-bold text-[#1A1A2E] leading-snug">
+          <h1 className="text-[18px] font-bold text-[#302F2D] leading-snug">
             {offer.headline}
           </h1>
-          <p className="mt-2 text-[14px] font-semibold text-[#2B8CA8]">
+          <p className="mt-2 text-[14px] font-semibold text-[#02AD4C]">
             {offer.value}
           </p>
           <p className="mt-1 text-[12px] text-[#9CA3AF]">Valid until 31 Aug 2026</p>
 
-          <p className="mt-5 text-[13px] leading-relaxed text-[#1A1A2E]/80">
+          <p className="mt-5 text-[13px] leading-relaxed text-[#302F2D]/80">
             {offer.description}
           </p>
 
@@ -88,13 +88,13 @@ const OfferDetail = () => {
           <div className="mt-6 rounded-xl border border-[#E8E8EE] bg-white p-4">
             <div className="flex items-center justify-between text-[12px] text-[#6B6B7A]">
               <span>Cost</span>
-              <span className="tabular-nums font-semibold text-[#1A1A2E]">
+              <span className="tabular-nums font-semibold text-[#302F2D]">
                 {REDEEM_COST.toLocaleString()} pts
               </span>
             </div>
             <div className="mt-1.5 flex items-center justify-between text-[12px] text-[#6B6B7A]">
               <span>Your redeemable balance</span>
-              <span className="tabular-nums font-semibold" style={{ color: "#2B8CA8" }}>
+              <span className="tabular-nums font-semibold" style={{ color: "#02AD4C" }}>
                 {balance.toLocaleString()} pts
               </span>
             </div>
@@ -111,7 +111,7 @@ const OfferDetail = () => {
             type="button"
             onClick={handleActivate}
             disabled={insufficient}
-            className="mt-6 w-full rounded-xl bg-[#2B8CA8] py-3.5 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="mt-6 w-full rounded-xl bg-[#02AD4C] py-3.5 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             Activate Offer
           </button>
@@ -126,25 +126,25 @@ const OfferDetail = () => {
       {stage === "confirm" && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-md rounded-t-2xl sm:rounded-2xl bg-white p-6">
-            <h3 className="text-[16px] font-bold text-[#1A1A2E]">
+            <h3 className="text-[16px] font-bold text-[#302F2D]">
               Redeem {offer.brand}?
             </h3>
             <div className="mt-4 space-y-2 text-[13px]">
               <div className="flex justify-between">
                 <span className="text-[#6B6B7A]">Cost</span>
-                <span className="tabular-nums font-semibold text-[#1A1A2E]">
+                <span className="tabular-nums font-semibold text-[#302F2D]">
                   {REDEEM_COST.toLocaleString()} pts
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#6B6B7A]">Your balance</span>
-                <span className="tabular-nums font-semibold text-[#1A1A2E]">
+                <span className="tabular-nums font-semibold text-[#302F2D]">
                   {balance.toLocaleString()} pts <span className="text-[11px] text-[#9CA3AF] font-normal">(Redeemable)</span>
                 </span>
               </div>
               <div className="flex justify-between pt-2 border-t border-[#E8E8EE]">
                 <span className="text-[#6B6B7A]">After redeem</span>
-                <span className="tabular-nums font-bold" style={{ color: "#2B8CA8" }}>
+                <span className="tabular-nums font-bold" style={{ color: "#02AD4C" }}>
                   {after.toLocaleString()} pts
                 </span>
               </div>
@@ -152,13 +152,13 @@ const OfferDetail = () => {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setStage("detail")}
-                className="flex-1 rounded-xl border border-[#E8E8EE] py-3 text-[13px] font-semibold text-[#1A1A2E]"
+                className="flex-1 rounded-xl border border-[#E8E8EE] py-3 text-[13px] font-semibold text-[#302F2D]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirm}
-                className="flex-1 rounded-xl bg-[#2B8CA8] py-3 text-[13px] font-semibold text-white"
+                className="flex-1 rounded-xl bg-[#02AD4C] py-3 text-[13px] font-semibold text-white"
               >
                 Confirm Redemption
               </button>
@@ -173,20 +173,20 @@ const OfferDetail = () => {
           <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center">
             <div
               className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full animate-scale-in"
-              style={{ backgroundColor: "#2B8CA8" }}
+              style={{ backgroundColor: "#02AD4C" }}
             >
               <Check className="h-7 w-7 text-white" strokeWidth={2.5} />
             </div>
-            <h3 className="text-[17px] font-bold text-[#1A1A2E]">Redeemed successfully!</h3>
+            <h3 className="text-[17px] font-bold text-[#302F2D]">Redeemed successfully!</h3>
             <p className="mt-2 text-[13px] text-[#6B6B7A]">
               New balance:{" "}
-              <span className="font-semibold" style={{ color: "#2B8CA8" }}>
+              <span className="font-semibold" style={{ color: "#02AD4C" }}>
                 {balance.toLocaleString()} pts
               </span>
             </p>
             <button
               onClick={() => navigate("/offers")}
-              className="mt-6 w-full rounded-xl bg-[#2B8CA8] py-3 text-[13px] font-semibold text-white"
+              className="mt-6 w-full rounded-xl bg-[#02AD4C] py-3 text-[13px] font-semibold text-white"
             >
               Back to offers
             </button>

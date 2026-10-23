@@ -83,13 +83,13 @@ const CategoryNav = () => {
                   <Icon
                     className="h-4 w-4 transition-all"
                     strokeWidth={isActive ? 2 : 1.5}
-                    fill={isActive ? "#2B8CA8" : "none"}
-                    style={{ color: isActive ? "#2B8CA8" : "#9CA3AF" }}
+                    fill={isActive ? "#02AD4C" : "none"}
+                    style={{ color: isActive ? "#02AD4C" : "#9CA3AF" }}
                   />
                   <span
                     className="text-[11px] tracking-[0.22em] uppercase"
                     style={{
-                      color: isActive ? "#2B8CA8" : "#9CA3AF",
+                      color: isActive ? "#02AD4C" : "#9CA3AF",
                       fontWeight: isActive ? 600 : 500,
                       transition: "color 200ms cubic-bezier(0.23, 1, 0.32, 1)",
                     }}
@@ -102,7 +102,7 @@ const CategoryNav = () => {
                       isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     }`}
                     style={{
-                      backgroundColor: "#2B8CA8",
+                      backgroundColor: "#02AD4C",
                       transition: "transform 300ms cubic-bezier(0.23, 1, 0.32, 1)",
                     }}
                   />

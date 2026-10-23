@@ -36,7 +36,7 @@ const BottomNav = () => {
               <span
                 className="relative flex items-center justify-center h-6 w-9"
                 style={{
-                  color: isActive ? "#2B8CA8" : "#9CA3AF",
+                  color: isActive ? "#02AD4C" : "#9CA3AF",
                   transition: "color 200ms ease",
                 }}
               >
@@ -49,7 +49,7 @@ const BottomNav = () => {
               <span
                 className="text-[9px] font-medium tracking-wide leading-tight"
                 style={{
-                  color: isActive ? "#2B8CA8" : "#9CA3AF",
+                  color: isActive ? "#02AD4C" : "#9CA3AF",
                   transition: "color 200ms ease",
                 }}
               >

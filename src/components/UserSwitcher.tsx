@@ -36,7 +36,7 @@ const UserSwitcher = () => {
             left: 4,
             transform: `translateX(${activeIndex * 100}%)`,
             transition: "transform 260ms cubic-bezier(0.23, 1, 0.32, 1)",
-            backgroundColor: "#2B8CA8",
+            backgroundColor: "#02AD4C",
           }}
         />
         {roles.map((r) => {

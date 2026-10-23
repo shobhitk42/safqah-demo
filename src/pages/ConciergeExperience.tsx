@@ -87,11 +87,11 @@ const ConciergeExperience = () => {
   const timeSlots = ["09:00", "11:30", "14:00", "16:30", "19:00"];
 
   const primaryBtnStyle: React.CSSProperties = {
-    background: "linear-gradient(135deg, #2B8CA8 0%, #1F6B85 100%)",
+    background: "linear-gradient(135deg, #02AD4C 0%, #1F6B85 100%)",
     color: "#FFFFFF",
     fontWeight: 600,
     letterSpacing: "0.04em",
-    boxShadow: "0 8px 24px -6px rgba(43,140,168,0.45), inset 0 1px 0 rgba(255,255,255,0.18)",
+    boxShadow: "0 8px 24px -6px rgba(2, 173, 76,0.45), inset 0 1px 0 rgba(255,255,255,0.18)",
   };
 
   // Payment split calculations
@@ -135,12 +135,12 @@ const ConciergeExperience = () => {
       >
         <span
           className="text-[11px] uppercase tracking-[0.22em]"
-          style={{ color: openSection === sid ? "#2B8CA8" : "#8A8A98", fontWeight: 500 }}
+          style={{ color: openSection === sid ? "#02AD4C" : "#8A8A98", fontWeight: 500 }}
         >
           {title}
         </span>
         {openSection === sid ? (
-          <ChevronUp className="h-4 w-4" strokeWidth={1.25} style={{ color: "#2B8CA8" }} />
+          <ChevronUp className="h-4 w-4" strokeWidth={1.25} style={{ color: "#02AD4C" }} />
         ) : (
           <ChevronDown className="h-4 w-4" strokeWidth={1.25} style={{ color: "#8A8A98" }} />
         )}
@@ -162,15 +162,15 @@ const ConciergeExperience = () => {
       <div className="sticky top-0 z-30 flex items-center justify-between gap-2 bg-background/95 backdrop-blur px-4 py-3 border-b border-[#E8E8EE]">
         <button
           onClick={handleBack}
-          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F7F8FA] transition"
+          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F6F3EF] transition"
           aria-label="Back"
         >
           <ArrowLeft className="h-4 w-4 text-foreground" strokeWidth={1.5} />
         </button>
-        <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5 border border-[#2B8CA8]/40 bg-[#2B8CA8]/10 dark:bg-[#2B8CA8]/15">
+        <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5 border border-[#02AD4C]/40 bg-[#02AD4C]/10 dark:bg-[#02AD4C]/15">
           <span
             className="h-4 w-4 rounded-full flex items-center justify-center text-[10px]"
-            style={{ background: "#2B8CA8", color: "#1A1A2E", fontWeight: 600 }}
+            style={{ background: "#02AD4C", color: "#302F2D", fontWeight: 600 }}
           >
             P
           </span>
@@ -180,14 +180,14 @@ const ConciergeExperience = () => {
         </div>
         <div className="flex items-center gap-1">
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F7F8FA]"
+            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F6F3EF]"
             aria-label="Search"
           >
             <Search className="h-4 w-4 text-foreground" strokeWidth={1.5} />
           </button>
           <button
             onClick={() => navigate("/cart")}
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F7F8FA]"
+            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-[#F6F3EF]"
             aria-label="Cart"
           >
             <ShoppingCart className="h-4 w-4 text-foreground" strokeWidth={1.5} />
@@ -206,11 +206,11 @@ const ConciergeExperience = () => {
               <div
                 className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] transition-all"
                 style={{
-                  background: filled ? "#2B8CA8" : "#FFFFFF",
+                  background: filled ? "#02AD4C" : "#FFFFFF",
                   color: filled ? "#FFFFFF" : "#8A8A98",
-                  border: filled ? "1px solid #2B8CA8" : "1px solid #D1D5DB",
+                  border: filled ? "1px solid #02AD4C" : "1px solid #D1D5DB",
                   fontWeight: 600,
-                  boxShadow: active ? "0 0 0 3px rgba(43,140,168,0.15)" : "none",
+                  boxShadow: active ? "0 0 0 3px rgba(2, 173, 76,0.15)" : "none",
                 }}
               >
                 {done ? <Check className="h-3 w-3" strokeWidth={2.5} /> : i + 1}
@@ -218,7 +218,7 @@ const ConciergeExperience = () => {
               <span
                 className="text-[10px] uppercase tracking-[0.2em]"
                 style={{
-                  color: filled ? "#2B8CA8" : "#8A8A98",
+                  color: filled ? "#02AD4C" : "#8A8A98",
                   fontWeight: active ? 600 : 500,
                 }}
               >
@@ -227,7 +227,7 @@ const ConciergeExperience = () => {
               {i < 2 && (
                 <span
                   className="h-px w-6 transition-colors"
-                  style={{ background: done ? "#2B8CA8" : "#E8E8EE" }}
+                  style={{ background: done ? "#02AD4C" : "#E8E8EE" }}
                 />
               )}
             </div>
@@ -244,7 +244,7 @@ const ConciergeExperience = () => {
             <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
             <span
               className="absolute top-3 left-4 rounded-sm px-2.5 py-1 text-[9px] uppercase tracking-[0.24em]"
-              style={{ background: "#1A1A2E", color: "#2B8CA8", fontWeight: 500 }}
+              style={{ background: "#302F2D", color: "#02AD4C", fontWeight: 500 }}
             >
               Concierge
             </span>
@@ -274,9 +274,9 @@ const ConciergeExperience = () => {
                 <Star
                   className="h-3 w-3"
                   strokeWidth={1.25}
-                  style={{ color: "#2B8CA8", fill: "#2B8CA8" }}
+                  style={{ color: "#02AD4C", fill: "#02AD4C" }}
                 />
-                <span style={{ color: "#2B8CA8", fontWeight: 500 }}>{exp.rating}</span>
+                <span style={{ color: "#02AD4C", fontWeight: 500 }}>{exp.rating}</span>
                 <span>({exp.reviews})</span>
               </span>
             </div>
@@ -299,7 +299,7 @@ const ConciergeExperience = () => {
               className="mt-2 text-[22px] text-foreground"
               style={{ fontWeight: 400, letterSpacing: "0.005em" }}
             >
-              <span style={{ color: "#2B8CA8" }}>{basePoints.toLocaleString()} pts</span>
+              <span style={{ color: "#02AD4C" }}>{basePoints.toLocaleString()} pts</span>
               <span className="text-[13px] text-[#8A8A98] font-light">
                 {" "}
                 · AED {cashPrice.toLocaleString()}
@@ -328,7 +328,7 @@ const ConciergeExperience = () => {
                     <Check
                       className="h-3.5 w-3.5 mt-1 shrink-0"
                       strokeWidth={1.5}
-                      style={{ color: "#2B8CA8" }}
+                      style={{ color: "#02AD4C" }}
                     />
                     <span>{i}</span>
                   </li>
@@ -385,7 +385,7 @@ const ConciergeExperience = () => {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#2B8CA8]"
+                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#02AD4C]"
                 style={{ border: "1px solid #E8E8EE" }}
               />
             </div>
@@ -399,7 +399,7 @@ const ConciergeExperience = () => {
                 max={10}
                 value={guests}
                 onChange={(e) => setGuests(Math.max(1, Number(e.target.value) || 1))}
-                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#2B8CA8]"
+                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#02AD4C]"
                 style={{ border: "1px solid #E8E8EE" }}
               />
             </div>
@@ -410,7 +410,7 @@ const ConciergeExperience = () => {
               <select
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
-                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#2B8CA8]"
+                className="mt-2 w-full rounded-md bg-white px-3 py-2.5 text-sm text-foreground outline-none focus:border-[#02AD4C]"
                 style={{ border: "1px solid #E8E8EE" }}
               >
                 {rateTypes.map((r, i) => (
@@ -438,9 +438,9 @@ const ConciergeExperience = () => {
                     }}
                     className="rounded-md py-2.5 text-sm transition"
                     style={{
-                      background: active ? "#1A1A2E" : "#FFFFFF",
-                      color: active ? "#FFFFFF" : "#1A1A2E",
-                      border: active ? "1px solid #1A1A2E" : "1px solid #E8E8EE",
+                      background: active ? "#302F2D" : "#FFFFFF",
+                      color: active ? "#FFFFFF" : "#302F2D",
+                      border: active ? "1px solid #302F2D" : "1px solid #E8E8EE",
                       fontWeight: 400,
                     }}
                   >
@@ -455,7 +455,7 @@ const ConciergeExperience = () => {
             className="mt-8 rounded-md p-4 bg-white"
             style={{ border: "1px solid #E8E8EE" }}
           >
-            <div className="flex items-center gap-2" style={{ color: "#2B8CA8" }}>
+            <div className="flex items-center gap-2" style={{ color: "#02AD4C" }}>
               <Calendar className="h-4 w-4" strokeWidth={1.5} />
               <p
                 className="text-[10px] uppercase tracking-[0.22em]"
@@ -477,7 +477,7 @@ const ConciergeExperience = () => {
                   Total
                 </p>
                 <p className="text-[16px] text-foreground" style={{ fontWeight: 500 }}>
-                  <span style={{ color: "#2B8CA8" }}>
+                  <span style={{ color: "#02AD4C" }}>
                     {totalPoints.toLocaleString()} pts
                   </span>
                   <span className="text-[11px] text-[#8A8A98] font-light">
@@ -515,7 +515,7 @@ const ConciergeExperience = () => {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-card-foreground truncate">{exp.title}</p>
               <div className="flex items-center gap-3 mt-1">
-                <span className="text-xs font-bold" style={{ color: "#2B8CA8" }}>
+                <span className="text-xs font-bold" style={{ color: "#02AD4C" }}>
                   {totalPoints.toLocaleString()} pts
                 </span>
                 <span className="text-xs text-muted-foreground">or AED {totalCash.toLocaleString()}</span>
@@ -529,7 +529,7 @@ const ConciergeExperience = () => {
           {/* Points Balance */}
           <div
             className="mx-4 mb-5 rounded-xl p-4"
-            style={{ background: "linear-gradient(135deg,#2B8CA8 0%,#1F6B85 100%)" }}
+            style={{ background: "linear-gradient(135deg,#02AD4C 0%,#1F6B85 100%)" }}
           >
             <p className="text-xs text-white/70">Your Available Points</p>
             <p className="text-2xl font-bold text-white">
@@ -577,7 +577,7 @@ const ConciergeExperience = () => {
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">Cash Only</p>
                   <p className="text-xs text-muted-foreground">
-                    Pay AED {totalCash.toLocaleString()} with Comera Pay
+                    Pay AED {totalCash.toLocaleString()} with Safqah Capital
                   </p>
                 </div>
               </label>
@@ -593,7 +593,7 @@ const ConciergeExperience = () => {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">Points + Cash</p>
-                  <p className="text-xs text-muted-foreground">Split between points & Comera Pay</p>
+                  <p className="text-xs text-muted-foreground">Split between points & Safqah Capital</p>
                 </div>
               </label>
             </RadioGroup>
@@ -617,7 +617,7 @@ const ConciergeExperience = () => {
               <div className="flex justify-between">
                 <div>
                   <p className="text-xs text-muted-foreground">Points Used</p>
-                  <p className="text-sm font-bold" style={{ color: "#2B8CA8" }}>
+                  <p className="text-sm font-bold" style={{ color: "#02AD4C" }}>
                     {pointsToUse.toLocaleString()} pts
                   </p>
                 </div>
@@ -629,14 +629,14 @@ const ConciergeExperience = () => {
             </div>
           )}
 
-          {/* Comera Pay payment option */}
+          {/* Safqah Capital payment option */}
           {(payMode === "cash" || payMode === "mix") && (
             <div className="mx-4 mb-4">
               <h3 className="text-sm font-semibold text-foreground mb-3">Payment</h3>
               <div className="flex items-center gap-3 rounded-xl border border-primary bg-primary/5 p-4">
-                <img src={comeraLogo.url} alt="Comera Pay" className="h-10 w-10 rounded-lg object-contain" />
+                <img src={comeraLogo.url} alt="Safqah Capital" className="h-10 w-10 rounded-lg object-contain" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-foreground">Pay with Comera Pay</p>
+                  <p className="text-sm font-semibold text-foreground">Pay with Safqah Capital</p>
                   <p className="text-xs text-muted-foreground">Secure one-tap checkout</p>
                 </div>
                 <Check className="h-5 w-5 text-primary" />
@@ -650,14 +650,14 @@ const ConciergeExperience = () => {
             {pointsToUse > 0 && (
               <div className="flex justify-between text-sm mb-2">
                 <span className="text-muted-foreground">Points</span>
-                <span className="font-semibold" style={{ color: "#2B8CA8" }}>
+                <span className="font-semibold" style={{ color: "#02AD4C" }}>
                   {pointsToUse.toLocaleString()} pts
                 </span>
               </div>
             )}
             {cashToPay > 0 && (
               <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Comera Pay</span>
+                <span className="text-muted-foreground">Safqah Capital</span>
                 <span className="font-semibold text-foreground">AED {cashToPay.toLocaleString()}</span>
               </div>
             )}
@@ -665,7 +665,7 @@ const ConciergeExperience = () => {
               <span className="text-sm font-bold text-foreground">Total</span>
               <div className="text-right">
                 {pointsToUse > 0 && (
-                  <span className="text-sm font-bold" style={{ color: "#2B8CA8" }}>
+                  <span className="text-sm font-bold" style={{ color: "#02AD4C" }}>
                     {pointsToUse.toLocaleString()} pts
                   </span>
                 )}
@@ -705,13 +705,13 @@ const ConciergeExperience = () => {
       )}
 
       <Dialog open={confirmed} onOpenChange={setConfirmed}>
-        <DialogContent className="max-w-sm bg-[#FFFFFF] border border-[#2B8CA8]/40 shadow-[0_20px_60px_-20px_rgba(43, 140, 168,0.35)] dark:bg-[#1F242D] dark:border-[#2B8CA8]/30 rounded-lg">
+        <DialogContent className="max-w-sm bg-[#FFFFFF] border border-[#02AD4C]/40 shadow-[0_20px_60px_-20px_rgba(2, 173, 76,0.35)] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 rounded-lg">
           <DialogHeader>
             <div
               className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full"
-              style={{ background: "#F7F8FA" }}
+              style={{ background: "#F6F3EF" }}
             >
-              <Check className="h-6 w-6" strokeWidth={1.5} style={{ color: "#2B8CA8" }} />
+              <Check className="h-6 w-6" strokeWidth={1.5} style={{ color: "#02AD4C" }} />
             </div>
             <DialogTitle className="text-center" style={{ fontWeight: 300 }}>
               Booking Confirmed
@@ -727,7 +727,7 @@ const ConciergeExperience = () => {
                 navigate("/orders");
               }}
               className="w-full rounded-md py-3 text-[12px] uppercase tracking-[0.18em]"
-              style={{ background: "#1A1A2E", color: "#FFFFFF", fontWeight: 500 }}
+              style={{ background: "#302F2D", color: "#FFFFFF", fontWeight: 500 }}
             >
               View my bookings
             </button>

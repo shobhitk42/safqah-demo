@@ -28,25 +28,25 @@ const HeroBanner = () => {
         <div
           aria-hidden
           className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full"
-          style={{ backgroundColor: "rgba(43, 140, 168, 0.08)" }}
+          style={{ backgroundColor: "rgba(2, 173, 76, 0.08)" }}
         />
         <div
           aria-hidden
           className="pointer-events-none absolute -left-14 -bottom-14 h-36 w-36 rounded-full"
-          style={{ backgroundColor: "rgba(43, 140, 168, 0.04)" }}
+          style={{ backgroundColor: "rgba(2, 173, 76, 0.04)" }}
         />
 
         <p
           className="relative text-[10px] uppercase"
-          style={{ color: "#2B8CA8", fontWeight: 600, letterSpacing: "0.28em" }}
+          style={{ color: "#02AD4C", fontWeight: 600, letterSpacing: "0.28em" }}
         >
           {eyebrow}
         </p>
         <h2
           className="relative mt-4 text-[24px] leading-[1.2]"
           style={{
-            fontFamily: "'Inter', 'DM Sans', sans-serif",
-            color: "#1A1A2E",
+            fontFamily: "'IBM Plex Sans Arabic', sans-serif",
+            color: "#302F2D",
             fontWeight: 600,
             letterSpacing: "-0.015em",
           }}
@@ -63,7 +63,7 @@ const HeroBanner = () => {
           onClick={scrollToConcierge}
           className="relative mt-6 inline-flex items-center gap-2 text-[11px] uppercase"
           style={{
-            color: "#2B8CA8",
+            color: "#02AD4C",
             fontWeight: 700,
             letterSpacing: "0.16em",
           }}

@@ -43,14 +43,14 @@ const PromoBanners = () => {
                   <p className="text-[10px] tracking-[0.28em] uppercase text-foreground/50">Featured</p>
                   <p
                     className="mt-3 text-[17px] leading-snug text-foreground"
-                    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: 0 }}
+                    style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontWeight: 400, letterSpacing: 0 }}
                   >
                     {b.title}
                   </p>
                   <p className="mt-2 text-[12px] leading-relaxed text-foreground/55">{b.subtitle}</p>
                   <span
                     className="mt-5 inline-flex items-center gap-1.5 text-[11px] tracking-[0.14em]"
-                    style={{ color: "#2B8CA8" }}
+                    style={{ color: "#02AD4C" }}
                   >
                     Explore <ArrowRight className="h-3 w-3" strokeWidth={1.5} />
                   </span>

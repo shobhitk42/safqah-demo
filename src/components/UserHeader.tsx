@@ -1,7 +1,6 @@
 import { useUser } from "@/contexts/UserContext";
 import { Crown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import comeraLogo from "@/assets/comera-logo.png.asset.json";
 
 const UserHeader = () => {
   const { user } = useUser();
@@ -22,29 +21,28 @@ const UserHeader = () => {
         <div
           aria-hidden
           className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full"
-          style={{ backgroundColor: "rgba(43, 140, 168, 0.06)" }}
+          style={{ backgroundColor: "rgba(2, 173, 76, 0.06)" }}
         />
 
         {/* Top row: logo */}
         <div className="relative flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img
-              src={comeraLogo.url}
-              alt="Comera Pay"
-              className="h-9 w-9 rounded-lg object-contain"
-              style={{ boxShadow: "0 2px 8px -4px rgba(43, 140, 168, 0.35)" }}
-            />
+            <div
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-[18px] font-bold"
+              style={{ backgroundColor: "#FCEE21", color: "#302F2D" }}
+            >
+              S
+            </div>
             <span
               className="text-[18px] leading-none tracking-tight"
               style={{
-                fontFamily: "'Inter', 'DM Sans', sans-serif",
+                fontFamily: "'IBM Plex Sans Arabic', sans-serif",
                 fontWeight: 700,
-                color: "#1A1A2E",
+                color: "#302F2D",
                 letterSpacing: "-0.02em",
               }}
             >
-              comera
-              <span style={{ color: "#2B8CA8" }}>pay</span>
+              Safqah <span style={{ color: "#02AD4C" }}>Capital</span>
             </span>
           </div>
         </div>
@@ -54,7 +52,7 @@ const UserHeader = () => {
           <p
             className="text-[10px] uppercase"
             style={{
-              color: "#2B8CA8",
+              color: "#02AD4C",
               fontWeight: 700,
               letterSpacing: "0.22em",
             }}
@@ -64,8 +62,8 @@ const UserHeader = () => {
           <h1
             className="mt-1.5 leading-[1.05]"
             style={{
-              color: "#1A1A2E",
-              fontFamily: "'Inter', 'DM Sans', sans-serif",
+              color: "#302F2D",
+              fontFamily: "'IBM Plex Sans Arabic', sans-serif",
               fontWeight: 700,
               fontSize: "30px",
               letterSpacing: "-0.028em",
@@ -82,7 +80,7 @@ const UserHeader = () => {
               <span
                 className="tabular-nums leading-none"
                 style={{
-                  color: "#1A1A2E",
+                  color: "#302F2D",
                   fontWeight: 700,
                   fontSize: "28px",
                   letterSpacing: "-0.02em",

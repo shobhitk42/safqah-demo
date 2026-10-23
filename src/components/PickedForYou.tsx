@@ -54,13 +54,13 @@ const PickedForYou = () => {
                   {item.tag && (
                     <>
                       <span aria-hidden>·</span>
-                      <span style={{ color: "#2B8CA8" }}>{item.tag}</span>
+                      <span style={{ color: "#02AD4C" }}>{item.tag}</span>
                     </>
                   )}
                 </div>
                 <h3
                   className="mt-5 text-[16px] leading-snug text-foreground line-clamp-2 min-h-[2.6em]"
-                  style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, letterSpacing: "0.005em" }}
+                  style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontWeight: 500, letterSpacing: "0.005em" }}
                 >
                   {item.name}
                 </h3>
@@ -73,8 +73,8 @@ const PickedForYou = () => {
                     : item.points === "View options" ? item.points : pointsToOmr(item.points)}
                 </p>
                 <button
-                  className="mt-6 inline-flex items-center gap-1.5 text-[12px] tracking-[0.08em] self-start border-b border-transparent group-hover:border-[#2B8CA8] transition-colors"
-                  style={{ color: "#2B8CA8" }}
+                  className="mt-6 inline-flex items-center gap-1.5 text-[12px] tracking-[0.08em] self-start border-b border-transparent group-hover:border-[#02AD4C] transition-colors"
+                  style={{ color: "#02AD4C" }}
                 >
                   View
                   <ArrowRight className="h-3.5 w-3.5" strokeWidth={1.5} />

@@ -36,7 +36,7 @@ const GiftCardDetail = () => {
   if (!card) {
     return (
       <div className="mx-auto min-h-screen max-w-md flex items-center justify-center">
-        <button onClick={() => navigate("/gift-cards")} className="text-[11px] uppercase tracking-[0.24em]" style={{ color: "#2B8CA8" }}>
+        <button onClick={() => navigate("/gift-cards")} className="text-[11px] uppercase tracking-[0.24em]" style={{ color: "#02AD4C" }}>
           ← Back to gift cards
         </button>
       </div>
@@ -47,24 +47,24 @@ const GiftCardDetail = () => {
     return (
       <div className="mx-auto min-h-screen max-w-md pb-24 px-6 pt-6">
         <div className="mt-16 flex flex-col items-center text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "#1A1A2E" }}>
-            <Check className="h-6 w-6" style={{ color: "#2B8CA8" }} strokeWidth={1.5} />
+          <div className="flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "#302F2D" }}>
+            <Check className="h-6 w-6" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
           </div>
-          <p className="mt-6 text-[10px] uppercase tracking-[0.28em]" style={{ color: "rgba(43, 140, 168,0.7)" }}>
+          <p className="mt-6 text-[10px] uppercase tracking-[0.28em]" style={{ color: "rgba(2, 173, 76,0.7)" }}>
             Redemption confirmed
           </p>
           <h1 className="mt-3 text-[26px] leading-tight text-foreground" style={{ fontWeight: 300 }}>
             Your {card.name} card<br />is on its way.
           </h1>
-          <span aria-hidden className="mt-5 block h-px" style={{ width: 60, backgroundColor: "#2B8CA8" }} />
+          <span aria-hidden className="mt-5 block h-px" style={{ width: 60, backgroundColor: "#02AD4C" }} />
           <p className="mt-6 text-[13px] leading-relaxed text-foreground/60 max-w-[300px]">
             AED {amount.toLocaleString()} delivered to {recipient || "your registered email"} within moments. A copy is filed under your orders.
           </p>
 
-          <div className="mt-10 w-full rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(43, 140, 168,0.06)" }}>
+          <div className="mt-10 w-full rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(2, 173, 76,0.06)" }}>
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-[0.24em] text-foreground/50">Points debited</span>
-              <span className="text-[13px] tabular-nums" style={{ color: "#2B8CA8", fontWeight: 500 }}>
+              <span className="text-[13px] tabular-nums" style={{ color: "#02AD4C", fontWeight: 500 }}>
                 {pointsNeeded.toLocaleString()} PTS
               </span>
             </div>
@@ -79,7 +79,7 @@ const GiftCardDetail = () => {
             <button
               onClick={() => navigate("/orders")}
               className="w-full rounded-md py-4 text-[11px] uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-90"
-              style={{ backgroundColor: "#1A1A2E" }}
+              style={{ backgroundColor: "#302F2D" }}
             >
               View in orders
             </button>
@@ -113,15 +113,15 @@ const GiftCardDetail = () => {
       <div className="px-6">
         <div
           className="relative overflow-hidden rounded-md px-7 py-10"
-          style={{ backgroundColor: "#1A1A2E" }}
+          style={{ backgroundColor: "#302F2D" }}
         >
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "#2B8CA8" }} />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "#02AD4C" }} />
           <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full border border-[hsl(0_0%_100%/0.06)]" />
-          <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: "#2B8CA8" }}>{card.category}</p>
+          <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: "#02AD4C" }}>{card.category}</p>
           <h1 className="mt-4 text-[30px] leading-[1.1] text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>{card.name}</h1>
           <p className="mt-5 max-w-[300px] text-[13px] leading-relaxed text-[hsl(0_0%_100%/0.6)]">{card.blurb}</p>
           <div className="mt-8 flex items-baseline gap-2">
-            <span className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#2B8CA8" }}>AED</span>
+            <span className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#02AD4C" }}>AED</span>
             <span className="text-[38px] leading-none tabular-nums text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>
               {amount.toLocaleString()}
             </span>
@@ -145,8 +145,8 @@ const GiftCardDetail = () => {
                     : "text-foreground/70 hover:text-foreground bg-card"
                 }`}
                 style={{
-                  backgroundColor: active ? "#1A1A2E" : undefined,
-                  borderColor: active ? "#1A1A2E" : "#E8E8EE",
+                  backgroundColor: active ? "#302F2D" : undefined,
+                  borderColor: active ? "#302F2D" : "#E8E8EE",
                   fontWeight: 400,
                 }}
               >
@@ -174,10 +174,10 @@ const GiftCardDetail = () => {
       </section>
 
       {/* Summary */}
-      <section className="mx-6 mt-10 rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(43, 140, 168,0.06)" }}>
+      <section className="mx-6 mt-10 rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(2, 173, 76,0.06)" }}>
         <div className="flex items-center justify-between">
           <span className="text-[11px] uppercase tracking-[0.22em] text-foreground/50">Points required</span>
-          <span className="text-[15px] tabular-nums" style={{ color: "#2B8CA8", fontWeight: 500 }}>
+          <span className="text-[15px] tabular-nums" style={{ color: "#02AD4C", fontWeight: 500 }}>
             {pointsNeeded.toLocaleString()} PTS
           </span>
         </div>
@@ -192,7 +192,7 @@ const GiftCardDetail = () => {
       <div className="px-6 mt-6 grid grid-cols-3 gap-4 text-center">
         {[
           { icon: Zap, label: "Instant delivery" },
-          { icon: ShieldCheck, label: "Secure by Comera" },
+          { icon: ShieldCheck, label: "Secure by Safqah" },
           { icon: Gift, label: "No expiry" },
         ].map(({ icon: Icon, label }) => (
           <div key={label} className="flex flex-col items-center gap-2">
@@ -211,7 +211,7 @@ const GiftCardDetail = () => {
           disabled={!canAfford}
           onClick={() => setStep("success")}
           className="w-full rounded-md py-4 text-[11px] uppercase tracking-[0.24em] text-primary-foreground transition-opacity disabled:opacity-40"
-          style={{ backgroundColor: "#1A1A2E" }}
+          style={{ backgroundColor: "#302F2D" }}
         >
           {canAfford ? `Redeem for ${pointsNeeded.toLocaleString()} pts` : "Insufficient points"}
         </button>

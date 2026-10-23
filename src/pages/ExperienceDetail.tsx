@@ -348,12 +348,12 @@ const ExperienceDetail = () => {
       </div>
 
       <Dialog open={confirmed} onOpenChange={setConfirmed}>
-        <DialogContent className="max-w-[360px] rounded-2xl border border-[#2B8CA8]/45 !bg-[#FFFFFF] p-7 shadow-[0_24px_70px_rgba(26, 26, 46,0.24),0_0_0_1px_rgba(43, 140, 168,0.12)] dark:border-[#2B8CA8]/55 dark:!bg-[#1F242D] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_34px_rgba(43, 140, 168,0.18)]">
+        <DialogContent className="max-w-[360px] rounded-2xl border border-[#02AD4C]/45 !bg-[#FFFFFF] p-7 shadow-[0_24px_70px_rgba(26, 26, 46,0.24),0_0_0_1px_rgba(2, 173, 76,0.12)] dark:border-[#02AD4C]/55 dark:!bg-[#1F242D] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_34px_rgba(2, 173, 76,0.18)]">
           <DialogHeader className="space-y-3">
-            <div className="mx-auto mb-1 flex h-12 w-12 items-center justify-center rounded-full border border-[#2B8CA8]/45 bg-[#2B8CA8]/12">
-              <Check className="h-6 w-6 text-[#2B8CA8]" strokeWidth={1.8} />
+            <div className="mx-auto mb-1 flex h-12 w-12 items-center justify-center rounded-full border border-[#02AD4C]/45 bg-[#02AD4C]/12">
+              <Check className="h-6 w-6 text-[#02AD4C]" strokeWidth={1.8} />
             </div>
-            <DialogTitle className="text-center text-[24px] font-light leading-tight text-[#1A1A2E] dark:text-[#FFFFFF]">
+            <DialogTitle className="text-center text-[24px] font-light leading-tight text-[#302F2D] dark:text-[#FFFFFF]">
               Booking Confirmed
             </DialogTitle>
             <DialogDescription className="text-center text-sm leading-6 text-[#6B6B7A] dark:text-[#FFFFFF]/75">
@@ -366,7 +366,7 @@ const ExperienceDetail = () => {
                 setConfirmed(false);
                 navigate("/orders");
               }}
-              className="w-full rounded-xl bg-[#2B8CA8] py-3 text-sm font-semibold text-[#1A1A2E] shadow-[0_10px_28px_rgba(43, 140, 168,0.28)] transition hover:translate-y-[-1px] hover:shadow-[0_14px_34px_rgba(43, 140, 168,0.34)]"
+              className="w-full rounded-xl bg-[#02AD4C] py-3 text-sm font-semibold text-[#302F2D] shadow-[0_10px_28px_rgba(2, 173, 76,0.28)] transition hover:translate-y-[-1px] hover:shadow-[0_14px_34px_rgba(2, 173, 76,0.34)]"
             >
               View my bookings
             </button>

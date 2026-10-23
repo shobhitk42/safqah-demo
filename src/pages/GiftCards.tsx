@@ -152,11 +152,11 @@ const GiftCardsPage = () => {
                   : "cursor-default opacity-95"
               }`}
               style={{
-                borderColor: card.slug ? "#2B8CA8" : "#E8E8EE",
-                boxShadow: card.slug ? "0 2px 12px rgba(43, 140, 168,0.08)" : undefined,
+                borderColor: card.slug ? "#02AD4C" : "#E8E8EE",
+                boxShadow: card.slug ? "0 2px 12px rgba(2, 173, 76,0.08)" : undefined,
               }}
             >
-              <div className="aspect-[4/3] w-full bg-white flex items-center justify-center p-4 border-b border-[#F7F8FA]">
+              <div className="aspect-[4/3] w-full bg-white flex items-center justify-center p-4 border-b border-[#F6F3EF]">
                 {card.image ? (
                   <img
                     src={card.image}
@@ -188,7 +188,7 @@ const GiftCardsPage = () => {
               <div className="p-2.5">
                 <p className="text-[12px] font-semibold text-card-foreground leading-tight truncate">{card.name}</p>
                 {card.slug ? (
-                  <p className="mt-1.5 text-[10px] uppercase tracking-[0.2em]" style={{ color: "#2B8CA8" }}>
+                  <p className="mt-1.5 text-[10px] uppercase tracking-[0.2em]" style={{ color: "#02AD4C" }}>
                     Redeem →
                   </p>
                 ) : (

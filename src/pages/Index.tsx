@@ -1,10 +1,11 @@
 import UserHeader from "@/components/UserHeader";
-import CategoryNav from "@/components/CategoryNav";
+// import CategoryNav from "@/components/CategoryNav"; // replaced by CategoryGrid
+import CategoryGrid from "@/components/CategoryGrid";
 import HeroBanner from "@/components/HeroBanner";
 import TierBanner from "@/components/TierBanner";
 import ShopByCategory from "@/components/ShopByCategory";
 import TrendingSection from "@/components/TrendingSection";
-import UserSwitcher from "@/components/UserSwitcher";
+// import UserSwitcher from "@/components/UserSwitcher"; // hidden
 import PickedForYou from "@/components/PickedForYou";
 
 
@@ -21,8 +22,9 @@ const Index = () => {
   return (
     <div className="mx-auto min-h-screen max-w-md bg-transparent pb-24">
       <UserHeader />
-      <UserSwitcher />
-      <CategoryNav />
+      {/* <UserSwitcher /> */}
+      {/* <CategoryNav /> */}
+      <CategoryGrid />
       <HeroBanner />
       {mode === "points" && <TierBanner />}
       

@@ -72,10 +72,10 @@ const ahmedProfile: UserProfile = {
     { id: "anchor", name: "Anchor", icon: "⚓", earned: false, description: "Pay 6 consecutive monthly bills on time" },
   ],
   milestones: [
-    { id: "m1", label: "Spend AED 15,000 with Comera Pay in the UAE", target: 15000, current: 11200, reward: "🎁 5,000 Bonus Points", role: "consumer" },
+    { id: "m1", label: "Spend AED 15,000 with Safqah Capital in the UAE", target: 15000, current: 11200, reward: "🎁 5,000 Bonus Points", role: "consumer" },
     { id: "m2", label: "Complete 5 UAE Merchant Transactions", target: 5, current: 2, reward: "✈️ Complimentary Airport Lounge Pass", role: "consumer" },
-    { id: "m3", label: "Process AED 20,000 in sales through Comera Pay", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
-    { id: "m4", label: "Onboard 10 customers via Comera Pay", target: 10, current: 6, reward: "🏷️ Merchant Fee Waiver", role: "merchant" },
+    { id: "m3", label: "Process AED 20,000 in sales through Safqah Capital", target: 20000, current: 14500, reward: "🎁 8,000 Bonus Points", role: "merchant" },
+    { id: "m4", label: "Onboard 10 customers via Safqah Capital", target: 10, current: 6, reward: "🏷️ Merchant Fee Waiver", role: "merchant" },
   ],
   pickedForYou: [
     { id: "esports-arena", name: "F1 Esports Arena Night", category: "Experiences", points: "View options", image: esportsImg, tag: "For you" },

@@ -82,13 +82,13 @@ const ConciergeNotification = () => {
 
         <div className="mb-2 flex items-center gap-2">
           {activeUser === "consumer" ? (
-            <Building2 className="h-3.5 w-3.5" strokeWidth={1.5} style={{ color: "#2B8CA8" }} />
+            <Building2 className="h-3.5 w-3.5" strokeWidth={1.5} style={{ color: "#02AD4C" }} />
           ) : (
-            <Send className="h-3.5 w-3.5" strokeWidth={1.5} style={{ color: "#2B8CA8" }} />
+            <Send className="h-3.5 w-3.5" strokeWidth={1.5} style={{ color: "#02AD4C" }} />
           )}
           <p
             className="text-[10px] uppercase"
-            style={{ color: "#2B8CA8", fontWeight: 600, letterSpacing: "0.05em" }}
+            style={{ color: "#02AD4C", fontWeight: 600, letterSpacing: "0.05em" }}
           >
             Curated for you
           </p>
@@ -97,7 +97,7 @@ const ConciergeNotification = () => {
 
         <p
           className="mb-4 pr-6 text-[14px] leading-relaxed"
-          style={{ color: "#1A1A2E", fontWeight: 400 }}
+          style={{ color: "#302F2D", fontWeight: 400 }}
         >
           {message}
         </p>
@@ -105,7 +105,7 @@ const ConciergeNotification = () => {
         <button
           onClick={(e) => { e.stopPropagation(); handleView(); }}
           className="text-[11px] uppercase tracking-[0.14em]"
-          style={{ color: "#2B8CA8", fontWeight: 600 }}
+          style={{ color: "#02AD4C", fontWeight: 600 }}
         >
           View benefit →
         </button>

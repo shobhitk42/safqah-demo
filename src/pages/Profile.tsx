@@ -19,19 +19,19 @@ const WalletCard = ({ title, icon, redeemable, pending, pendingLabel, footnote }
     <div className="rounded-2xl bg-white border border-[#E8E8EE] shadow-[0_8px_24px_-12px_rgba(26,26,46,0.10)] overflow-hidden">
       {/* Ratio bar */}
       <div className="flex h-1.5 w-full">
-        <div style={{ width: `${redeemablePct}%`, backgroundColor: "#2B8CA8" }} />
+        <div style={{ width: `${redeemablePct}%`, backgroundColor: "#02AD4C" }} />
         <div style={{ width: `${100 - redeemablePct}%`, backgroundColor: "#E8C77A" }} />
       </div>
       <div className="p-5">
         <div className="flex items-center gap-2 mb-4">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#2B8CA8]/10 text-[#2B8CA8]">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#02AD4C]/10 text-[#02AD4C]">
             {icon}
           </span>
-          <h4 className="text-[14px] font-bold text-[#1A1A2E]">{title}</h4>
+          <h4 className="text-[14px] font-bold text-[#302F2D]">{title}</h4>
         </div>
         <div className="flex items-baseline justify-between">
           <span className="text-[12px] text-[#6B6B7A]">Redeemable Points</span>
-          <span className="tabular-nums text-[22px] font-bold" style={{ color: "#2B8CA8" }}>
+          <span className="tabular-nums text-[22px] font-bold" style={{ color: "#02AD4C" }}>
             {redeemable.toLocaleString()} <span className="text-[11px] font-semibold">pts</span>
           </span>
         </div>
@@ -63,13 +63,13 @@ const ProfilePage = () => {
       </div>
 
       {/* Profile Card */}
-      <div className="mx-4 rounded-2xl bg-white border border-[#2B8CA8]/40 shadow-[0_8px_28px_rgba(43, 140, 168,0.15)] dark:bg-[#1F242D] dark:border-[#2B8CA8]/30 dark:shadow-[0_8px_32px_rgba(43, 140, 168,0.12)] p-5 mb-6">
+      <div className="mx-4 rounded-2xl bg-white border border-[#02AD4C]/40 shadow-[0_8px_28px_rgba(2, 173, 76,0.15)] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)] p-5 mb-6">
         <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#2B8CA8]/15 text-[#1A1A2E] dark:text-[#FFFFFF] text-xl font-bold">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#02AD4C]/15 text-[#302F2D] dark:text-[#FFFFFF] text-xl font-bold">
             {initials}
           </div>
           <div>
-            <h2 className="text-lg font-bold text-[#1A1A2E] dark:text-[#FFFFFF]">{user.name}</h2>
+            <h2 className="text-lg font-bold text-[#302F2D] dark:text-[#FFFFFF]">{user.name}</h2>
           </div>
         </div>
       </div>
@@ -162,33 +162,33 @@ const ProfilePage = () => {
 
       {/* Appearance */}
       <div className="px-4 mt-6">
-        <h3 className="text-[10px] tracking-[0.28em] uppercase mb-3" style={{ color: "#2B8CA8", fontWeight: 600 }}>
+        <h3 className="text-[10px] tracking-[0.28em] uppercase mb-3" style={{ color: "#02AD4C", fontWeight: 600 }}>
           Appearance
         </h3>
-        <div className="rounded-xl border overflow-hidden bg-white border-[#E8E8EE] dark:bg-[#1F242D] dark:border-[#2B8CA8]/30 dark:shadow-[0_8px_32px_rgba(43, 140, 168,0.12)]">
+        <div className="rounded-xl border overflow-hidden bg-white border-[#E8E8EE] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 dark:shadow-[0_8px_32px_rgba(2, 173, 76,0.12)]">
           <div className="flex items-center gap-3 px-4 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: "rgba(43, 140, 168,0.12)" }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ backgroundColor: "rgba(2, 173, 76,0.12)" }}>
               {theme === "dark" ? (
-                <Moon className="h-4 w-4" style={{ color: "#2B8CA8" }} strokeWidth={1.5} />
+                <Moon className="h-4 w-4" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
               ) : (
-                <Sun className="h-4 w-4" style={{ color: "#2B8CA8" }} strokeWidth={1.5} />
+                <Sun className="h-4 w-4" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
               )}
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-[#1A1A2E] dark:text-[#FFFFFF]">Theme</p>
+              <p className="text-sm font-medium text-[#302F2D] dark:text-[#FFFFFF]">Theme</p>
               <p className="text-[11px] text-[#6B6B7A] dark:text-[#FFFFFF]/60">
                 {theme === "dark" ? "After-hours — dark ivory on charcoal" : "Daylight — warm ivory"}
               </p>
             </div>
             <div
-              className="flex rounded-full p-0.5 border bg-[rgba(26, 26, 46,0.06)] border-[#E8E8EE] dark:bg-[rgba(43, 140, 168,0.08)] dark:border-[#2B8CA8]/30"
+              className="flex rounded-full p-0.5 border bg-[rgba(26, 26, 46,0.06)] border-[#E8E8EE] dark:bg-[rgba(2, 173, 76,0.08)] dark:border-[#02AD4C]/30"
             >
               <button
                 onClick={() => setTheme("light")}
                 className="px-3 py-1 text-[10px] tracking-[0.22em] uppercase rounded-full transition-all"
                 style={{
-                  backgroundColor: theme === "light" ? "#1A1A2E" : "transparent",
-                  color: theme === "light" ? "#2B8CA8" : "#6B6B7A",
+                  backgroundColor: theme === "light" ? "#302F2D" : "transparent",
+                  color: theme === "light" ? "#02AD4C" : "#6B6B7A",
                   fontWeight: 500,
                 }}
               >
@@ -198,8 +198,8 @@ const ProfilePage = () => {
                 onClick={() => setTheme("dark")}
                 className="px-3 py-1 text-[10px] tracking-[0.22em] uppercase rounded-full transition-all"
                 style={{
-                  backgroundColor: theme === "dark" ? "#2B8CA8" : "transparent",
-                  color: theme === "dark" ? "#1A1A2E" : "#6B6B7A",
+                  backgroundColor: theme === "dark" ? "#02AD4C" : "transparent",
+                  color: theme === "dark" ? "#302F2D" : "#6B6B7A",
                   fontWeight: 500,
                 }}
               >

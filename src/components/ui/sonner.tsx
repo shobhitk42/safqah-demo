@@ -15,7 +15,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast !bg-card !text-foreground !border !border-[#2B8CA8]/40 !shadow-xl backdrop-blur-none",
+            "group toast !bg-card !text-foreground !border !border-[#02AD4C]/40 !shadow-xl backdrop-blur-none",
           description: "group-[.toast]:text-muted-foreground",
           actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
           cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
@@ -23,7 +23,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         style: {
           background: "hsl(var(--card))",
           color: "hsl(var(--foreground))",
-          border: "1px solid rgba(43, 140, 168,0.4)",
+          border: "1px solid rgba(2, 173, 76,0.4)",
         },
       }}
       {...props}

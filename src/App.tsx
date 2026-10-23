@@ -31,6 +31,11 @@ import MobileTopup from "./pages/MobileTopup.tsx";
 import Offers from "./pages/Offers.tsx";
 import OfferDetail from "./pages/OfferDetail.tsx";
 
+import BrandStore from "./pages/BrandStore.tsx";
+import InstantPurchase from "./pages/InstantPurchase.tsx";
+import Donations from "./pages/Donations.tsx";
+import PeerTransfer from "./pages/PeerTransfer.tsx";
+
 const queryClient = new QueryClient();
 
 import { UserProvider } from "@/contexts/UserContext";
@@ -74,6 +79,10 @@ const App = () => (
           <Route path="/play-win" element={<PlayAndWin />} />
           <Route path="/cashback" element={<Cashback />} />
           <Route path="/mobile-topup" element={<MobileTopup />} />
+          <Route path="/store/:brand" element={<BrandStore />} />
+          <Route path="/instant-purchase" element={<InstantPurchase />} />
+          <Route path="/donations" element={<Donations />} />
+          <Route path="/p2p-transfer" element={<PeerTransfer />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

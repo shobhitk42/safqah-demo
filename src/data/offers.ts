@@ -28,7 +28,7 @@ export const offers: Offer[] = [
     value: "10% cashback up to AED 50",
     image: offerNoon,
     description:
-      "Shop on noon.com and earn 10% cashback (up to AED 50) on your next purchase. Minimum spend AED 100. Cashback credited as Comera Pay points within 48 hours.",
+      "Shop on noon.com and earn 10% cashback (up to AED 50) on your next purchase. Minimum spend AED 100. Cashback credited as Safqah Capital points within 48 hours.",
   },
   {
     slug: "costa-bogo",
@@ -37,7 +37,7 @@ export const offers: Offer[] = [
     value: "Buy 1, get 1 free",
     image: offerCosta,
     description:
-      "Enjoy a buy-one-get-one-free handcrafted beverage at any Costa Coffee outlet across the UAE. Show your Comera Pay app QR code at the counter. One redemption per customer per day.",
+      "Enjoy a buy-one-get-one-free handcrafted beverage at any Costa Coffee outlet across the UAE. Show your Safqah Capital app QR code at the counter. One redemption per customer per day.",
   },
   {
     slug: "deliveroo-75",
@@ -46,7 +46,7 @@ export const offers: Offer[] = [
     value: "AED 75 off",
     image: offerDeliveroo,
     description:
-      "Get AED 75 off your Deliveroo order when you spend AED 150 or more. Apply the promo code from your Comera Pay app at checkout. Valid for one use per customer.",
+      "Get AED 75 off your Deliveroo order when you spend AED 150 or more. Apply the promo code from your Safqah Capital app at checkout. Valid for one use per customer.",
   },
   {
     slug: "carrefour-triple",
@@ -55,7 +55,7 @@ export const offers: Offer[] = [
     value: "3x points weekends",
     image: offerCarrefour,
     description:
-      "Earn 3x Comera Pay points on every purchase at Carrefour when you pay with your Comera Visa card on Fridays and Saturdays throughout August. No minimum spend.",
+      "Earn 3x Safqah Capital points on every purchase at Carrefour when you pay with your Comera Visa card on Fridays and Saturdays throughout August. No minimum spend.",
   },
   {
     slug: "booking-100",
@@ -64,7 +64,7 @@ export const offers: Offer[] = [
     value: "AED 100 off stays",
     image: offerBooking,
     description:
-      "Save AED 100 on your next hotel booking of AED 500 or more on Booking.com. Exclusive for Comera Pay cardholders. Use the unique link from your Offers screen.",
+      "Save AED 100 on your next hotel booking of AED 500 or more on Booking.com. Exclusive for Safqah Capital cardholders. Use the unique link from your Offers screen.",
   },
   {
     slug: "reel-cinemas-20",
@@ -73,7 +73,7 @@ export const offers: Offer[] = [
     value: "20% off tickets",
     image: offerReel,
     description:
-      "Get 20% off movie tickets at any Reel Cinemas location in the UAE. Applies to Standard, Premium, and Platinum screens. Show your Comera Pay QR code at the box office.",
+      "Get 20% off movie tickets at any Reel Cinemas location in the UAE. Applies to Standard, Premium, and Platinum screens. Show your Safqah Capital QR code at the box office.",
   },
   {
     slug: "namshi-25",
@@ -82,7 +82,7 @@ export const offers: Offer[] = [
     value: "Flat 25% off",
     image: offerNamshi,
     description:
-      "Get a flat 25% discount on fashion, footwear, and accessories on Namshi. Apply the exclusive Comera Pay promo code at checkout. Valid on full-price items. Minimum order AED 200.",
+      "Get a flat 25% discount on fashion, footwear, and accessories on Namshi. Apply the exclusive Safqah Capital promo code at checkout. Valid on full-price items. Minimum order AED 200.",
   },
   {
     slug: "aster-15",
@@ -91,7 +91,7 @@ export const offers: Offer[] = [
     value: "15% off wellness",
     image: offerAster,
     description:
-      "Save 15% on vitamins, supplements, skincare, and personal care products at any Aster Pharmacy outlet in the UAE. Show your Comera Pay app at checkout.",
+      "Save 15% on vitamins, supplements, skincare, and personal care products at any Aster Pharmacy outlet in the UAE. Show your Safqah Capital app at checkout.",
   },
   {
     slug: "sharaf-50",
@@ -109,7 +109,7 @@ export const offers: Offer[] = [
     value: "Free delivery x 7 days",
     image: offerTalabat,
     description:
-      "Enjoy free delivery on all Talabat orders for an entire week after activation. No minimum order value. Activate from your Comera Pay Offers screen.",
+      "Enjoy free delivery on all Talabat orders for an entire week after activation. No minimum order value. Activate from your Safqah Capital Offers screen.",
   },
   {
     slug: "emirates-10",
@@ -118,7 +118,7 @@ export const offers: Offer[] = [
     value: "Up to 10% off fares",
     image: offerEmirates,
     description:
-      "Book flights on emirates.com and get up to 10% off Economy and Business class fares. Exclusive for Comera Pay Platinum and Infinite cardholders.",
+      "Book flights on emirates.com and get up to 10% off Economy and Business class fares. Exclusive for Safqah Capital Platinum and Infinite cardholders.",
   },
   {
     slug: "lulu-b2g1",
@@ -127,7 +127,7 @@ export const offers: Offer[] = [
     value: "Buy 2 Get 1 Free",
     image: offerLulu,
     description:
-      "Buy any 2 items and get 1 free across select product categories at Lulu Hypermarket. Valid on personal care, snacks, and household items. Show your Comera Pay QR at checkout.",
+      "Buy any 2 items and get 1 free across select product categories at Lulu Hypermarket. Valid on personal care, snacks, and household items. Show your Safqah Capital QR at checkout.",
   },
 ];
 

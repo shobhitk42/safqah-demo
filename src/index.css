@@ -2,112 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Comera Pay — Modern fintech design system.
-   Palette: white #FFFFFF, charcoal #1A1A2E, teal accent #2B8CA8.
+/* Safqah Capital — Modern fintech design system.
+   Palette: Aureolin #FCEE21, Green #02AD4C, Viridian #277D57, Jet #302F2D, Isabelline #F6F3EF.
    All colors MUST be HSL. */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
     /* Core surfaces */
     --background: 0 0% 100%;              /* #FFFFFF */
-    --foreground: 240 27% 14%;            /* #1A1A2E */
+    --foreground: 40 3% 18%;            /* #302F2D */
 
     --card: 0 0% 100%;
-    --card-foreground: 240 27% 14%;
+    --card-foreground: 40 3% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 27% 14%;
+    --popover-foreground: 40 3% 18%;
 
     /* Teal accent */
-    --primary: 194 59% 41%;                 /* #2B8CA8 */
+    --primary: 144 98% 34%;                 /* #02AD4C */
     --primary-foreground: 0 0% 100%;
-    --primary-deep: 200 65% 32%;
-    --primary-soft: 194 33% 93%;           /* #E6F2F6 */
+    --primary-deep: 156 52% 33%;
+    --primary-soft: 144 50% 94%;           /* #E6F6EC */
 
-    --secondary: 220 14% 97%;             /* #F7F8FA */
-    --secondary-foreground: 240 27% 14%;
+    --secondary: 33 28% 95%;             /* #F6F3EF */
+    --secondary-foreground: 40 3% 18%;
 
-    --muted: 220 14% 97%;
-    --muted-foreground: 240 6% 45%;       /* cool gray */
+    --muted: 33 28% 95%;
+    --muted-foreground: 40 4% 45%;       /* cool gray */
 
-    --accent: 194 59% 41%;                /* teal */
+    --accent: 144 98% 34%;                /* teal */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 8% 92%;                 /* #E8E8EE */
-    --input: 240 8% 92%;
-    --ring: 194 59% 41%;
+    --border: 33 12% 88%;                 /* #E8E8EE */
+    --input: 33 12% 88%;
+    --ring: 144 98% 34%;
 
     --radius: 0.75rem;
 
     /* Legacy token aliases — remap onto the new palette */
-    --reward-gold: 194 59% 41%;
+    --reward-gold: 144 98% 34%;
     --reward-gold-foreground: 0 0% 100%;
 
-    --tier-silver: 240 6% 60%;
-    --tier-gold: 194 59% 41%;
-    --tier-platinum: 194 59% 41%;
-    --tier-diamond: 194 59% 41%;
+    --tier-silver: 40 4% 60%;
+    --tier-gold: 144 98% 34%;
+    --tier-platinum: 144 98% 34%;
+    --tier-diamond: 144 98% 34%;
 
-    --tint-green: 220 14% 97%;
-    --tint-green-accent: 194 59% 41%;
-    --tint-orange: 220 14% 97%;
-    --tint-orange-accent: 194 59% 41%;
-    --tint-pink: 194 33% 93%;
-    --tint-pink-accent: 194 59% 41%;
-    --tint-yellow: 194 33% 93%;
+    --tint-green: 33 28% 95%;
+    --tint-green-accent: 144 98% 34%;
+    --tint-orange: 33 28% 95%;
+    --tint-orange-accent: 144 98% 34%;
+    --tint-pink: 144 50% 94%;
+    --tint-pink-accent: 144 98% 34%;
+    --tint-yellow: 144 50% 94%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
-    --gradient-warm: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
-    --gradient-game: linear-gradient(135deg, hsl(194 59% 41%), hsl(200 65% 32%));
-    --gradient-gold: linear-gradient(135deg, hsl(194 55% 50%), hsl(200 65% 32%));
-    --shadow-card: 0 1px 2px rgba(26, 26, 46, 0.04), 0 2px 8px rgba(26, 26, 46, 0.04);
-    --shadow-elegant: 0 20px 50px -24px hsl(240 27% 14% / 0.18);
+    --gradient-primary: linear-gradient(135deg, hsl(144 98% 34%), hsl(156 52% 33%));
+    --gradient-warm: linear-gradient(135deg, hsl(144 98% 34%), hsl(156 52% 33%));
+    --gradient-game: linear-gradient(135deg, hsl(144 98% 34%), hsl(156 52% 33%));
+    --gradient-gold: linear-gradient(135deg, hsl(144 98% 40%), hsl(156 52% 33%));
+    --shadow-card: 0 1px 2px rgba(48, 47, 45, 0.04), 0 2px 8px rgba(48, 47, 45, 0.04);
+    --shadow-elegant: 0 20px 50px -24px hsl(40 3% 18% / 0.18);
 
-    --hero-gradient-start: 194 59% 41%;
-    --hero-gradient-end: 200 65% 32%;
+    --hero-gradient-start: 144 98% 34%;
+    --hero-gradient-end: 156 52% 33%;
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 27% 14%;
-    --sidebar-primary: 194 59% 41%;
+    --sidebar-foreground: 40 3% 18%;
+    --sidebar-primary: 144 98% 34%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 97%;
-    --sidebar-accent-foreground: 240 27% 14%;
-    --sidebar-border: 240 8% 92%;
-    --sidebar-ring: 194 59% 41%;
+    --sidebar-accent: 33 28% 95%;
+    --sidebar-accent-foreground: 40 3% 18%;
+    --sidebar-border: 33 12% 88%;
+    --sidebar-ring: 144 98% 34%;
   }
 
   .dark {
-    --background: 240 27% 10%;
+    --background: 40 3% 12%;
     --foreground: 0 0% 100%;
-    --card: 240 20% 14%;
+    --card: 40 3% 16%;
     --card-foreground: 0 0% 100%;
-    --popover: 240 20% 14%;
+    --popover: 40 3% 16%;
     --popover-foreground: 0 0% 100%;
-    --primary: 194 55% 55%;
+    --primary: 144 70% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 15% 18%;
+    --secondary: 40 3% 20%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 240 15% 18%;
-    --muted-foreground: 240 10% 70%;
-    --accent: 194 55% 55%;
+    --muted: 40 3% 20%;
+    --muted-foreground: 40 5% 70%;
+    --accent: 144 70% 45%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 15% 22%;
-    --input: 240 15% 22%;
-    --ring: 194 55% 55%;
-    --sidebar-background: 240 27% 10%;
+    --border: 40 3% 24%;
+    --input: 40 3% 24%;
+    --ring: 144 70% 45%;
+    --sidebar-background: 40 3% 12%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 194 55% 55%;
+    --sidebar-primary: 144 70% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 15% 18%;
+    --sidebar-accent: 40 3% 20%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 240 15% 22%;
-    --sidebar-ring: 194 55% 55%;
+    --sidebar-border: 40 3% 24%;
+    --sidebar-ring: 144 70% 45%;
   }
 }
 
@@ -118,7 +118,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
     font-weight: 400;
     font-size: 15.5px;
     line-height: 1.55;
@@ -128,13 +128,13 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "ss01", "cv11", "kern", "liga", "calt";
     font-optical-sizing: auto;
-    color: #1A1A2E;
+    color: #302F2D;
     min-height: 100vh;
     /* Elegant canvas — soft cool white with a whisper of teal at the top edge */
-    background-color: #F7F8FA;
+    background-color: #F6F3EF;
     background-image:
-      radial-gradient(1200px 600px at 50% -20%, rgba(43, 140, 168, 0.05), transparent 70%),
-      linear-gradient(180deg, #FFFFFF 0%, #F7F8FA 260px);
+      radial-gradient(1200px 600px at 50% -20%, rgba(2, 173, 76, 0.05), transparent 70%),
+      linear-gradient(180deg, #FFFFFF 0%, #F6F3EF 260px);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -143,35 +143,35 @@
 
   /* Dark theme body */
   html.dark body {
-    background-color: #14142B;
+    background-color: #252422;
     color: #F5F5FA;
     color: #E8E8EE;
   }
   html.dark h1, html.dark h2, html.dark h3,
   html.dark h4, html.dark h5, html.dark h6 {
-    color: #F7F8FA;
+    color: #F6F3EF;
   }
   /* Neutralize hardcoded light-mode charcoal text */
-  html.dark [style*="#1A1A2E"],
-  html.dark [style*="#1A1A2E"],
-  html.dark [style*="hsl(240 27% 14%)"] {
-    color: #F7F8FA !important;
+  html.dark [style*="#302F2D"],
+  html.dark [style*="#302F2D"],
+  html.dark [style*="hsl(40 3% 18%)"] {
+    color: #F6F3EF !important;
   }
   /* Convert white surfaces to deep charcoal cards */
   html.dark .bg-white,
   html.dark [style*="#FFFFFF"],
   html.dark [style*="#ffffff"] {
-    background-color: #1B2029 !important;
+    background-color: #302F2D !important;
     box-shadow:
-      0 1px 0 rgba(43, 140, 168, 0.10) inset,
+      0 1px 0 rgba(2, 173, 76, 0.10) inset,
       0 8px 24px -18px rgba(0, 0, 0, 0.6) !important;
   }
   /* Soften ivory borders to a whisper of teal */
   html.dark [style*="#E8E8EE"],
   html.dark [style*="#E8E8EE"],
-  html.dark [style*="#E6F2F6"],
-  html.dark [style*="#F7F8FA"] {
-    border-color: rgba(43, 140, 168, 0.28) !important;
+  html.dark [style*="#E6F6EC"],
+  html.dark [style*="#F6F3EF"] {
+    border-color: rgba(2, 173, 76, 0.28) !important;
   }
   /* Muted foreground text (near-black to warm ivory) */
   html.dark [style*="#6B6B7A"],
@@ -180,62 +180,62 @@
     color: rgba(245, 239, 224, 0.6) !important;
   }
   /* Progress track darker */
-  html.dark .bg-\[\#E6F2F6\] { background-color: rgba(43, 140, 168,0.15) !important; }
+  html.dark .bg-\[\#E6F6EC\] { background-color: rgba(2, 173, 76,0.15) !important; }
 
   /* Tier premium card — retune for dark */
   html.dark .tier-premium {
     background:
-      radial-gradient(120% 90% at 50% 0%, rgba(43, 140, 168, 0.10) 0%, rgba(43, 140, 168, 0) 55%),
-      #1A1A2E !important;
+      radial-gradient(120% 90% at 50% 0%, rgba(2, 173, 76, 0.10) 0%, rgba(2, 173, 76, 0) 55%),
+      #302F2D !important;
     box-shadow:
-      0 1px 0 rgba(43, 140, 168, 0.25) inset,
+      0 1px 0 rgba(2, 173, 76, 0.25) inset,
       0 1px 2px rgba(0, 0, 0, 0.4),
-      0 10px 30px -18px rgba(43, 140, 168, 0.35);
+      0 10px 30px -18px rgba(2, 173, 76, 0.35);
   }
 
   /* Hero banner (charcoal on charcoal) — lift with teal hairline */
-  html.dark [style*="hsl(240 27% 14%)"] {
+  html.dark [style*="hsl(40 3% 18%)"] {
     /* text color already handled above; when used as bg, add a soft teal outline */
-    box-shadow: inset 0 0 0 1px rgba(43, 140, 168, 0.18);
+    box-shadow: inset 0 0 0 1px rgba(2, 173, 76, 0.18);
   }
   /* Hero container specifically — deepen bg so it separates from page */
-  html.dark section > div[style*="background-color: hsl(240 27% 14%)"],
-  html.dark div[style*="background-color: hsl(240 27% 14%)"] {
+  html.dark section > div[style*="background-color: hsl(40 3% 18%)"],
+  html.dark div[style*="background-color: hsl(40 3% 18%)"] {
     background-color: #1F242D !important;
     box-shadow:
-      inset 0 0 0 1px rgba(43, 140, 168, 0.28),
+      inset 0 0 0 1px rgba(2, 173, 76, 0.28),
       0 10px 30px -18px rgba(0, 0, 0, 0.6) !important;
   }
 
   /* Tier ladder labels & hairlines — swap dark charcoal for warm ivory */
-  html.dark [style*="hsl(240 27% 14% / 0.4)"] { color: rgba(245, 239, 224, 0.45) !important; }
-  html.dark [style*="hsl(240 27% 14% / 0.2)"] { background-color: rgba(43, 140, 168, 0.25) !important; }
-  html.dark .border-\[\#E8E8EE\] { border-color: rgba(43, 140, 168, 0.18) !important; }
-  html.dark .bg-\[\#E6F2F6\] { background-color: rgba(43, 140, 168, 0.18) !important; }
-  html.dark [class*="border-[hsl(0_0%_100%"] { border-color: rgba(43, 140, 168, 0.14) !important; }
+  html.dark [style*="hsl(40 3% 18% / 0.4)"] { color: rgba(245, 239, 224, 0.45) !important; }
+  html.dark [style*="hsl(40 3% 18% / 0.2)"] { background-color: rgba(2, 173, 76, 0.25) !important; }
+  html.dark .border-\[\#E8E8EE\] { border-color: rgba(2, 173, 76, 0.18) !important; }
+  html.dark .bg-\[\#E6F6EC\] { background-color: rgba(2, 173, 76, 0.18) !important; }
+  html.dark [class*="border-[hsl(0_0%_100%"] { border-color: rgba(2, 173, 76, 0.14) !important; }
 
   /* Progress bar fill — force teal in dark */
-  html.dark [role="progressbar"] > * { background-color: #2B8CA8 !important; }
+  html.dark [role="progressbar"] > * { background-color: #02AD4C !important; }
 
   /* Concierge notification remains dark; ensure inner text stays ivory */
-  html.dark [style*="#F7F8FA"], html.dark [style*="#FFFFFF"] { color: #F7F8FA !important; }
+  html.dark [style*="#F6F3EF"], html.dark [style*="#FFFFFF"] { color: #F6F3EF !important; }
 
   /* Tier ladder — theme-aware */
-  .tier-dot-on  { background-color: #2B8CA8; }
-  .tier-dot-off { background-color: rgba(26, 26, 46, 0.2); }
-  .tier-label-on  { color: hsl(240 27% 14%); }
-  .tier-label-off { color: hsl(240 27% 14% / 0.4); }
-  html.dark .tier-dot-off  { background-color: rgba(43, 140, 168, 0.3); }
-  html.dark .tier-label-on { color: #F7F8FA; }
+  .tier-dot-on  { background-color: #02AD4C; }
+  .tier-dot-off { background-color: rgba(48, 47, 45, 0.2); }
+  .tier-label-on  { color: hsl(40 3% 18%); }
+  .tier-label-off { color: hsl(40 3% 18% / 0.4); }
+  html.dark .tier-dot-off  { background-color: rgba(2, 173, 76, 0.3); }
+  html.dark .tier-label-on { color: #F6F3EF; }
   html.dark .tier-label-off{ color: rgba(245, 239, 224, 0.5); }
-  html.dark .tier-ladder   { border-top-color: rgba(43, 140, 168, 0.18) !important; }
+  html.dark .tier-ladder   { border-top-color: rgba(2, 173, 76, 0.18) !important; }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.15;
-    color: #1A1A2E;
+    color: #302F2D;
     font-optical-sizing: auto;
     font-feature-settings: "ss01", "kern", "liga";
   }
@@ -252,19 +252,19 @@
   }
 
   .font-display {
-    font-family: 'Inter', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
     font-optical-sizing: auto;
     font-feature-settings: "ss01", "kern", "liga", "dlig", "lnum";
     letter-spacing: -0.022em;
   }
 
   .eyebrow {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-weight: 500;
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #2B8CA8;
+    color: #02AD4C;
   }
 }
 
@@ -313,15 +313,15 @@
   @keyframes tier-glow-pulse {
     0%, 100% {
       box-shadow:
-        0 0 0 1px rgba(43, 140, 168, 0.10),
-        0 2px 14px rgba(43, 140, 168, 0.16),
-        0 8px 40px rgba(43, 140, 168, 0.12);
+        0 0 0 1px rgba(2, 173, 76, 0.10),
+        0 2px 14px rgba(2, 173, 76, 0.16),
+        0 8px 40px rgba(2, 173, 76, 0.12);
     }
     50% {
       box-shadow:
-        0 0 0 1px rgba(43, 140, 168, 0.18),
-        0 4px 20px rgba(43, 140, 168, 0.28),
-        0 12px 56px rgba(43, 140, 168, 0.22);
+        0 0 0 1px rgba(2, 173, 76, 0.18),
+        0 4px 20px rgba(2, 173, 76, 0.28),
+        0 12px 56px rgba(2, 173, 76, 0.22);
     }
   }
   .tier-card-glow {
@@ -330,10 +330,10 @@
   .tier-card-glow__ring {
     background: linear-gradient(
       135deg,
-      rgba(43, 140, 168, 0.35) 0%,
-      rgba(43, 140, 168, 0) 40%,
-      rgba(43, 140, 168, 0) 60%,
-      rgba(43, 140, 168, 0.25) 100%
+      rgba(2, 173, 76, 0.35) 0%,
+      rgba(2, 173, 76, 0) 40%,
+      rgba(2, 173, 76, 0) 60%,
+      rgba(2, 173, 76, 0.25) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -349,12 +349,12 @@
     position: relative;
     isolation: isolate;
     background:
-      radial-gradient(120% 90% at 50% 0%, rgba(43, 140, 168, 0.06) 0%, rgba(43, 140, 168, 0) 55%),
+      radial-gradient(120% 90% at 50% 0%, rgba(2, 173, 76, 0.06) 0%, rgba(2, 173, 76, 0) 55%),
       #FFFFFF;
     box-shadow:
-      0 1px 0 rgba(43, 140, 168, 0.18) inset,
-      0 1px 2px rgba(26, 26, 46, 0.04),
-      0 10px 30px -18px rgba(43, 140, 168, 0.35);
+      0 1px 0 rgba(2, 173, 76, 0.18) inset,
+      0 1px 2px rgba(48, 47, 45, 0.04),
+      0 10px 30px -18px rgba(2, 173, 76, 0.35);
     transition: box-shadow 500ms ease, transform 500ms ease, border-color 500ms ease;
   }
   .tier-premium::before {
@@ -365,11 +365,11 @@
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(43, 140, 168, 0.55) 0%,
-      rgba(43, 140, 168, 0.10) 25%,
-      rgba(43, 140, 168, 0) 50%,
-      rgba(43, 140, 168, 0.10) 75%,
-      rgba(43, 140, 168, 0.55) 100%
+      rgba(2, 173, 76, 0.55) 0%,
+      rgba(2, 173, 76, 0.10) 25%,
+      rgba(2, 173, 76, 0) 50%,
+      rgba(2, 173, 76, 0.10) 75%,
+      rgba(2, 173, 76, 0.55) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -388,9 +388,9 @@
     background: linear-gradient(
       115deg,
       transparent 38%,
-      rgba(43, 140, 168, 0.35) 47%,
-      rgba(43, 140, 168, 0.9) 50%,
-      rgba(43, 140, 168, 0.35) 53%,
+      rgba(2, 173, 76, 0.35) 47%,
+      rgba(2, 173, 76, 0.9) 50%,
+      rgba(2, 173, 76, 0.35) 53%,
       transparent 62%
     );
     background-size: 220% 100%;
@@ -403,9 +403,9 @@
   .tier-premium:hover {
     transform: translateY(-1px);
     box-shadow:
-      0 1px 0 rgba(43, 140, 168, 0.35) inset,
-      0 2px 6px rgba(26, 26, 46, 0.05),
-      0 22px 60px -22px rgba(43, 140, 168, 0.55);
+      0 1px 0 rgba(2, 173, 76, 0.35) inset,
+      0 2px 6px rgba(48, 47, 45, 0.05),
+      0 22px 60px -22px rgba(2, 173, 76, 0.55);
   }
   .tier-premium:hover::before {
     opacity: 1;
@@ -423,11 +423,11 @@
   .tier-gilt-edge {
     background: linear-gradient(
       90deg,
-      rgba(43, 140, 168, 0) 0%,
-      rgba(43, 140, 168, 0.35) 20%,
-      rgba(43, 140, 168, 0.9) 50%,
-      rgba(43, 140, 168, 0.35) 80%,
-      rgba(43, 140, 168, 0) 100%
+      rgba(2, 173, 76, 0) 0%,
+      rgba(2, 173, 76, 0.35) 20%,
+      rgba(2, 173, 76, 0.9) 50%,
+      rgba(2, 173, 76, 0.35) 80%,
+      rgba(2, 173, 76, 0) 100%
     );
   }
 
@@ -445,9 +445,9 @@
     background: linear-gradient(
       115deg,
       transparent 30%,
-      rgba(43, 140, 168, 0.18) 48%,
-      rgba(43, 140, 168, 0.42) 50%,
-      rgba(43, 140, 168, 0.18) 52%,
+      rgba(2, 173, 76, 0.18) 48%,
+      rgba(2, 173, 76, 0.42) 50%,
+      rgba(2, 173, 76, 0.18) 52%,
       transparent 70%
     );
     background-size: 220% 100%;
@@ -463,11 +463,11 @@
 
   .badge-icon-pulse {
     animation: badge-icon-glow 3.4s ease-in-out infinite;
-    filter: drop-shadow(0 0 0 rgba(43, 140, 168, 0));
+    filter: drop-shadow(0 0 0 rgba(2, 173, 76, 0));
   }
   @keyframes badge-icon-glow {
-    0%, 100% { filter: drop-shadow(0 0 0 rgba(43, 140, 168, 0)); }
-    50%      { filter: drop-shadow(0 0 6px rgba(43, 140, 168, 0.55)); }
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(2, 173, 76, 0)); }
+    50%      { filter: drop-shadow(0 0 6px rgba(2, 173, 76, 0.55)); }
   }
 }
 
