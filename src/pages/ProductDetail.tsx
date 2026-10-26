@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Star, ShoppingCart, Shield, Truck, Sparkles } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/sonner";
+import { findLive } from "@/data/live";
 import perfumeImg from "@/assets/perfume.jpg";
 import perfumeDiorImg from "@/assets/perfume-dior.jpg";
 import perfumeTomfordImg from "@/assets/perfume-tomford.jpg";
@@ -34,7 +35,20 @@ const products = [
 const ProductDetail = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const product = products.find((p) => p.id === productId);
+  const liveItem = findLive("merchandise", productId ?? "");
+  const product =
+    products.find((p) => p.id === productId) ??
+    (liveItem && {
+      id: `live-${liveItem.id}`,
+      name: liveItem.name,
+      category: liveItem.category || "Merchandise",
+      points: liveItem.points,
+      price: liveItem.points,
+      image: liveItem.image,
+      rating: 4.7,
+      reviews: 0,
+      description: liveItem.description,
+    });
   const { addItem, count, items } = useCart();
   const inCart = !!product && items.some((i) => i.id === product.id);
 

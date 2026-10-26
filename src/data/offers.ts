@@ -32,6 +32,8 @@ import offerNoonKsa from "@/assets/offer-noonksa.jpg";
 import offerMamasPapas from "@/assets/offer-mamaspapas.jpg";
 import offerSunSands from "@/assets/offer-sunsands.jpg";
 
+import liveOfferData from "./live/offers.json";
+
 export type Offer = {
   slug: string;
   cost: number;
@@ -40,9 +42,13 @@ export type Offer = {
   value: string;
   image: string;
   description: string;
+  terms?: string[];
+  howTo?: string[];
+  validUntil?: string;
 };
 
-export const offers: Offer[] = [
+// Original sample offers, kept as a fallback
+const mockOffers: Offer[] = [
   {
     slug: "noon-cashback",
     cost: 1200,
@@ -364,5 +370,9 @@ export const offers: Offer[] = [
       "Saudi Arabia & Kuwait: up to 10,000 pts off. KSA: up to 100,000 pts off across Sun & Sand Sports. Apply the Safqah Capital code at online checkout.",
   },
 ];
+
+// Real storefront offers (src/data/live/offers.json); cost 0 means free to activate
+const liveOffers = liveOfferData as Offer[];
+export const offers: Offer[] = liveOffers.length ? liveOffers : mockOffers;
 
 export const getOffer = (slug: string) => offers.find((o) => o.slug === slug);

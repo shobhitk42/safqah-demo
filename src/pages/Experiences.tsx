@@ -2,10 +2,14 @@ import DealCard from "@/components/DealCard";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, Clock, Heart } from "lucide-react";
-import { experiences } from "@/data/experiences";
+import { experiences, liveExperiences } from "@/data/experiences";
 
 const excludedIds = ["real-madrid-tickets", "concert-live"];
-const categories = ["All", "Paris Tours", "Adventure", "Luxury Hotels", "Wellness", "Culinary", "Nature", "Experiences", "Lounge"];
+const LIVE = liveExperiences.length > 0;
+const source = LIVE ? liveExperiences : experiences;
+const mockCategories = ["All", "Paris Tours", "Adventure", "Luxury Hotels", "Wellness", "Culinary", "Nature", "Experiences", "Lounge"];
+
+const categories = LIVE ? ["All", "Attraction", "Day Tour", "Activity", "Event"] : mockCategories;
 
 const ExperiencesPage = () => {
   const navigate = useNavigate();
@@ -13,9 +17,9 @@ const ExperiencesPage = () => {
   const [activeCat, setActiveCat] = useState("All");
 
   const items = useMemo(() => {
-    return experiences
+    return source
       .filter((e) => !excludedIds.includes(e.id))
-      .filter((e) => (activeCat === "All" ? true : e.category === activeCat))
+      .filter((e) => (activeCat === "All" ? true : (LIVE ? e.type : e.category) === activeCat))
       .filter((e) =>
         query.trim()
           ? (e.name + e.location + e.category).toLowerCase().includes(query.toLowerCase())
@@ -84,11 +88,11 @@ const ExperiencesPage = () => {
             key={exp.id}
             image={exp.image}
             title={exp.name}
-            topChips={[exp.category, exp.difficulty]}
+            topChips={[exp.type ?? exp.category, LIVE ? exp.category : exp.difficulty].filter(Boolean) as string[]}
             badge={exp.location}
             rows={[
               { label: "Points", value: `${exp.points.toLocaleString()} pts` },
-              { label: "Duration", value: exp.duration },
+              ...(LIVE ? [] : [{ label: "Duration", value: exp.duration }]),
             ]}
             onClick={() => navigate(`/experience/${exp.id}`)}
           />

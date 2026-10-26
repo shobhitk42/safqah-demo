@@ -1,4 +1,5 @@
 import ritzDubai from "@/assets/exp-ritz-dubai.jpg";
+import liveExperienceData from "./live/experiences.json";
 
 import maldives from "@/assets/exp-maldives.jpg";
 import lounge from "@/assets/exp-lounge.jpg";
@@ -26,7 +27,8 @@ export interface ExperienceItem {
   category: string;
   location: string;
   duration: string;
-  difficulty: "EASY" | "MODERATE" | "CHALLENGING";
+  difficulty?: "EASY" | "MODERATE" | "CHALLENGING";
+  type?: string;
   points: number;
   cashPrice: number;
   image: string;
@@ -502,4 +504,33 @@ export const experiences: ExperienceItem[] = [
   },
 ];
 
-export const getExperience = (id: string) => experiences.find((e) => e.id === id);
+// Real storefront experiences (src/data/live/experiences.json). UAT test products are left out
+// and "(Test)" style suffixes are stripped from names.
+const TEST_PRODUCT = /APITEST|Test Product|API Availability|Offline Day Tour/i;
+const cleanName = (n: string) => n.replace(/\s*\((?:for )?(?:api integration )?test(?:ing)?\)/gi, "").trim();
+const cap = (c: string) => (c ? c.charAt(0).toUpperCase() + c.slice(1) : c);
+
+export const liveExperiences: ExperienceItem[] = (liveExperienceData as {
+  id: string; type: string; name: string; location: string; category: string; points: number; image: string;
+}[])
+  .filter((e) => !TEST_PRODUCT.test(e.name))
+  .map((e) => ({
+    id: e.id,
+    name: cleanName(e.name),
+    category: cap(e.category),
+    type: e.type,
+    location: e.location,
+    duration: "",
+    points: e.points,
+    cashPrice: 0,
+    image: e.image || travelImg,
+    overview: "",
+    description: "",
+    inclusions: [],
+    exclusions: [],
+    rateTypes: [{ label: "Per guest", points: e.points }],
+  }));
+
+// Looks in both: the home page still links to the original sample experiences
+export const getExperience = (id: string) =>
+  liveExperiences.find((e) => e.id === id) ?? experiences.find((e) => e.id === id);

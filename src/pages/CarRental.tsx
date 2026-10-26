@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin, Calendar, Car, Users, Fuel } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { Calendar as DayPicker } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import travelImg from "@/assets/travel.jpg";
 
 const providers = [
@@ -16,8 +20,8 @@ const CarRentalPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState<"search" | "results">("search");
   const [pickup, setPickup] = useState("");
-  const [pickupDate, setPickupDate] = useState("");
-  const [dropDate, setDropDate] = useState("");
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [dropDate, setDropDate] = useState<Date>();
 
   const handleSearch = () => {
     if (!pickup.trim()) {
@@ -52,25 +56,43 @@ const CarRentalPage = () => {
           <div className="mx-4 mt-4 py-4 border-b">
             <div className="mb-4">
               <label className="text-xs font-semibold text-foreground mb-1.5 block">Pick-up Location*</label>
-              <div className="flex items-center border-b px-3 py-2.5">
-                <input value={pickup} onChange={(e) => setPickup(e.target.value)} type="text" placeholder="Riyadh, King Khalid Airport, Jeddah" className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
+              <div className="flex items-center border-b border-[#CFCBD0] py-3">
+                <input value={pickup} onChange={(e) => setPickup(e.target.value)} type="text" placeholder="City or airport" className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
                 <MapPin className="h-4 w-4 text-muted-foreground ml-2" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div>
                 <label className="text-xs font-semibold text-foreground mb-1.5 block">Pick-up Date*</label>
-                <div className="flex items-center border-b px-3 py-2.5">
-                  <input type="date" value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
-                  <Calendar className="h-4 w-4 text-muted-foreground ml-2" />
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left">
+                      <span className={cn("flex-1 truncate text-sm", pickupDate ? "text-foreground" : "text-muted-foreground")}>
+                        {pickupDate ? format(pickupDate, "dd MMM yyyy") : "Select date"}
+                      </span>
+                      <Calendar className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <DayPicker mode="single" selected={pickupDate} onSelect={(d) => { setPickupDate(d); if (d && dropDate && dropDate < d) setDropDate(undefined); }} disabled={(d) => d < new Date(new Date().setHours(0,0,0,0))} initialFocus className="p-3 pointer-events-auto" />
+                  </PopoverContent>
+                </Popover>
               </div>
               <div>
                 <label className="text-xs font-semibold text-foreground mb-1.5 block">Drop-off Date*</label>
-                <div className="flex items-center border-b px-3 py-2.5">
-                  <input type="date" value={dropDate} onChange={(e) => setDropDate(e.target.value)} className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
-                  <Calendar className="h-4 w-4 text-muted-foreground ml-2" />
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left">
+                      <span className={cn("flex-1 truncate text-sm", dropDate ? "text-foreground" : "text-muted-foreground")}>
+                        {dropDate ? format(dropDate, "dd MMM yyyy") : "Select date"}
+                      </span>
+                      <Calendar className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="end">
+                    <DayPicker mode="single" selected={dropDate} onSelect={setDropDate} disabled={(d) => d < (pickupDate ?? new Date(new Date().setHours(0,0,0,0)))} initialFocus className="p-3 pointer-events-auto" />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
             <button onClick={handleSearch} className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50">Search Cars</button>

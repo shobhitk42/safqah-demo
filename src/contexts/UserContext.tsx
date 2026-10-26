@@ -59,10 +59,10 @@ const ahmedProfile: UserProfile = {
   name: "Ahmed Al Rashid",
   tier: "Platinum",
   totalPoints: 22400,
-  availablePoints: 8400,
+  availablePoints: 61415,
   interests: ["tech", "gaming", "gadgets"],
   wallets: {
-    consumer: { redeemable: 8400, pending: 2150 },
+    consumer: { redeemable: 61415, pending: 2150 },
     merchant: { redeemable: 5600, pending: 3400 },
   },
   badges: [

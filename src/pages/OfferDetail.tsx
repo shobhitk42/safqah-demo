@@ -49,7 +49,7 @@ const OfferDetail = () => {
             alt={offer.brand}
             width={800}
             height={800}
-            className="w-full h-[220px] object-cover"
+            className={`w-full h-[220px] ${offer.image.startsWith("http") ? "object-contain bg-white" : "object-cover"}`}
           />
           <button
             onClick={() => navigate(-1)}
@@ -77,18 +77,35 @@ const OfferDetail = () => {
           <p className="mt-2 text-[14px] font-semibold text-[#02AD4C]">
             {offer.value}
           </p>
-          <p className="mt-1 text-[12px] text-[#9CA3AF]">Valid until 31 Aug 2026</p>
+          <p className="mt-1 text-[12px] text-[#9CA3AF]">Valid until {offer.validUntil ?? "31 Aug 2026"}</p>
 
           <p className="mt-5 text-[13px] leading-relaxed text-[#302F2D]/80">
             {offer.description}
           </p>
+
+          {offer.howTo && (
+            <div className="mt-6">
+              <h2 className="text-[13px] font-bold text-[#302F2D]">How to use</h2>
+              <ol className="mt-2 list-decimal space-y-1 pl-5 text-[13px] leading-relaxed text-[#302F2D]/80">
+                {offer.howTo.map((step) => <li key={step}>{step}</li>)}
+              </ol>
+            </div>
+          )}
+          {offer.terms && (
+            <div className="mt-5">
+              <h2 className="text-[13px] font-bold text-[#302F2D]">Terms</h2>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-[13px] leading-relaxed text-[#302F2D]/80">
+                {offer.terms.map((t) => <li key={t}>{t}</li>)}
+              </ul>
+            </div>
+          )}
 
           {/* Balance chip */}
           <div className="mt-6 rounded-xl border border-[#E8E8EE] bg-white p-4">
             <div className="flex items-center justify-between text-[12px] text-[#6B6B7A]">
               <span>Cost</span>
               <span className="tabular-nums font-semibold text-[#302F2D]">
-                {REDEEM_COST.toLocaleString()} pts
+                {REDEEM_COST === 0 ? "Free" : `${REDEEM_COST.toLocaleString()} pts`}
               </span>
             </div>
             <div className="mt-1.5 flex items-center justify-between text-[12px] text-[#6B6B7A]">
@@ -132,7 +149,7 @@ const OfferDetail = () => {
               <div className="flex justify-between">
                 <span className="text-[#6B6B7A]">Cost</span>
                 <span className="tabular-nums font-semibold text-[#302F2D]">
-                  {REDEEM_COST.toLocaleString()} pts
+                  {REDEEM_COST === 0 ? "Free" : `${REDEEM_COST.toLocaleString()} pts`}
                 </span>
               </div>
               <div className="flex justify-between">

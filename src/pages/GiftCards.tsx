@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Search, Filter } from "lucide-react";
+import { live, LIVE_PREFIX, giftFilterKey } from "@/data/live";
 import plazaImg from "@/assets/giftcards/plaza.jpeg.asset.json";
 import swypeImg from "@/assets/giftcards/swype.jpeg.asset.json";
 import binanceImg from "@/assets/giftcards/binance.jpeg.asset.json";
@@ -63,7 +64,29 @@ const allGiftCards: GiftCard[] = [
   { name: "Tips and Toes", tags: ["Recommended", "Instant"], category: "beauty", gradient: "from-rose-700 to-pink-900", logoDomain: "tipsandtoes.com" },
 ];
 
-const filterLabels: Record<string, string> = {
+// Real catalogue when available, otherwise the mock list above
+const liveCards: GiftCard[] = live.giftcards.map((p) => ({
+  name: p.name,
+  tags: ["Recommended", p.delivery === "realtime" ? "Instant" : "Delayed"],
+  category: giftFilterKey(p.category),
+  gradient: "from-neutral-800 to-neutral-950",
+  slug: `${LIVE_PREFIX}${p.id}`,
+  image: p.image || undefined,
+}));
+const cardsSource = liveCards.length ? liveCards : allGiftCards;
+
+const liveFilterLabels: Record<string, string> = {
+  fashion: "Fashion & Lifestyle",
+  jewellery: "Gold & Jewellery",
+  home: "Home & Appliances",
+  food: "Food & Grocery",
+  travel: "Travel & Telecom",
+  wellness: "Wellness & Services",
+  kids: "Baby & Kids",
+  entertainment: "Entertainment & Learning",
+};
+
+const mockFilterLabels: Record<string, string> = {
   fashion: "Fashion & Lifestyle",
   home: "Home & Kitchen",
   beauty: "Beauty & Personal Care",
@@ -79,13 +102,14 @@ const getInitials = (name: string) => {
 };
 
 const GiftCardsPage = () => {
+  const filterLabels = liveCards.length ? liveFilterLabels : mockFilterLabels;
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const activeFilter = searchParams.get("filter");
 
   const filteredCards = activeFilter
-    ? allGiftCards.filter((c) => c.category === activeFilter)
-    : allGiftCards;
+    ? cardsSource.filter((c) => c.category === activeFilter)
+    : cardsSource;
 
   const title = activeFilter && filterLabels[activeFilter] ? filterLabels[activeFilter] : "All Gift Cards";
 
@@ -138,7 +162,7 @@ const GiftCardsPage = () => {
         {!activeFilter && (
           <div className="mb-6 px-1">
             <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/50">Curated for you</p>
-            <p className="mt-1 text-[11px] text-foreground/45">Tap any card marked with a gold rule to redeem instantly.</p>
+            <p className="mt-1 text-[11px] text-foreground/45">Tap any card to redeem it with your points.</p>
           </div>
         )}
         <div className="grid grid-cols-2 gap-2.5">

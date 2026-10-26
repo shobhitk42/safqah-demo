@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Gift, Mail, ShieldCheck, Zap } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
+import { findLive, giftCategoryLabel } from "@/data/live";
 
 const catalog: Record<string, { name: string; category: string; blurb: string }> = {
   "iconic": { name: "Iconic", category: "Fashion & Lifestyle", blurb: "Curated fashion and lifestyle across the region's most-loved storefronts." },
@@ -16,18 +17,22 @@ const catalog: Record<string, { name: string; category: string; blurb: string }>
   "playstation": { name: "PlayStation Network", category: "Gaming & Entertainment", blurb: "Games, add-ons and PS Plus, straight to your account." },
 };
 
-const denominations = [5000, 10000, 25000, 50000, 100000, 250000];
+const defaultDenominations = [5000, 10000, 25000, 50000, 100000, 250000];
 
 const GiftCardDetail = () => {
   const navigate = useNavigate();
   const { slug = "" } = useParams();
   const { user } = useUser();
-  const card = catalog[slug];
+  const liveCard = findLive("giftcards", slug);
+  const card = catalog[slug] ?? (liveCard && { name: liveCard.name, category: giftCategoryLabel(liveCard.category), blurb: liveCard.description });
+  const denominations = liveCard?.pointsOptions.length ? liveCard.pointsOptions : defaultDenominations;
 
-  const [amount, setAmount] = useState<number>(10000);
+  const [picked, setPicked] = useState<number | null>(null);
   const [recipient, setRecipient] = useState("");
   const [step, setStep] = useState<"select" | "success">("select");
 
+  const amount = picked ?? denominations[Math.min(1, denominations.length - 1)];
+  const setAmount = setPicked;
   const pointsNeeded = amount;
   const canAfford = user.availablePoints >= pointsNeeded;
 
@@ -110,6 +115,11 @@ const GiftCardDetail = () => {
         >
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "#02AD4C" }} />
           <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full border border-[hsl(0_0%_100%/0.06)]" />
+          {liveCard?.image && (
+            <div className="absolute right-5 top-5 flex h-14 w-20 items-center justify-center overflow-hidden rounded-lg bg-white p-1.5">
+              <img src={liveCard.image} alt={card.name} className="max-h-full max-w-full object-contain" />
+            </div>
+          )}
           <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: "#02AD4C" }}>{card.category}</p>
           <h1 className="mt-4 text-[30px] leading-[1.1] text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>{card.name}</h1>
           <p className="mt-5 max-w-[300px] text-[13px] leading-relaxed text-[hsl(0_0%_100%/0.6)]">{card.blurb}</p>
@@ -184,9 +194,9 @@ const GiftCardDetail = () => {
       {/* Trust row */}
       <div className="px-6 mt-6 grid grid-cols-3 gap-4 text-center">
         {[
-          { icon: Zap, label: "Instant delivery" },
+          { icon: Zap, label: liveCard ? (liveCard.delivery === "delayed" ? `Delivery in ${liveCard.deliveryDays} days` : "Instant delivery") : "Instant delivery" },
           { icon: ShieldCheck, label: "Secure by Safqah" },
-          { icon: Gift, label: "No expiry" },
+          { icon: Gift, label: liveCard ? `Valid ${liveCard.terms.match(/Valid for ([^.]+)\./)?.[1] ?? ""}`.trim() : "No expiry" },
         ].map(({ icon: Icon, label }) => (
           <div key={label} className="flex flex-col items-center gap-2">
             <Icon className="h-4 w-4 text-foreground/60" strokeWidth={1.25} />

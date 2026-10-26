@@ -5,20 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/contexts/UserContext";
 import { toast } from "sonner";
+import { live } from "@/data/live";
 
 interface Operator {
   id: string;
   name: string;
   color: string;
   initials: string;
+  image?: string;
 }
 
-const operators: Operator[] = [
+const mockOperators: Operator[] = [
   { id: "myt", name: "STC", color: "hsl(280, 70%, 45%)", initials: "ST" },
   { id: "emtel", name: "Mobily", color: "hsl(350, 80%, 50%)", initials: "MO" },
   { id: "chili", name: "Zain KSA", color: "hsl(24, 90%, 50%)", initials: "ZN" },
   { id: "mtml", name: "Virgin Mobile KSA", color: "hsl(140, 60%, 40%)", initials: "VM" },
 ];
+
+// Real operators from the storefront when available
+const liveOperators: Operator[] = live.topup.map((p) => {
+  const name = p.name.replace(/\s*PIN\b/i, "").replace(/\s*Saudi Arabia$/i, "").trim();
+  return { id: String(p.id), name, color: "hsl(140, 60%, 40%)", initials: name.slice(0, 2).toUpperCase(), image: p.image };
+});
+const operators: Operator[] = liveOperators.length ? liveOperators : mockOperators;
 
 const denominations = [
   { value: 1, points: 334 },
@@ -129,12 +138,18 @@ const MobileTopup = () => {
  :"border-transparent bg-[#F1EEEA] hover:bg-[#E9E5E0]"
  }`}
               >
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-lg shrink-0 text-[10px] font-bold text-primary-foreground"
-                  style={{ backgroundColor: op.color }}
-                >
-                  {op.initials.length <= 2 ? op.initials : op.initials.slice(0, 2)}
-                </div>
+                {op.image ? (
+                  <div className="flex h-10 w-[60px] shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+                    <img src={op.image} alt={op.name} className="max-h-full max-w-full object-contain" loading="lazy" />
+                  </div>
+                ) : (
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-lg shrink-0 text-[10px] font-bold text-primary-foreground"
+                    style={{ backgroundColor: op.color }}
+                  >
+                    {op.initials.length <= 2 ? op.initials : op.initials.slice(0, 2)}
+                  </div>
+                )}
                 <span className="text-xs font-medium text-card-foreground text-left leading-tight">{op.name}</span>
               </button>
             ))}

@@ -115,14 +115,14 @@ const Offers = () => {
               onClick={() => navigate(`/offers/${offer.slug}`)}
               className="group flex flex-col overflow-hidden rounded-xl bg-white text-left transition-all hover:shadow-md hover:-translate-y-0.5"
             >
-              <div className="aspect-square w-full overflow-hidden bg-[#F6F3EF]">
+              <div className={`aspect-square w-full overflow-hidden ${offer.image.startsWith("http") ? "bg-white" : "bg-[#F6F3EF]"}`}>
                 <img
                   src={offer.image}
                   alt={offer.brand}
                   loading="lazy"
                   width={800}
                   height={800}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${offer.image.startsWith("http") ? "object-contain" : "object-cover"}`}
                 />
               </div>
               <div className="flex flex-col gap-1 p-3">
@@ -140,7 +140,7 @@ const Offers = () => {
                   {offer.headline}
                 </p>
                 <span className="text-[12px] font-bold text-[#02AD4C] tracking-wide mt-0.5">
-                  {offer.cost.toLocaleString()} pts
+                  {offer.cost === 0 ? "Free" : `${offer.cost.toLocaleString()} pts`}
                 </span>
               </div>
             </button>

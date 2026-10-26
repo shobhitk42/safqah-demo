@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search } from "lucide-react";
+import { live, LIVE_PREFIX } from "@/data/live";
 import perfumeImg from "@/assets/perfume.jpg";
 import perfumeDiorImg from "@/assets/perfume-dior.jpg";
 import perfumeTomfordImg from "@/assets/perfume-tomford.jpg";
@@ -29,6 +30,15 @@ const products = [
   { id: "philips-coffee", name: "Philips Coffee Machine", category: "Kitchen Appliances", points: "8,500", image: kitchenImg },
 ];
 
+const liveProducts = live.merchandise.map((p) => ({
+  id: `${LIVE_PREFIX}${p.id}`,
+  name: p.name,
+  category: p.category || "Merchandise",
+  points: p.points.toLocaleString(),
+  image: p.image,
+}));
+const catalogue = liveProducts.length ? liveProducts : products;
+
 const MerchandisePage = () => {
   const navigate = useNavigate();
 
@@ -54,7 +64,7 @@ const MerchandisePage = () => {
       <div className="px-4 pb-8">
         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">All Products</h3>
         <div className="grid grid-cols-2 gap-3">
-          {products.map((p) => (
+          {catalogue.map((p) => (
             <div key={p.name} onClick={() => navigate(`/product/${p.id}`)} className="rounded-xl bg-card shadow-sm overflow-hidden cursor-pointer transition-transform hover:scale-105">
               <img src={p.image} alt={p.name} className="h-28 w-full object-cover" loading="lazy" width={512} height={512} />
               <div className="p-2.5">

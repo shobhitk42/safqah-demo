@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Search, Clock, Gauge, MapPin, ChevronDown, ChevronUp, Check, X, Calendar } from "lucide-react";
 import { getExperience } from "@/data/experiences";
 import { useUser } from "@/contexts/UserContext";
+import BottomAction from "@/components/booking/BottomAction";
 import {
   Dialog,
   DialogContent,
@@ -59,7 +60,7 @@ const ExperienceDetail = () => {
   );
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-background pb-[88px]">
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-44">
       {/* Top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between gap-2 bg-background/95 backdrop-blur px-4 py-3 border-b border-border">
         <button
@@ -124,12 +125,21 @@ const ExperienceDetail = () => {
             <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{experience.location}</p>
             <h1 className="text-xl font-bold text-foreground leading-tight mt-1">{experience.name}</h1>
             <div className="flex flex-wrap items-center gap-2 mt-3">
-              <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                <Clock className="h-3 w-3" /> {experience.duration}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
-                <Gauge className="h-3 w-3" /> {experience.difficulty}
-              </span>
+              {experience.duration && (
+                <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                  <Clock className="h-3 w-3" /> {experience.duration}
+                </span>
+              )}
+              {experience.difficulty && (
+                <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                  <Gauge className="h-3 w-3" /> {experience.difficulty}
+                </span>
+              )}
+              {experience.type && (
+                <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
+                  {experience.type}
+                </span>
+              )}
               <span className="inline-flex items-center gap-1 rounded-md bg-muted px-2.5 py-1 text-[11px] text-muted-foreground">
                 <MapPin className="h-3 w-3" /> {experience.location}
               </span>
@@ -148,14 +158,23 @@ const ExperienceDetail = () => {
           {/* Details accordion */}
           <div className="px-4 mt-6">
             <h2 className="text-base font-bold text-foreground mb-1">Experience Details</h2>
-            <Section id="itinerary" title="Itinerary">
-              <p className="text-xs font-semibold text-foreground mb-2">Overview</p>
-              <p>{experience.overview}</p>
-            </Section>
-            <Section id="description" title="Description">
-              <p>{experience.description}</p>
-            </Section>
-            <Section id="inclusion" title="Inclusion">
+            {!experience.overview && !experience.description && (
+              <p className="py-3 text-sm leading-relaxed text-muted-foreground">
+                {experience.type ? `${experience.type} · ` : ""}{experience.category} in {experience.location}. Full details are shared with your booking confirmation.
+              </p>
+            )}
+            {experience.overview && (
+              <Section id="itinerary" title="Itinerary">
+                <p className="text-xs font-semibold text-foreground mb-2">Overview</p>
+                <p>{experience.overview}</p>
+              </Section>
+            )}
+            {experience.description && (
+              <Section id="description" title="Description">
+                <p>{experience.description}</p>
+              </Section>
+            )}
+            {experience.inclusions.length > 0 && <Section id="inclusion" title="Inclusion">
               <ul className="space-y-1.5">
                 {experience.inclusions.map((i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -164,8 +183,8 @@ const ExperienceDetail = () => {
                   </li>
                 ))}
               </ul>
-            </Section>
-            <Section id="exclusion" title="Exclusion">
+            </Section>}
+            {experience.exclusions.length > 0 && <Section id="exclusion" title="Exclusion">
               <ul className="space-y-1.5">
                 {experience.exclusions.map((i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -174,7 +193,7 @@ const ExperienceDetail = () => {
                   </li>
                 ))}
               </ul>
-            </Section>
+            </Section>}
           </div>
         </>
       )}
@@ -291,56 +310,35 @@ const ExperienceDetail = () => {
         </div>
       )}
 
-      {/* Bottom CTA card */}
-      <div className="mx-4 mt-6 rounded-2xl bg-[#ECE8E3] p-4">
-        {step === "details" && (
-          <>
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <p className="text-[10px] text-muted-foreground">From</p>
-                <p className="text-base font-bold text-foreground">
-                  {experience.points.toLocaleString()} pts
-                  <span className="text-xs text-muted-foreground font-normal"> · per guest</span>
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setStep("availability")}
-              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-            >
-              Check availability
-            </button>
-          </>
-        )}
-        {step === "availability" && (
-          <>
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <p className="text-[10px] text-muted-foreground">Total</p>
-                <p className="text-base font-bold text-foreground">
-                  {totalPoints.toLocaleString()} pts
-                  <span className="text-xs text-muted-foreground font-normal"> · {guests} guest{guests > 1 ? "s" : ""}</span>
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => setStep("review")}
-              disabled={slotChosen === null}
-              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-            >
-              {slotChosen === null ? "Select a time slot" : "Continue to review"}
-            </button>
-          </>
-        )}
-        {step === "review" && (
-          <button
-            onClick={() => setConfirmed(true)}
-            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-          >
-            Book now · {totalPoints.toLocaleString()} pts
-          </button>
-        )}
-      </div>
+      {/* Sticky bottom CTA */}
+      {step === "details" && (
+        <BottomAction
+          label="Check availability"
+          onClick={() => setStep("availability")}
+          hint={
+            <>
+              <span className="text-muted-foreground">From</span>
+              <span className="font-bold text-foreground">{experience.points.toLocaleString()} pts <span className="text-xs font-normal text-muted-foreground">· per guest</span></span>
+            </>
+          }
+        />
+      )}
+      {step === "availability" && (
+        <BottomAction
+          label={slotChosen === null ? "Select a time slot" : "Continue to review"}
+          onClick={() => setStep("review")}
+          disabled={slotChosen === null}
+          hint={
+            <>
+              <span className="text-muted-foreground">Total</span>
+              <span className="font-bold text-foreground">{totalPoints.toLocaleString()} pts <span className="text-xs font-normal text-muted-foreground">· {guests} guest{guests > 1 ? "s" : ""}</span></span>
+            </>
+          }
+        />
+      )}
+      {step === "review" && (
+        <BottomAction label={`Book now · ${totalPoints.toLocaleString()} pts`} onClick={() => setConfirmed(true)} />
+      )}
 
       <Dialog open={confirmed} onOpenChange={setConfirmed}>
         <DialogContent className="max-w-[360px] rounded-2xl border border-[#02AD4C]/45 !bg-[#FFFFFF] p-7 shadow-[0_24px_70px_rgba(26, 26, 46,0.24),0_0_0_1px_rgba(2, 173, 76,0.12)] dark:border-[#02AD4C]/55 dark:!bg-[#1F242D] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_34px_rgba(2, 173, 76,0.18)]">

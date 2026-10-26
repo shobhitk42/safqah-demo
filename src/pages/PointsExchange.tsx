@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Plane, ChevronDown, Check } from "lucide-react";
 import { toast } from "sonner";
+import { useUser } from "@/contexts/UserContext";
+import { liveMiles } from "@/data/live";
 
 type Partner = {
   id: string;
@@ -13,9 +15,15 @@ type Partner = {
   denominations: number[]; // reward point denominations
   gradient: string;
   initials: string;
+  // Real programs carry explicit points → miles pairs, a logo and short terms
+  image?: string;
+  unit?: string;
+  memberField?: string;
+  options?: { points: number; miles: number }[];
+  terms?: string[];
 };
 
-const partners: Partner[] = [
+const mockPartners: Partner[] = [
   { id: "citilink", name: "Saudia", program: "Alfursan", category: "Airline", ratio: "1 Reward = 0.55 Miles", perReward: 0.55, denominations: [100, 500, 1000, 2500, 5000], gradient: "from-emerald-500 to-green-600", initials: "CL" },
   { id: "qatar", name: "Qatar Airways", program: "Privilege Club", category: "Airline", ratio: "1 Reward = 1 Qmiles", perReward: 1, denominations: [500, 1000, 2500, 5000, 10000], gradient: "from-fuchsia-800 to-purple-900", initials: "QR" },
   { id: "flynas", name: "flynas", program: "nasmiles", category: "Airline", ratio: "1 Reward = 1 nasmile", perReward: 1, denominations: [500, 1000, 2500, 5000, 10000], gradient: "from-red-600 to-red-800", initials: "EK" },
@@ -25,19 +33,48 @@ const partners: Partner[] = [
   { id: "marriott", name: "Marriott Bonvoy", program: "Hotel Points", category: "Hotel", ratio: "1 Reward = 1.2 Bonvoy Points", perReward: 1.2, denominations: [1000, 2500, 5000, 10000], gradient: "from-stone-700 to-neutral-900", initials: "MR" },
 ];
 
+const liveGradient = { Airline: "from-emerald-500 to-green-600", Retail: "from-teal-600 to-emerald-700", Hotel: "from-stone-700 to-neutral-900" };
+const livePartners: Partner[] = liveMiles.map((m) => ({
+  id: String(m.id),
+  name: m.name,
+  program: m.program,
+  category: m.category,
+  ratio: `${m.options[0].points.toLocaleString()} pts = ${m.options[0].miles.toLocaleString()} ${m.unit}`,
+  perReward: 0,
+  denominations: m.options.map((o) => o.points),
+  gradient: liveGradient[m.category],
+  initials: m.name.slice(0, 2).toUpperCase(),
+  image: m.image,
+  unit: m.unit,
+  memberField: m.memberField,
+  options: m.options,
+  terms: m.terms,
+}));
+const partners: Partner[] = livePartners.length ? livePartners : mockPartners;
+
 const PointsExchangePage = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState<Partner | null>(null);
   const [amount, setAmount] = useState<number>(0);
 
-  const availableRewards = 24580;
+  const { user } = useUser();
+  const availableRewards = user.availablePoints;
+  const [memberId, setMemberId] = useState("");
 
   const openPartner = (p: Partner) => {
     setSelected(p);
     setAmount(p.denominations[0]);
+    setMemberId("");
   };
 
-  const milesReceived = selected ? Math.round(amount * selected.perReward * 100) / 100 : 0;
+  const milesReceived = selected
+    ? selected.options
+      ? selected.options.find((o) => o.points === amount)?.miles ?? 0
+      : Math.round(amount * selected.perReward * 100) / 100
+    : 0;
+  const unitLabel = selected?.unit ?? (selected?.category === "Airline" ? "Miles" : "Points");
+  const needsMember = !!selected?.memberField;
+  const canConvert = amount <= availableRewards && (!needsMember || memberId.trim().length >= 5);
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
@@ -70,9 +107,15 @@ const PointsExchangePage = () => {
                   onClick={() => openPartner(p)}
                   className="w-full text-left flex items-center gap-3 rounded-xl bg-[#F1EEEA] p-4 border border-transparent transition-transform hover:scale-[1.01] active:scale-[0.98]"
                 >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${p.gradient} shrink-0 shadow-md`}>
-                    <span className="text-primary-foreground font-bold text-sm">{p.initials}</span>
-                  </div>
+                  {p.image ? (
+                    <div className="flex h-12 w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
+                      <img src={p.image} alt={p.name} loading="lazy" className="max-h-full max-w-full object-contain" />
+                    </div>
+                  ) : (
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${p.gradient} shrink-0 shadow-md`}>
+                      <span className="text-primary-foreground font-bold text-sm">{p.initials}</span>
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-card-foreground">{p.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{p.program} · {p.category}</p>
@@ -94,9 +137,15 @@ const PointsExchangePage = () => {
           {/* Brand card */}
           <div className="border-b py-4">
             <div className="flex items-start justify-between mb-4">
-              <div className={`h-24 w-full rounded-xl bg-gradient-to-br ${selected.gradient} flex items-center justify-center`}>
-                <span className="text-primary-foreground text-2xl font-bold tracking-wider">{selected.name}</span>
-              </div>
+              {selected.image ? (
+                <div className="h-24 w-full rounded-xl bg-white flex items-center justify-center overflow-hidden">
+                  <img src={selected.image} alt={selected.name} className="max-h-full max-w-full object-contain" />
+                </div>
+              ) : (
+                <div className={`h-24 w-full rounded-xl bg-gradient-to-br ${selected.gradient} flex items-center justify-center`}>
+                  <span className="text-primary-foreground text-2xl font-bold tracking-wider">{selected.name}</span>
+                </div>
+              )}
             </div>
 
             <h2 className="text-lg font-bold text-card-foreground">{selected.name}</h2>
@@ -105,7 +154,7 @@ const PointsExchangePage = () => {
               <span className="px-2 py-0.5 text-[10px] font-medium bg-secondary text-secondary-foreground rounded">Instant</span>
             </div>
 
-            <p className="text-xs text-muted-foreground mb-3">Choose amount & convert into miles</p>
+            <p className="text-xs text-muted-foreground mb-3">Choose amount & convert into {unitLabel.toLowerCase()}</p>
 
             {/* Amount selector */}
             <label className="text-[10px] font-semibold text-muted-foreground uppercase">Select Amount (Rewards)</label>
@@ -124,8 +173,21 @@ const PointsExchangePage = () => {
 
             <label className="text-[10px] font-semibold text-muted-foreground uppercase">You will receive</label>
             <div className="mt-1 mb-4 rounded-lg bg-secondary/60 px-3 py-2.5">
-              <span className="text-sm font-semibold text-foreground">{milesReceived.toLocaleString()} Miles / Points</span>
+              <span className="text-sm font-semibold text-foreground">{milesReceived.toLocaleString()} {unitLabel}</span>
             </div>
+
+            {needsMember && (
+              <div className="mb-4">
+                <label className="text-[10px] font-semibold text-muted-foreground uppercase">{selected.memberField}</label>
+                <input
+                  value={memberId}
+                  onChange={(e) => setMemberId(e.target.value.replace(/\s/g, ""))}
+                  maxLength={30}
+                  placeholder="Enter your number"
+                  className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+            )}
 
             <p className="text-[11px] text-muted-foreground mb-4">{selected.ratio}</p>
 
@@ -140,9 +202,15 @@ const PointsExchangePage = () => {
           <div className="mt-4 rounded-xl bg-[#ECE8E3] p-4">
             <p className="text-sm font-semibold text-primary mb-2">Terms & Conditions</p>
             <ul className="text-[11px] text-muted-foreground list-disc pl-4 space-y-1">
-              <li>Miles are credited to your linked {selected.program} account within 24 hours.</li>
-              <li>Conversion is instant and non-reversible.</li>
-              <li>Minimum redemption: {selected.denominations[0]} reward points.</li>
+              {selected.terms ? (
+                selected.terms.map((t) => <li key={t}>{t}</li>)
+              ) : (
+                <>
+                  <li>Miles are credited to your linked {selected.program} account within 24 hours.</li>
+                  <li>Conversion is instant and non-reversible.</li>
+                  <li>Minimum redemption: {selected.denominations[0]} reward points.</li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -150,12 +218,13 @@ const PointsExchangePage = () => {
           <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
             <button
               onClick={() => {
-                toast.success(`Converted ${amount} pts to ${milesReceived} ${selected.name} Miles`, { description: "Miles will be credited within 24 hours." });
+                toast.success(`Converted ${amount.toLocaleString()} pts to ${milesReceived.toLocaleString()} ${selected.name} ${unitLabel}`, { description: selected.terms ? `Credited to ${selected.program} member ${memberId}.` : "Miles will be credited within 24 hours." });
                 setSelected(null);
               }}
+              disabled={!canConvert}
               className="w-full items-center justify-center gap-2 flex items-center justify-center gap-2 h-[52px] rounded-xl bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
-              <Check className="h-4 w-4" /> Convert to {selected.category === "Airline" ? "Miles" : "Points"}
+              <Check className="h-4 w-4" /> Convert to {unitLabel}
             </button>
           </div>
         </div>

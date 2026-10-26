@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, ChevronsUpDown, Plane, Clock, ChevronRight, Check } from "lucide-react";
+import { ArrowLeft, MapPin, ChevronsUpDown, Plane, Clock, ChevronRight, Check, Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import travelImg from "@/assets/travel.jpg";
+import { toast } from "sonner";
+import BookingHeader from "@/components/booking/BookingHeader";
+import BottomAction from "@/components/booking/BottomAction";
+import GuestDetailsForm, { useGuestForm } from "@/components/booking/GuestDetailsForm";
+import PointsPaymentStep from "@/components/booking/PointsPaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import FlightDetail from "@/components/booking/FlightDetail";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
+import { useUser } from "@/contexts/UserContext";
 
 const CITIES = [
   // Featured destinations first
@@ -46,7 +56,7 @@ const FLIGHTS = [
 
 const USER_POINTS = 24580;
 
-type Step = "search" | "results" | "payment" | "success";
+type Step = "search" | "results" | "details" | "travellers" | "payment" | "success";
 
 const FlightsPage = () => {
   const navigate = useNavigate();
@@ -55,6 +65,7 @@ const FlightsPage = () => {
   const [from, setFrom] = useState<typeof CITIES[0] | null>(null);
   const [to, setTo] = useState<typeof CITIES[0] | null>(null);
   const [date, setDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
   const [showFromDropdown, setShowFromDropdown] = useState(false);
   const [showToDropdown, setShowToDropdown] = useState(false);
   const [fromSearch, setFromSearch] = useState("");
@@ -62,8 +73,13 @@ const FlightsPage = () => {
 
   // Payment state
   const [selectedFlight, setSelectedFlight] = useState<typeof FLIGHTS[0] | null>(null);
+  const [reference, setReference] = useState("");
+  const traveller = useGuestForm(1);
+  const { addBooking } = useBookings();
+  const { user } = useUser();
 
-  const canSearch = from && to && date;
+  const isRound = tripType === "round-trip";
+  const canSearch = from && to && date && (!isRound || returnDate);
 
   const handleSearch = () => {
     if (canSearch) setStep("results");
@@ -71,10 +87,21 @@ const FlightsPage = () => {
 
   const handleSelectFlight = (flight: typeof FLIGHTS[0]) => {
     setSelectedFlight(flight);
-    setStep("payment");
+    setStep("details");
   };
 
   const handleBook = () => {
+    if (!selectedFlight || !from || !to) return;
+    const ref = makeReference("FLT");
+    setReference(ref);
+    addBooking({
+      item: `${from.name} → ${to.name}`,
+      category: "Flights",
+      points: selectedFlight.points,
+      date: date ? format(date, "dd MMM yyyy") + (isRound && returnDate ? ` – ${format(returnDate, "dd MMM yyyy")}` : "") : "",
+      status: "Confirmed",
+      meta: `${selectedFlight.airline} ${selectedFlight.code} · ${ref}`,
+    });
     setStep("success");
   };
 
@@ -91,157 +118,97 @@ const FlightsPage = () => {
 
   const pointsUsed = flightPoints;
 
-  // ─── SUCCESS SCREEN ───
-  if (step === "success") {
-    return (
-      <div className="mx-auto min-h-screen max-w-md bg-background flex flex-col items-center justify-center px-6 py-10 pb-24">
-        <div className="w-full max-w-sm text-center">
-          <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
-            <Check className="h-10 w-10 text-primary" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground mb-1">Booking Confirmed! 🎉</h1>
-          <p className="text-sm text-muted-foreground mb-6">Your flight has been booked successfully</p>
+  const STEPS = ["Flight", "Traveller", "Payment"];
+  const wrap = (children: React.ReactNode, title: string, current: number, back: () => void) => (
+    <div className="mx-auto min-h-screen max-w-md bg-background">
+      <BookingHeader title={title} onBack={back} steps={STEPS} current={current} />
+      {children}
+    </div>
+  );
+  const dateLabel = date ? format(date, "EEE, dd MMM yyyy") : "";
+  const returnLabel = isRound && returnDate ? format(returnDate, "EEE, dd MMM yyyy") : "";
+  const lead = traveller.people[0];
 
-          {/* Flight summary card */}
-          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4 text-left">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-lg">{selectedFlight?.logo}</span>
-              <span className="text-sm font-semibold text-foreground">{selectedFlight?.airline}</span>
-              <span className="text-xs text-muted-foreground ml-auto">{selectedFlight?.code}</span>
-            </div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-center">
-                <p className="text-lg font-bold text-foreground">{selectedFlight?.depart}</p>
-                <p className="text-xs text-muted-foreground">{from?.code}</p>
-              </div>
-              <div className="flex-1 mx-4 flex flex-col items-center">
-                <div className="w-full h-px bg-border relative">
-                  <Plane className="h-3 w-3 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card" />
-                </div>
-                <span className="text-[10px] text-muted-foreground mt-1">{selectedFlight?.duration}</span>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold text-foreground">{selectedFlight?.arrive}</p>
-                <p className="text-xs text-muted-foreground">{to?.code}</p>
-              </div>
-            </div>
-            <div className="text-xs text-muted-foreground">{date && format(date, "EEE, dd MMM yyyy")} · 1 Passenger · Economy</div>
-          </div>
-
-          {/* Payment summary */}
-          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4 text-left space-y-2.5">
-            <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Payment Summary</h3>
-            {pointsUsed > 0 && (
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Points redeemed</span>
-                <span className="font-semibold text-foreground">{pointsUsed.toLocaleString()} pts</span>
-              </div>
-            )}
-            <div className="h-px bg-border" />
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Previous balance</span>
-              <span className="font-medium text-foreground">{USER_POINTS.toLocaleString()} pts</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Points used</span>
-              <span className="font-medium text-destructive">-{pointsUsed.toLocaleString()} pts</span>
-            </div>
-          </div>
-
-          <button
-            onClick={() => navigate("/loyalty")}
-            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-          >
-            Back to Home
-          </button>
-        </div>
-      </div>
+  // ─── FLIGHT DETAILS ───
+  if (step === "details" && selectedFlight && from && to) {
+    return wrap(
+      <FlightDetail flight={selectedFlight} from={from} to={to} dateLabel={returnLabel ? `${dateLabel} · Return ${returnLabel}` : dateLabel} onContinue={() => { traveller.setShowErrors(false); setStep("travellers"); }} />,
+      "Flight details",
+      0,
+      () => setStep("results"),
     );
   }
 
-  // ─── PAYMENT SCREEN ───
-  if (step === "payment" && selectedFlight) {
+  // ─── TRAVELLER DETAILS ───
+  if (step === "travellers" && selectedFlight) {
+    return wrap(
+      <>
+        <GuestDetailsForm
+          noun="Traveller"
+          people={traveller.people}
+          onPeopleChange={traveller.setPeople}
+          contact={traveller.contact}
+          onContactChange={traveller.setContact}
+          showErrors={traveller.showErrors}
+        />
+        <BottomAction
+          label="Continue to payment"
+          onClick={() => {
+            if (!traveller.valid) {
+              traveller.setShowErrors(true);
+              toast.error("Please complete the traveller details");
+              return;
+            }
+            setStep("payment");
+          }}
+        />
+      </>,
+      "Traveller details",
+      1,
+      () => setStep("details"),
+    );
+  }
+
+  // ─── PAYMENT ───
+  if (step === "payment" && selectedFlight && from && to) {
+    return wrap(
+      <PointsPaymentStep
+        totalPoints={flightPoints}
+        onConfirm={handleBook}
+        rows={[
+          { label: "Flight", value: `${selectedFlight.airline} ${selectedFlight.code}` },
+          { label: "Route", value: `${from.name} (${from.code}) → ${to.name} (${to.code})` },
+          { label: isRound ? "Departure date" : "Date", value: dateLabel },
+          ...(returnLabel ? [{ label: "Return date", value: returnLabel }] : []),
+          { label: "Time", value: `${selectedFlight.depart} – ${selectedFlight.arrive}` },
+          { label: "Traveller", value: `${lead.title} ${lead.firstName} ${lead.lastName}` },
+          { label: "Cabin", value: "Economy" },
+        ]}
+      />,
+      "Payment",
+      2,
+      () => setStep("travellers"),
+    );
+  }
+
+  // ─── CONFIRMATION ───
+  if (step === "success" && selectedFlight && from && to) {
     return (
-      <div className="mx-auto min-h-screen max-w-md bg-background pb-20">
-        {/* Header */}
-        <div className="flex items-center gap-3 px-4 py-4 border-b border-border">
-          <button onClick={() => setStep("results")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
-            <ArrowLeft className="h-4 w-4 text-foreground" />
-          </button>
-          <h1 className="text-lg font-semibold text-foreground">Payment</h1>
-        </div>
-
-        {/* Flight summary */}
-        <div className="mx-4 mt-4 rounded-2xl bg-[#ECE8E3] p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg">{selectedFlight.logo}</span>
-            <span className="text-sm font-semibold text-foreground">{selectedFlight.airline}</span>
-            <span className="text-xs text-muted-foreground ml-auto">{selectedFlight.code}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-center">
-              <p className="text-base font-bold text-foreground">{selectedFlight.depart}</p>
-              <p className="text-[10px] text-muted-foreground">{from?.code}</p>
-            </div>
-            <div className="flex-1 mx-3 flex flex-col items-center">
-              <span className="text-[10px] text-muted-foreground mb-1">{selectedFlight.duration}</span>
-              <div className="w-full h-px bg-border relative">
-                <Plane className="h-3 w-3 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card" />
-              </div>
-              <span className="text-[10px] text-primary font-medium mt-1">{selectedFlight.stops}</span>
-            </div>
-            <div className="text-center">
-              <p className="text-base font-bold text-foreground">{selectedFlight.arrive}</p>
-              <p className="text-[10px] text-muted-foreground">{to?.code}</p>
-            </div>
-          </div>
-          <div className="mt-2 pt-2 border-t border-border flex justify-between text-xs">
-            <span className="text-muted-foreground">{date && format(date, "EEE, dd MMM")}</span>
-            <span className="font-semibold text-foreground">{selectedFlight.points.toLocaleString()} pts</span>
-          </div>
-        </div>
-
-        {/* Points only summary */}
-        {(
-          <div className="mx-4 mt-4 rounded-2xl bg-[#ECE8E3] p-4">
-            <div className="flex justify-between text-sm mb-1">
-              <span className="text-muted-foreground">Points required</span>
-              <span className="font-bold text-foreground">{flightPoints.toLocaleString()} pts</span>
-            </div>
-            <div className="flex justify-between text-xs">
-              <span className="text-muted-foreground">Available balance</span>
-              <span className="text-primary font-medium">{USER_POINTS.toLocaleString()} pts</span>
-            </div>
-          </div>
-        )}
-
-        {/* Total & Book button */}
-        <div className="mx-4 mt-6">
-          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4">
-            <h3 className="text-xs font-semibold text-foreground mb-2 uppercase tracking-wider">Order Summary</h3>
-            {pointsUsed > 0 && (
-              <div className="flex justify-between text-sm py-1">
-                <span className="text-muted-foreground">Points</span>
-                <span className="font-semibold text-foreground">{pointsUsed.toLocaleString()} pts</span>
-              </div>
-            )}
-            <div className="h-px bg-border my-1.5" />
-            <div className="flex justify-between text-sm py-1">
-              <span className="font-semibold text-foreground">Total</span>
-              <span className="font-bold text-foreground">
-                {pointsUsed.toLocaleString()} pts
-              </span>
-            </div>
-          </div>
-
-          <button
-            onClick={handleBook}
-            className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-          >
-            Confirm & Book
-          </button>
-        </div>
-      </div>
+      <BookingConfirmation
+        heading="Flight booked"
+        reference={reference}
+        email={traveller.contact.email}
+        pointsUsed={flightPoints}
+        balanceAfter={user.availablePoints - flightPoints}
+        rows={[
+          { label: "Flight", value: `${selectedFlight.airline} ${selectedFlight.code}` },
+          { label: "Route", value: `${from.code} → ${to.code}` },
+          { label: "Departure", value: `${dateLabel}, ${selectedFlight.depart}` },
+          ...(returnLabel ? [{ label: "Return", value: returnLabel }] : []),
+          { label: "Arrival", value: selectedFlight.arrive },
+          { label: "Traveller", value: `${lead.title} ${lead.firstName} ${lead.lastName}` },
+        ]}
+      />
     );
   }
 
@@ -261,7 +228,7 @@ const FlightsPage = () => {
                 <span className="font-bold text-sm">{to?.code}</span>
               </div>
               <p className="text-xs text-primary-foreground/70 mt-0.5">
-                {date && format(date, "EEE, dd MMM yyyy")} · 1 Passenger · Economy
+                {date && format(date, "EEE, dd MMM yyyy")}{isRound && returnDate && ` – ${format(returnDate, "EEE, dd MMM")}`} · 1 Passenger · Economy
               </p>
             </div>
           </div>
@@ -330,9 +297,13 @@ const FlightsPage = () => {
       <div className="relative mx-4 overflow-hidden rounded-2xl">
         <img src={travelImg} alt="Flights" className="h-32 w-full object-cover" width={800} height={512} />
         <div className="absolute inset-0 bg-primary/60" />
+        <div className="absolute inset-0 flex items-center gap-2 px-5">
+          <Plane className="h-5 w-5 text-primary-foreground" />
+          <h2 className="text-lg font-bold text-primary-foreground">Fly with your points</h2>
+        </div>
       </div>
 
-      <div className="mx-4 -mt-4 relative z-10 py-4 border-b">
+      <div className="mx-4 mt-5 pb-6 border-b border-border">
         <div className="flex gap-6 mb-6 border-b border-border">
           <button
             onClick={() => setTripType("one-way")}
@@ -357,7 +328,7 @@ const FlightsPage = () => {
           <label className="text-xs font-semibold text-foreground mb-1.5 block">From*</label>
           <button
             onClick={() => { setShowFromDropdown(!showFromDropdown); setShowToDropdown(false); }}
-            className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5"
+            className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left"
           >
             <span className={cn("flex-1 text-sm text-left truncate", from ? "text-foreground" : "text-muted-foreground")}>
               {from ? `${from.name} (${from.code})` : "Select city or airport"}
@@ -365,7 +336,7 @@ const FlightsPage = () => {
             <MapPin className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
           </button>
           {showFromDropdown && (
-            <div className="absolute left-0 right-0 top-full mt-1 border-b z-20 max-h-48 overflow-y-auto">
+            <div className="absolute left-0 right-0 top-full z-20 mt-1 max-h-56 overflow-y-auto rounded-xl border border-border bg-card shadow-lg">
               <input
                 autoFocus
                 value={fromSearch}
@@ -392,7 +363,7 @@ const FlightsPage = () => {
           <label className="text-xs font-semibold text-foreground mb-1.5 block">To*</label>
           <button
             onClick={() => { setShowToDropdown(!showToDropdown); setShowFromDropdown(false); }}
-            className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5"
+            className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left"
           >
             <span className={cn("flex-1 text-sm text-left truncate", to ? "text-foreground" : "text-muted-foreground")}>
               {to ? `${to.name} (${to.code})` : "Select city or airport"}
@@ -400,7 +371,7 @@ const FlightsPage = () => {
             <MapPin className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
           </button>
           {showToDropdown && (
-            <div className="absolute left-0 right-0 top-full mt-1 border-b z-20 max-h-48 overflow-y-auto">
+            <div className="absolute left-0 right-0 top-full z-20 mt-1 max-h-56 overflow-y-auto rounded-xl border border-border bg-card shadow-lg">
               <input
                 autoFocus
                 value={toSearch}
@@ -422,23 +393,23 @@ const FlightsPage = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
             <label className="text-xs font-semibold text-foreground mb-1.5 block">Departure*</label>
             <Popover>
               <PopoverTrigger asChild>
-                <button className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5">
+                <button className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left">
                   <span className={cn("flex-1 text-sm text-left truncate", date ? "text-foreground" : "text-muted-foreground")}>
                     {date ? format(date, "dd MMM yyyy") : "Select Date"}
                   </span>
-                  <Clock className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
+                  <CalendarIcon className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
                   selected={date}
-                  onSelect={setDate}
+                  onSelect={(d) => { setDate(d); if (d && returnDate && returnDate < d) setReturnDate(undefined); }}
                   disabled={(d) => d < new Date()}
                   initialFocus
                   className={cn("p-3 pointer-events-auto")}
@@ -446,24 +417,55 @@ const FlightsPage = () => {
               </PopoverContent>
             </Popover>
           </div>
+          {isRound && (
+            <div>
+              <label className="text-xs font-semibold text-foreground mb-1.5 block">Return*</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className="flex w-full items-center border-b border-[#CFCBD0] px-0 py-3 text-left">
+                    <span className={cn("flex-1 text-sm text-left truncate", returnDate ? "text-foreground" : "text-muted-foreground")}>
+                      {returnDate ? format(returnDate, "dd MMM yyyy") : "Select Date"}
+                    </span>
+                    <CalendarIcon className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={returnDate}
+                    onSelect={setReturnDate}
+                    disabled={(d) => d < (date ?? new Date())}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
+          {!isRound && (
           <div>
             <label className="text-xs font-semibold text-foreground mb-1.5 block">Passengers*</label>
-            <div className="flex items-center rounded-lg px-3 py-2.5">
+            <div className="flex items-center border-b border-[#CFCBD0] px-0 py-3">
               <span className="flex-1 text-sm text-foreground truncate">1 Pax, Economy</span>
               <ChevronsUpDown className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
             </div>
           </div>
+          )}
         </div>
+        {isRound ? <div className="mb-6">
+          <div>
+            <label className="text-xs font-semibold text-foreground mb-1.5 block">Passengers*</label>
+            <div className="flex items-center border-b border-[#CFCBD0] px-0 py-3">
+              <span className="flex-1 text-sm text-foreground truncate">1 Pax, Economy</span>
+              <ChevronsUpDown className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
+            </div>
+          </div>
+        </div> : null}
 
         <button
           onClick={handleSearch}
           disabled={!canSearch}
-          className={cn(
-            "w-full rounded-xl py-3.5 text-sm font-semibold transition-colors",
-            canSearch
-              ? "bg-primary text-primary-foreground hover:bg-primary/90"
-              : "bg-muted text-muted-foreground cursor-not-allowed"
-          )}
+          className="h-12 w-full rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
           Search Flights
         </button>

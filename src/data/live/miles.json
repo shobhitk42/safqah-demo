@@ -1,0 +1,520 @@
+[
+ {
+  "id": 129925,
+  "name": "Air Arabia",
+  "program": "AirRewards",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpF8MRjU_kank6p.png",
+  "unit": "Miles",
+  "memberField": "AirRewards membership number",
+  "options": [
+   {
+    "points": 89,
+    "miles": 1000
+   },
+   {
+    "points": 178,
+    "miles": 2000
+   },
+   {
+    "points": 267,
+    "miles": 3000
+   },
+   {
+    "points": 356,
+    "miles": 4000
+   },
+   {
+    "points": 445,
+    "miles": 5000
+   },
+   {
+    "points": 533,
+    "miles": 6000
+   },
+   {
+    "points": 622,
+    "miles": 7000
+   },
+   {
+    "points": 711,
+    "miles": 8000
+   },
+   {
+    "points": 800,
+    "miles": 9000
+   },
+   {
+    "points": 889,
+    "miles": 10000
+   },
+   {
+    "points": 1333,
+    "miles": 15000
+   },
+   {
+    "points": 1777,
+    "miles": 20000
+   },
+   {
+    "points": 2221,
+    "miles": 25000
+   },
+   {
+    "points": 2665,
+    "miles": 30000
+   }
+  ],
+  "terms": [
+   "Provide a valid AirRewards membership number; points are credited within 2 to 5 business days.",
+   "Redemptions cannot be cancelled or modified after processing.",
+   "Credited points are non-refundable and cannot be converted to cash."
+  ]
+ },
+ {
+  "id": 174304,
+  "name": "Qatar Airways",
+  "program": "Privilege Club",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpyt7urM_xuldip.png",
+  "unit": "Avios",
+  "memberField": "Privilege Club membership number",
+  "options": [
+   {
+    "points": 39,
+    "miles": 500
+   },
+   {
+    "points": 77,
+    "miles": 1000
+   },
+   {
+    "points": 154,
+    "miles": 2000
+   },
+   {
+    "points": 384,
+    "miles": 5000
+   },
+   {
+    "points": 537,
+    "miles": 7000
+   },
+   {
+    "points": 767,
+    "miles": 10000
+   },
+   {
+    "points": 921,
+    "miles": 12000
+   },
+   {
+    "points": 1151,
+    "miles": 15000
+   },
+   {
+    "points": 1534,
+    "miles": 20000
+   },
+   {
+    "points": 1918,
+    "miles": 25000
+   },
+   {
+    "points": 3835,
+    "miles": 50000
+   },
+   {
+    "points": 5753,
+    "miles": 75000
+   },
+   {
+    "points": 7670,
+    "miles": 100000
+   }
+  ],
+  "terms": [
+   "Enter your Privilege Club membership number and the quantity of Avios to redeem.",
+   "Avios are added to your account within 48 to 72 working hours."
+  ]
+ },
+ {
+  "id": 174445,
+  "name": "Saudia",
+  "program": "AlFursan",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpZcBhKU_sgbfsi.jpg",
+  "unit": "Miles",
+  "memberField": "AlFursan membership number",
+  "options": [
+   {
+    "points": 1,
+    "miles": 50
+   },
+   {
+    "points": 2,
+    "miles": 100
+   },
+   {
+    "points": 3,
+    "miles": 200
+   },
+   {
+    "points": 4,
+    "miles": 300
+   },
+   {
+    "points": 12,
+    "miles": 1000
+   },
+   {
+    "points": 17,
+    "miles": 1500
+   },
+   {
+    "points": 23,
+    "miles": 2000
+   },
+   {
+    "points": 28,
+    "miles": 2500
+   }
+  ],
+  "terms": [
+   "AlFursan membership is required for redemption.",
+   "Reward availability is subject to capacity and program rules.",
+   "Taxes, fees and surcharges may apply to award bookings."
+  ]
+ },
+ {
+  "id": 133386,
+  "name": "Gulf Air",
+  "program": "FalconFlyer",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpV8ZRtZ_iuvxrv.png",
+  "unit": "Miles",
+  "memberField": "FalconFlyer membership number",
+  "options": [
+   {
+    "points": 89,
+    "miles": 664
+   },
+   {
+    "points": 267,
+    "miles": 2000
+   },
+   {
+    "points": 400,
+    "miles": 3000
+   },
+   {
+    "points": 533,
+    "miles": 4000
+   },
+   {
+    "points": 667,
+    "miles": 5000
+   },
+   {
+    "points": 800,
+    "miles": 6000
+   },
+   {
+    "points": 933,
+    "miles": 7000
+   },
+   {
+    "points": 1066,
+    "miles": 8000
+   },
+   {
+    "points": 1199,
+    "miles": 9000
+   },
+   {
+    "points": 1333,
+    "miles": 10000
+   }
+  ],
+  "terms": [
+   "A valid FalconFlyer membership number is required; miles are credited within 2 to 5 business days.",
+   "Redemptions cannot be changed or cancelled after processing.",
+   "Credited miles cannot be refunded, exchanged for cash or transferred."
+  ]
+ },
+ {
+  "id": 174306,
+  "name": "Etihad Airways",
+  "program": "Etihad Guest",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpviLRKP_oc7dgj.png",
+  "unit": "Miles",
+  "memberField": "Etihad Guest membership number",
+  "options": [
+   {
+    "points": 45,
+    "miles": 1000
+   },
+   {
+    "points": 89,
+    "miles": 2000
+   },
+   {
+    "points": 134,
+    "miles": 3000
+   },
+   {
+    "points": 178,
+    "miles": 4000
+   },
+   {
+    "points": 223,
+    "miles": 5000
+   },
+   {
+    "points": 267,
+    "miles": 6000
+   },
+   {
+    "points": 311,
+    "miles": 7000
+   },
+   {
+    "points": 356,
+    "miles": 8000
+   },
+   {
+    "points": 400,
+    "miles": 9000
+   },
+   {
+    "points": 445,
+    "miles": 10000
+   }
+  ],
+  "terms": [
+   "Subject to Etihad Airways' terms and conditions.",
+   "Baggage allowance and ticket rules vary by route, fare and cabin class."
+  ]
+ },
+ {
+  "id": 174418,
+  "name": "Shukran",
+  "program": "Landmark Group",
+  "category": "Retail",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/php9dsOmS_ziw0nf.png",
+  "unit": "Shukrans",
+  "memberField": "Shukran account number",
+  "options": [
+   {
+    "points": 8,
+    "miles": 100
+   },
+   {
+    "points": 16,
+    "miles": 200
+   },
+   {
+    "points": 39,
+    "miles": 500
+   },
+   {
+    "points": 77,
+    "miles": 1000
+   },
+   {
+    "points": 154,
+    "miles": 2000
+   },
+   {
+    "points": 231,
+    "miles": 3000
+   },
+   {
+    "points": 308,
+    "miles": 4000
+   },
+   {
+    "points": 385,
+    "miles": 5000
+   },
+   {
+    "points": 462,
+    "miles": 6000
+   },
+   {
+    "points": 539,
+    "miles": 7000
+   },
+   {
+    "points": 616,
+    "miles": 8000
+   },
+   {
+    "points": 693,
+    "miles": 9000
+   },
+   {
+    "points": 770,
+    "miles": 10000
+   }
+  ],
+  "terms": [
+   "Shukran points are posted to your Shukran account within 48 hours of the completed transaction.",
+   "A minimum of 200 points is needed to redeem at participating stores.",
+   "Shukran points cannot be exchanged for cash."
+  ]
+ },
+ {
+  "id": 174448,
+  "name": "Radisson Rewards",
+  "program": "Radisson Hotels",
+  "category": "Hotel",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpizHvK1_xnhiuq.jpg",
+  "unit": "Points",
+  "memberField": "Radisson Rewards number",
+  "options": [
+   {
+    "points": 1,
+    "miles": 50
+   },
+   {
+    "points": 2,
+    "miles": 100
+   },
+   {
+    "points": 3,
+    "miles": 200
+   },
+   {
+    "points": 4,
+    "miles": 300
+   },
+   {
+    "points": 12,
+    "miles": 1000
+   },
+   {
+    "points": 17,
+    "miles": 1500
+   },
+   {
+    "points": 23,
+    "miles": 2000
+   },
+   {
+    "points": 28,
+    "miles": 2500
+   }
+  ],
+  "terms": [
+   "Membership is free.",
+   "Points can be redeemed at participating Radisson hotels worldwide, subject to availability.",
+   "Points may expire after a period of account inactivity."
+  ]
+ },
+ {
+  "id": 174305,
+  "name": "Emirates Skywards",
+  "program": "Skywards",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/phpd4pT6p_vp5dim.png",
+  "unit": "Miles",
+  "memberField": "Skywards (EK) number",
+  "options": [
+   {
+    "points": 45,
+    "miles": 1000
+   },
+   {
+    "points": 89,
+    "miles": 2000
+   },
+   {
+    "points": 134,
+    "miles": 3000
+   },
+   {
+    "points": 178,
+    "miles": 4000
+   },
+   {
+    "points": 223,
+    "miles": 5000
+   },
+   {
+    "points": 267,
+    "miles": 6000
+   },
+   {
+    "points": 311,
+    "miles": 7000
+   },
+   {
+    "points": 356,
+    "miles": 8000
+   },
+   {
+    "points": 400,
+    "miles": 9000
+   },
+   {
+    "points": 445,
+    "miles": 10000
+   }
+  ],
+  "terms": [
+   "A valid Emirates Skywards membership number is required.",
+   "Miles usually post within 7 to 45 days.",
+   "Miles are non-transferable and cannot be exchanged for cash."
+  ]
+ },
+ {
+  "id": 174446,
+  "name": "Flynas",
+  "program": "naSmiles",
+  "category": "Airline",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/php80ovzp_xjwl5u.jpg",
+  "unit": "Miles",
+  "memberField": "naSmiles membership number",
+  "options": [
+   {
+    "points": 1,
+    "miles": 50
+   },
+   {
+    "points": 2,
+    "miles": 100
+   },
+   {
+    "points": 3,
+    "miles": 200
+   },
+   {
+    "points": 4,
+    "miles": 300
+   },
+   {
+    "points": 12,
+    "miles": 1000
+   },
+   {
+    "points": 17,
+    "miles": 1500
+   },
+   {
+    "points": 23,
+    "miles": 2000
+   },
+   {
+    "points": 28,
+    "miles": 2500
+   }
+  ],
+  "terms": [
+   "Membership is free with Basic and Prime tiers.",
+   "Miles expire 12 months after they are earned if not redeemed.",
+   "Redemption is subject to availability and program rules."
+  ]
+ }
+]

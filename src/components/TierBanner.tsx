@@ -83,7 +83,7 @@ const TierBanner = () => {
             </span>
           ))}
         </div>
-        <div className="mb-6 text-center">
+        <div className="mb-6 text-left">
           {nextTier ? (
             <span>
               <span className="tabular-nums text-[18px] font-bold" style={{ color: "#277D57" }}>{pointsToNext.toLocaleString()}</span> <span className="text-[14px] font-semibold text-foreground/80">pts to {nextTier.name}</span>

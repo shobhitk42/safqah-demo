@@ -3,6 +3,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin, Calendar, ChevronsUpDown, Search, Hotel, Star } from "lucide-react";
 import { toast } from "sonner";
+import BookingHeader from "@/components/booking/BookingHeader";
+import GuestDetailsForm, { useGuestForm } from "@/components/booking/GuestDetailsForm";
+import PointsPaymentStep from "@/components/booking/PointsPaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import HotelDetail from "@/components/booking/HotelDetail";
+import BottomAction from "@/components/booking/BottomAction";
+import { ROOMS, roomPrice, nightsBetween, makeReference, type HotelSummary } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
+import { useUser } from "@/contexts/UserContext";
 import hotelBeach from "@/assets/hotel-beach.jpg";
 import hotelClassic from "@/assets/hotel-classic.jpg";
 import hotelModern from "@/assets/hotel-modern.jpg";
@@ -28,10 +37,54 @@ const searchResults = [
 
 const HotelsPage = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<"search" | "results">("search");
+  const [step, setStep] = useState<"search" | "results" | "detail" | "guests" | "payment" | "confirmed">("search");
+  const [hotel, setHotel] = useState<HotelSummary | null>(null);
+  const [roomId, setRoomId] = useState(ROOMS[0].id);
+  const [reference, setReference] = useState("");
+  const guestForm = useGuestForm(2);
+  const { addBooking } = useBookings();
+  const { user } = useUser();
   const [location, setLocation] = useState("");
   const [checkIn, setCheckIn] = useState("08/04/2026");
   const [checkOut, setCheckOut] = useState("09/04/2026");
+
+  const openHotel = (h: HotelSummary) => {
+    setHotel(h);
+    setRoomId(ROOMS[0].id);
+    setStep("detail");
+  };
+
+  const nights = nightsBetween(checkIn, checkOut);
+  const room = ROOMS.find((r) => r.id === roomId) ?? ROOMS[0];
+  const totalPoints = hotel ? roomPrice(hotel.price, room.mult) * nights : 0;
+  const lead = guestForm.people[0];
+
+  const goGuests = () => {
+    guestForm.setShowErrors(false);
+    setStep("guests");
+  };
+  const submitGuests = () => {
+    if (!guestForm.valid) {
+      guestForm.setShowErrors(true);
+      toast.error("Please complete the guest details");
+      return;
+    }
+    setStep("payment");
+  };
+  const confirmBooking = () => {
+    if (!hotel) return;
+    const ref = makeReference("HTL");
+    setReference(ref);
+    addBooking({
+      item: hotel.name,
+      category: "Hotels",
+      points: totalPoints,
+      date: `${checkIn} – ${checkOut}`,
+      status: "Confirmed",
+      meta: `${room.name} · ${nights} night${nights > 1 ? "s" : ""} · ${ref}`,
+    });
+    setStep("confirmed");
+  };
 
   const handleSearch = () => {
     if (!location.trim()) {
@@ -40,6 +93,92 @@ const HotelsPage = () => {
     }
     setStep("results");
   };
+
+  const STEPS = ["Hotel", "Guests", "Payment"];
+  const wrap = (children: React.ReactNode, title: string, current: number, back: () => void) => (
+    <div className="mx-auto min-h-screen max-w-md bg-background">
+      <BookingHeader title={title} onBack={back} steps={STEPS} current={current} />
+      {children}
+    </div>
+  );
+
+  if (step === "detail" && hotel) {
+    return wrap(
+      <HotelDetail
+        hotel={hotel}
+        gallery={[hotel.image, hotelImg, hotelModern, hotelClassic]}
+        checkIn={checkIn}
+        checkOut={checkOut}
+        nights={nights}
+        room={roomId}
+        onRoomChange={setRoomId}
+        onContinue={goGuests}
+      />,
+      "Hotel details",
+      0,
+      () => setStep(location.trim() ? "results" : "search"),
+    );
+  }
+
+  if (step === "guests" && hotel) {
+    return wrap(
+      <>
+        <GuestDetailsForm
+          noun="Guest"
+          people={guestForm.people}
+          onPeopleChange={guestForm.setPeople}
+          contact={guestForm.contact}
+          onContactChange={guestForm.setContact}
+          requests={guestForm.requests}
+          onRequestsChange={guestForm.setRequests}
+          showErrors={guestForm.showErrors}
+        />
+        <BottomAction label="Continue to payment" onClick={submitGuests} />
+      </>,
+      "Guest details",
+      1,
+      () => setStep("detail"),
+    );
+  }
+
+  if (step === "payment" && hotel) {
+    return wrap(
+      <PointsPaymentStep
+        totalPoints={totalPoints}
+        onConfirm={confirmBooking}
+        rows={[
+          { label: "Hotel", value: hotel.name },
+          { label: "Room", value: room.name },
+          { label: "Dates", value: `${checkIn} – ${checkOut}` },
+          { label: "Duration", value: `${nights} night${nights > 1 ? "s" : ""}` },
+          { label: "Guests", value: `2 guests, 1 room` },
+          { label: "Lead guest", value: `${lead.title} ${lead.firstName} ${lead.lastName}` },
+        ]}
+      />,
+      "Payment",
+      2,
+      () => setStep("guests"),
+    );
+  }
+
+  if (step === "confirmed" && hotel) {
+    return (
+      <BookingConfirmation
+        heading="Booking confirmed"
+        reference={reference}
+        email={guestForm.contact.email}
+        pointsUsed={totalPoints}
+        balanceAfter={user.availablePoints - totalPoints}
+        rows={[
+          { label: "Hotel", value: hotel.name },
+          { label: "Room", value: room.name },
+          { label: "Check-in", value: `${checkIn}, from 3:00 PM` },
+          { label: "Check-out", value: `${checkOut}, by 12:00 PM` },
+          { label: "Guests", value: `${lead.title} ${lead.firstName} ${lead.lastName} +1` },
+        ]}
+      />
+    );
+  }
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
@@ -119,7 +258,7 @@ const HotelsPage = () => {
                   rows={[
                     { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
                   ]}
-                  onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts / night` })}
+                  onClick={() => openHotel(h)}
                 />
               ))}
             </div>
@@ -141,7 +280,7 @@ const HotelsPage = () => {
                 rows={[
                   { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
                 ]}
-                onClick={() => toast.success(`Booking ${h.name}`, { description: `${h.price.toLocaleString()} pts / night` })}
+                onClick={() => openHotel(h)}
               />
             ))}
           </div>

@@ -51,22 +51,18 @@ const UserHeader = () => {
         <div className="relative mt-6 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <p
-            className="text-[10px] uppercase"
-            style={{
-              color: "#02AD4C",
-              fontWeight: 700,
-              letterSpacing: "0.22em",
-            }}
+            className="mb-1 text-[12px]"
+            style={{ color: "#6B6B7A", fontWeight: 400 }}
           >
             Welcome back
           </p>
           <h1
-            className="mt-1.5 leading-[1.05]"
+            className="leading-none"
             style={{
               color: "#302F2D",
               fontFamily: "'IBM Plex Sans Arabic', sans-serif",
               fontWeight: 700,
-              fontSize: "30px",
+              fontSize: "28px",
               letterSpacing: "-0.028em",
             }}
           >
@@ -87,7 +83,7 @@ const UserHeader = () => {
               <span
                 className="tabular-nums leading-none"
                 style={{
-                  color: "#302F2D",
+                  color: "#02AD4C",
                   fontWeight: 700,
                   fontSize: "28px",
                   letterSpacing: "-0.02em",

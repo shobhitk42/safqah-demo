@@ -1,0 +1,848 @@
+[
+ {
+  "id": "d5a03ea2-e06e-5d01-84b7-94530b1059f7",
+  "type": "Attraction",
+  "name": "Universal Studios Singapore E-ticket (Test)",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 222,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg"
+ },
+ {
+  "id": "e8f0b93c-ee5d-54b7-8813-8004c26c658c",
+  "type": "Attraction",
+  "name": "Open-dated Night Safari 21:15 Admission with Tram Ride",
+  "location": "Singapore, Singapore",
+  "category": "Safari",
+  "points": 161,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3049aaed-168f-44fa-a610-dead36cd4438.jpg"
+ },
+ {
+  "id": "b2792dc3-1941-478f-9f75-13dca4aa2f55",
+  "type": "Attraction",
+  "name": "Taronga Zoo",
+  "location": "Sydney, Australia",
+  "category": "Zoo",
+  "points": 154,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/59f92534-2ccb-4f6f-964b-a15d5f178749.jpg"
+ },
+ {
+  "id": "016b3ae5-4180-4a03-8581-cfab815f0d2f",
+  "type": "Day Tour",
+  "name": "Yarra Valley Gourmet Tour from Melbourne",
+  "location": "Melbourne, Australia",
+  "category": "Drinks tasting",
+  "points": 613,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/f7d6ee64-be9d-42ed-bb68-0bd7c3ae5597.jpg"
+ },
+ {
+  "id": "18014b9f-10a5-51f4-b28c-0f7d0eb71cb8",
+  "type": "Activity",
+  "name": "Helmet Diving in Boracay",
+  "location": "Boracay, Philippines",
+  "category": "diving",
+  "points": 66,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d4f07b6a-14d8-4853-aa12-7dfb1f0a42ff.jpg"
+ },
+ {
+  "id": "157c48c2-4dcf-445b-943c-caf94e866112",
+  "type": "Attraction",
+  "name": "Universal Studios Singapore Express Pass",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 190,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7797f385-6b0b-4e5a-b062-d640fba80502.jpeg"
+ },
+ {
+  "id": "f3969abe-3cae-4b09-aec2-bb3f95dc77b1",
+  "type": "Activity",
+  "name": "Professional Photo Shoot in Bali",
+  "location": "Bali, Indonesia",
+  "category": "Other",
+  "points": 612,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/4f25d9dd-54a2-47a7-9db3-bddb4cb40166.jpg"
+ },
+ {
+  "id": "074c7a12-d743-469f-81dd-85f9f8fedc24",
+  "type": "Day Tour",
+  "name": "Cham Islands Underwater Walking and Snorkelling Half-Day Tour from Da Nang",
+  "location": "Da Nang, Vietnam",
+  "category": "Half Day tour",
+  "points": 302,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/1c35f8cd-ae8a-4cae-bc1d-2e4079958e30.jpg"
+ },
+ {
+  "id": "b32945ad-29db-570f-96a1-0ff058f35481",
+  "type": "Attraction",
+  "name": "Burj Khalifa 'At the Top' Entrance Ticket (API Integration Test)",
+  "location": "Dubai, United Arab Emirates",
+  "category": "Other attractions",
+  "points": 232,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/49882dcb-3493-41eb-bd4b-d62b474dba8c.jpg"
+ },
+ {
+  "id": "c06e4620-c54d-5152-afb8-b45b9f3c5383",
+  "type": "Day Tour",
+  "name": "Mount Fuji and Hakone Tour (API Integration Test)",
+  "location": "Tokyo, Japan",
+  "category": "Day tour",
+  "points": 495,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/35d4b349-5285-49f4-ab9b-f142bcac2e97.jpg"
+ },
+ {
+  "id": "9a7bad89-3983-568b-9b1d-f3ed0cee3c30",
+  "type": "Attraction",
+  "name": "Hong Kong Disneyland Play and Dine Ticket Combo",
+  "location": "Hong Kong, Hong Kong",
+  "category": "Themeparks",
+  "points": 302,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/ae7e69e9-8b8b-48bb-899a-b0a4f08b3d8b.jpg"
+ },
+ {
+  "id": "80d6b225-ae2f-5ebf-b315-5fc5ad73d74e",
+  "type": "Day Tour",
+  "name": "Sunrise Trekking at Mount Batur",
+  "location": "Bali, Indonesia",
+  "category": "Trekking/Hiking",
+  "points": 75,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/9e8a02e4-7f9c-47ee-8202-d48522f80f23.png"
+ },
+ {
+  "id": "90264dc9-703d-59d7-9dad-8812b704d005",
+  "type": "Attraction",
+  "name": "River Safari Admission with Two Boat Rides (API Integration Test)",
+  "location": "Singapore, Singapore",
+  "category": "Nature parks and reserves",
+  "points": 88,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/9a0df316-9aa5-4f84-bcc7-10c2a1d27514.jpg"
+ },
+ {
+  "id": "0a44057a-78af-5fd1-a6b0-3cf9ce03d0c1",
+  "type": "Attraction",
+  "name": "Bali Bird Park E-voucher",
+  "location": "Bali, Indonesia",
+  "category": "Nature parks and reserves",
+  "points": 116,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3010c497-510c-4a26-b350-02a01fa3dac1.png"
+ },
+ {
+  "id": "3f9e28b2-eebf-5004-87c8-7207def4bb92",
+  "type": "Attraction",
+  "name": "Trick Eye Museum E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 73,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d146487f-269a-49ee-a6fa-18a1c8068d10.jpg"
+ },
+ {
+  "id": "ec1897a3-86fb-525c-914b-bfe39a4d5396",
+  "type": "Attraction",
+  "name": "Jurong Bird Park",
+  "location": "Singapore, Singapore",
+  "category": "Zoo",
+  "points": 85,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/c120bc51-2e6e-48b8-8e4f-6e6bd38783be.jpg"
+ },
+ {
+  "id": "cdc5a574-de77-5cdd-a1fc-987889561f17",
+  "type": "Attraction",
+  "name": "Butterfly Park and Insect Kingdom (E-voucher)",
+  "location": "Sentosa, Singapore",
+  "category": "Nature parks and reserves",
+  "points": 47,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/4a844433-ecae-4daa-a656-00d615c5a0e8.jpg"
+ },
+ {
+  "id": "cbfca87d-1a64-50d2-9c1b-da8f926a9810",
+  "type": "Attraction",
+  "name": "Calypso Cabaret Show",
+  "location": "Bangkok, Thailand",
+  "category": "Music performance",
+  "points": 107,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/8ab924af-370e-4caa-b3e3-4dd2182ee612.png"
+ },
+ {
+  "id": "862a4a30-533f-57dc-94d0-dab9d59bacc5",
+  "type": "Attraction",
+  "name": "Sentosa Day Fun Pass",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 140,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d59145a3-8d7c-40dc-b4bc-b410a9e0da9d.jpg"
+ },
+ {
+  "id": "1c3665dd-b7cd-5ee8-9ba0-dbde34ea941e",
+  "type": "Activity",
+  "name": "Sentosa Express E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Bus",
+  "points": 18,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/6db1ce07-9a5b-4605-9f3d-bc0411cade5b.jpg"
+ },
+ {
+  "id": "ac36b20b-b090-47cd-a186-6ec7ba2431ca",
+  "type": "Attraction",
+  "name": "Harukas 300 Observatory",
+  "location": "Osaka, Japan",
+  "category": "Other attractions",
+  "points": 67,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/aa8c9d88-fd1b-4361-b988-1a65185710f6.jpg"
+ },
+ {
+  "id": "f9f8f662-121b-4553-aab6-5745f58439a5",
+  "type": "Attraction",
+  "name": "Museum of the Future - Where the Future Lives",
+  "location": "Dubai, United Arab Emirates",
+  "category": "Other attractions",
+  "points": 171,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/701f33f3-76c5-489a-b051-51c9f8c7d1e7.jpg"
+ },
+ {
+  "id": "223b00bd-c5ce-4819-8d2b-8ca1ea9192a1",
+  "type": "Activity",
+  "name": "Disney Cruise Line: 4-Night Disney Adventure Cruise from Singapore",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 5644,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/91197127-b576-4d06-8ba2-251f1858183e.jpg"
+ },
+ {
+  "id": "007b281f-9e75-54dd-b40d-d6bd8c3edca5",
+  "type": "Attraction",
+  "name": "One-day Sky Hop on and Hop Off Sightseeing Bus",
+  "location": "Tokyo, Japan",
+  "category": "Day tour",
+  "points": 124,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3a3dac1c-b121-46b3-a457-22235f5bfe1e.jpg"
+ },
+ {
+  "id": "b1064259-61b2-5240-9108-825d7a846b08",
+  "type": "Day Tour",
+  "name": "Canoeing Tour to Phang Nga Bay and James Bond Island",
+  "location": "Phuket, Thailand",
+  "category": "Day tour",
+  "points": 229,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/70154ie838f6ded91a38b204165d303a5ad773.jpg"
+ },
+ {
+  "id": "8adf5176-8511-5980-9a54-ecda76c75c54",
+  "type": "Attraction",
+  "name": "KidZania Singapore E-ticket (Combo)",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 131,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/51dbd8c8-3501-42a3-8983-fe65e272f091.jpg"
+ },
+ {
+  "id": "a26e84c1-ebe3-5611-8507-6dc092053882",
+  "type": "Attraction",
+  "name": "Universal Studios Singapore E-ticket (For API Integration Test)",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 175,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/08dda1fe-abb9-4966-8bbb-3dace28e87b3.jpg"
+ },
+ {
+  "id": "d4398f47-9fc0-5f38-ba2d-d04a5fe8327e",
+  "type": "Attraction",
+  "name": "Singapore Zoo Admission with Unlimited Tram Ride",
+  "location": "Singapore, Singapore",
+  "category": "Zoo",
+  "points": 140,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/83094i59f19fcd47c62ff5a9363b5007f9e130.jpg"
+ },
+ {
+  "id": "fcc8b273-f744-5af4-8115-61f0ff72c326",
+  "type": "Activity",
+  "name": "iFly Singapore Indoor Skydiving Activity Pass",
+  "location": "Sentosa, Singapore",
+  "category": "Skydiving",
+  "points": 318,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/745ac3b5-4752-4a23-bf33-1245bcf6dadc.jpg"
+ },
+ {
+  "id": "dadee289-0f4f-5fff-8145-8b562a35cd70",
+  "type": "Activity",
+  "name": "Luge and Skyride E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 53,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/29619ia46e599105087c0200ee45ce6d01b92c.jpg"
+ },
+ {
+  "id": "01504e4e-128c-59d1-93d2-9b50dbb5ed39",
+  "type": "Attraction",
+  "name": "Admission to Dinosaur Planet",
+  "location": "Bangkok, Thailand",
+  "category": "Themeparks",
+  "points": 43,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cc2c3ab2-49ab-4d4b-b9a3-3f859109330c.jpg"
+ },
+ {
+  "id": "80012061-4e60-5f08-9166-db17178e4380",
+  "type": "Attraction",
+  "name": "4D AdventureLand E-voucher NEW",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 114,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/c3bec29f-bf92-4bae-b87c-fbdcc835a7b3.png"
+ },
+ {
+  "id": "0f00c409-edd5-5b67-855b-80a69a705aec",
+  "type": "Activity",
+  "name": "Sky Dining Experience",
+  "location": "Singapore, Singapore",
+  "category": "Fine dining",
+  "points": 291,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/321fa90c-206b-5537-b5b8-a39a97cd0da1.jpg"
+ },
+ {
+  "id": "00396122-ad1c-49a9-b202-db5fbceabd68",
+  "type": "Day Tour",
+  "name": "Kuala Selangor and Fireflies River Cruise",
+  "location": "Kuala Lumpur, Malaysia",
+  "category": "Nature parks and reserves",
+  "points": 294,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/84f6994e-1fcc-47a3-8620-a7bf06d48c7d.jpg"
+ },
+ {
+  "id": "84383b87-0de6-4c47-a9c3-0a1a217274c7",
+  "type": "Activity",
+  "name": "APITEST in Demo -2 APIS",
+  "location": "Hue, Vietnam",
+  "category": "Day tour",
+  "points": 175,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/75ce7dd5-599d-489f-b7a0-d69ef8d8db82.jpg"
+ },
+ {
+  "id": "6e3eeea2-a866-42f8-b84c-bb7549b765f9",
+  "type": "Activity",
+  "name": "Japan 4G Pocket WiFi Rental (Japan Airport Pickup) (Test)",
+  "location": "Tokyo, Japan",
+  "category": "SIM Card / Wifi Router",
+  "points": 118,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/653bfd6b-c572-43cf-8956-85d143e3768a.png"
+ },
+ {
+  "id": "49d32aab-f0f1-4ee7-8c50-52ab64ac29de",
+  "type": "Day Tour",
+  "name": "Scuba Diving at TARP Island - For Cert Diver With Two Boat Dives",
+  "location": "Kota Kinabalu, Malaysia",
+  "category": "diving",
+  "points": 274,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/2af0a1cf-f386-4bf0-940b-bc41fa7555eb.jpg"
+ },
+ {
+  "id": "19b83178-84e3-4d42-aa95-da42d524559c",
+  "type": "Activity",
+  "name": "Pulau Ubin Cycling Tour (API Integration Test)",
+  "location": "Singapore, Singapore",
+  "category": "Cycling",
+  "points": 190,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/b424a845-05f2-41fa-8c0d-5d5788de4b33.jpg"
+ },
+ {
+  "id": "0f89a9d7-48e3-53f2-b7f4-5b8f62972827",
+  "type": "Attraction",
+  "name": "Waterbom Bali E-voucher",
+  "location": "Bali, Indonesia",
+  "category": "Themeparks",
+  "points": 166,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/55107bd1-fc76-4df7-adc0-135b760470ac.jpg"
+ },
+ {
+  "id": "b17321a3-8cc5-5baa-96db-fda48c8880df",
+  "type": "Attraction",
+  "name": "S.E.A. Aquarium E-ticket",
+  "location": "Sentosa, Singapore",
+  "category": "Aquarium",
+  "points": 99,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7237bdb8-5f07-47c3-9759-d9297588fe35.jpg"
+ },
+ {
+  "id": "d3bfa3e1-edd4-5c24-a051-4d6c56aae621",
+  "type": "Attraction",
+  "name": "Everland Admission Ticket",
+  "location": "Seoul, South Korea",
+  "category": "Themeparks",
+  "points": 123,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/b2de9155-bebd-49a2-a54c-16853f2daedc.jpg"
+ },
+ {
+  "id": "987081b3-2965-5300-bf35-8baa682ed969",
+  "type": "Attraction",
+  "name": "Kuala Lumpur Hop-on, Hop-off E-voucher",
+  "location": "Kuala Lumpur, Malaysia",
+  "category": "City hop on-hop off",
+  "points": 52,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/5c925e6f-1b6d-40fd-919e-4e696c3772f3.jpg"
+ },
+ {
+  "id": "96e84f7e-92c0-577e-bd6f-017df4cda7fb",
+  "type": "Attraction",
+  "name": "Madame Tussauds with IOS Live and Boat Ride E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 114,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/236f2c4b-74a9-4549-b737-a19b00296ba1.jpg"
+ },
+ {
+  "id": "acb63802-2675-56e6-8d40-1a9b409cb3a5",
+  "type": "Attraction",
+  "name": "Ocean Park Hong Kong E-ticket",
+  "location": "Hong Kong, Hong Kong",
+  "category": "Themeparks",
+  "points": 226,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/05c15d24-fdab-46d5-81cc-3da198a3504a.jpg"
+ },
+ {
+  "id": "a03a2cba-1300-5366-ad8f-055e1ad8278f",
+  "type": "Attraction",
+  "name": "Wings of Time Show Ticket",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 53,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/33696i4f6a53a042a477e9c8150f8643b1c4e1.jpg"
+ },
+ {
+  "id": "f9d5a777-4a58-5fd7-b5d6-b3ac2bb5a02b",
+  "type": "Attraction",
+  "name": "KidsSTOP Singapore E-voucher",
+  "location": "Singapore, Singapore",
+  "category": "Other attractions",
+  "points": 88,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/77da6050-d868-4010-9765-6ccce10c835c.jpg"
+ },
+ {
+  "id": "766e2273-6cdc-5943-997a-f69fa010e2ff",
+  "type": "Activity",
+  "name": "MegaZip and MegaJump in Mega Adventure Park E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Zip-lining",
+  "points": 190,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/33790i0b1b8adfbaa8beca9b4a61093cc2ad3f.jpg"
+ },
+ {
+  "id": "81b7e42e-c757-50d9-a85d-6a12436f1f3f",
+  "type": "Activity",
+  "name": "Dining Experience at Sentosa Good Old Days Restaurant",
+  "location": "Sentosa, Singapore",
+  "category": "Food tasting",
+  "points": 88,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/598b42d1-85d4-40a1-99ad-139fad7851bc.jpg"
+ },
+ {
+  "id": "a71ca448-3b09-43a1-9803-33e5709bad49",
+  "type": "Day Tour",
+  "name": "Penang Hill and Kek Lok Si Chinese Temple Tour",
+  "location": "Penang, Malaysia",
+  "category": "Day tour",
+  "points": 204,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/98acc1aa-d50b-4c8b-a9ae-ee62d79da5a3.jpg"
+ },
+ {
+  "id": "c1b5e5f3-df2d-4778-bb98-3450bbd58d98",
+  "type": "Day Tour",
+  "name": "Stonehenge Tour From London",
+  "location": "London, United Kingdom",
+  "category": "Other attractions",
+  "points": 312,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/43dad4f5-a9f8-48b3-9f2a-76021542e3b4.jpg"
+ },
+ {
+  "id": "7c002b44-01b2-4ab7-81e4-c7714c391f31",
+  "type": "Day Tour",
+  "name": "Chinatown Night Tour",
+  "location": "Singapore, Singapore",
+  "category": "Evening Activity",
+  "points": 356,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/37e8e3c7-b8dd-4768-bf38-33cc340e63a3.jpg"
+ },
+ {
+  "id": "b285fb6a-464e-4837-a08a-d12f4e26f53b",
+  "type": "Attraction",
+  "name": "Universal Studios Japan - Express Pass",
+  "location": "Osaka, Japan",
+  "category": "Kids & Family",
+  "points": 558,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/71721bc7-1be1-48bf-a193-8c117cdc966c.jpg"
+ },
+ {
+  "id": "19f1128c-51bd-5400-9c23-840420c020f1",
+  "type": "Attraction",
+  "name": "Penang 3D Trick Art Museum Admission Ticket",
+  "location": "Georgetown, Malaysia",
+  "category": "Other attractions",
+  "points": 22,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/1e5c3c75-f94d-45af-b810-ea6451075b41.jpg"
+ },
+ {
+  "id": "f47cd456-efe7-41e2-a5e4-0ab7587dd3e3",
+  "type": "Activity",
+  "name": "Oz Jet Boating Ride in Sydney Harbour",
+  "location": "Sydney, Australia",
+  "category": "Water Activities",
+  "points": 643,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d1840dd5-8381-45e1-86eb-5da1cc3741a6.jpg"
+ },
+ {
+  "id": "1f4d1c22-e432-5897-8ff2-56b05b6de2a2",
+  "type": "Attraction",
+  "name": "Adventure Cove Waterpark E-ticket",
+  "location": "Sentosa, Singapore",
+  "category": "Themeparks",
+  "points": 111,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/bc7f0232-f6f1-42eb-93ea-52d940e82df8.jpg"
+ },
+ {
+  "id": "f057d7c5-4cad-41f0-966a-3d4ec716ca61",
+  "type": "Activity",
+  "name": "Singapore Island Cruise Ferry to St. John's Island, Lazarus Island, and Kusu Island",
+  "location": "Singapore, Singapore",
+  "category": "Water",
+  "points": 44,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/aa758996-21dc-459e-b8d7-c996d42f0e1b.jpg"
+ },
+ {
+  "id": "a40e5091-7cb3-4633-91d6-aefea9f10240",
+  "type": "Attraction",
+  "name": "COEX Aquarium",
+  "location": "Seoul, South Korea",
+  "category": "Aquarium",
+  "points": 97,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d6de4de5-9bd6-48eb-936c-d76399b110bf.jpg"
+ },
+ {
+  "id": "09508d62-3ef1-4513-9422-d4d9af6afb98",
+  "type": "Activity",
+  "name": "Disney Cruise Line: 3-Night Disney Adventure Cruise from Singapore",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 4112,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/4d078fed-bc9a-4e66-bf24-3dcbee3930eb.jpg"
+ },
+ {
+  "id": "10a34500-5b55-53f8-baae-6f7f038eaa56",
+  "type": "Attraction",
+  "name": "Round Trip Singapore Cable Car E-voucher",
+  "location": "Singapore, Singapore",
+  "category": "Day tour",
+  "points": 97,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/2a778636-9e56-42c6-a866-273623feb9d1.jpg"
+ },
+ {
+  "id": "6aca0761-c17d-56a4-87a2-adddcb987b7c",
+  "type": "Attraction",
+  "name": "National Orchid Garden E-ticket",
+  "location": "Singapore, Singapore",
+  "category": "Day tour",
+  "points": 53,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/68762917-a6ab-4c60-a912-b6412848a999.png"
+ },
+ {
+  "id": "37e1e5e5-587b-5ccd-9d03-5da0696e933d",
+  "type": "Day Tour",
+  "name": "Admission to Safari World with Lunch and Transfers",
+  "location": "Bangkok, Thailand",
+  "category": "Themeparks",
+  "points": 147,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/33008ia835f1a7e2d8e11c43665f68cfd5879c.jpg"
+ },
+ {
+  "id": "e218eb5a-aa81-57cb-954e-ba6433ffbf91",
+  "type": "Activity",
+  "name": "Thai Cooking Class and Local Market Tour",
+  "location": "Chiang Mai, Thailand",
+  "category": "Cooking class",
+  "points": 131,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/19913iac0923dab570f65b898c7af7644bf781.jpg"
+ },
+ {
+  "id": "247db948-5617-59fb-a9c7-a921fc88ca74",
+  "type": "Attraction",
+  "name": "Nha Trang Vinpearlland Theme Park",
+  "location": "Nha Trang, Vietnam",
+  "category": "Themeparks",
+  "points": 142,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/188a8812-b5c0-421d-893a-7cdf55ac4b66.jpg"
+ },
+ {
+  "id": "fe008d9c-6273-4d6e-a0d9-0a021f327d1e",
+  "type": "Attraction",
+  "name": "Snow City Singapore",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 146,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/0f226d02-4aa8-44dd-8194-1e50f145e382.jpg"
+ },
+ {
+  "id": "ac6a2b69-a014-5c50-806c-2cbda706e019",
+  "type": "Day Tour",
+  "name": "Half-day Cu Chi Tunnels",
+  "location": "Ho Chi Minh City, Vietnam",
+  "category": "Half Day tour",
+  "points": 242,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/79219i6c75930fe74feb56070e0358812f1a39.jpg"
+ },
+ {
+  "id": "43096939-a213-560d-ab63-24825f7822ae",
+  "type": "Activity",
+  "name": "Gogreen Bi-pedal Bicycle Rental",
+  "location": "Sentosa, Singapore",
+  "category": "Cycling",
+  "points": 44,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/a306834a-ac53-496c-893e-653892afbfb9.jpg"
+ },
+ {
+  "id": "614d67de-ea03-54f5-b09d-a17877b9e897",
+  "type": "Day Tour",
+  "name": "Genting Highlands Tour with Complimentary Batu Caves Visit",
+  "location": "Kuala Lumpur, Malaysia",
+  "category": "Themeparks",
+  "points": 181,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/82853iff05396943eb50d3b0b67b3a286851c7.jpg"
+ },
+ {
+  "id": "ad5fd417-b155-53f4-9010-9cf19073df95",
+  "type": "Attraction",
+  "name": "Penang Hop-on, Hop-off Bus Pass",
+  "location": "Penang, Malaysia",
+  "category": "City hop on-hop off",
+  "points": 43,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/762b7074-0281-4d76-8461-d6986eaf619e.jpg"
+ },
+ {
+  "id": "15df6c52-f77b-4028-91e6-fbbbe94a502b",
+  "type": "Attraction",
+  "name": "Universal Studios Japan",
+  "location": "Osaka, Japan",
+  "category": "Themeparks",
+  "points": 339,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/966fa67f-e8bc-4e0b-bba9-51f95b0d7b80.jpg"
+ },
+ {
+  "id": "e3f4ace3-0bba-43ea-ac0a-669834dd65f4",
+  "type": "Activity",
+  "name": "API Availability Checks",
+  "location": "Singapore, Singapore",
+  "category": "Shopping",
+  "points": 38,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/0e71e54d-06c6-4b69-bede-f88daee1c8de.jpg"
+ },
+ {
+  "id": "22eef52f-70a7-4140-9160-2dd0dff4d638",
+  "type": "Day Tour",
+  "name": "Dinner Cruise with Transfer Services",
+  "location": "Bali, Indonesia",
+  "category": "Wildlife",
+  "points": 219,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/379b4dfc-752a-44cc-b91e-d2a49d8b16da.jpg"
+ },
+ {
+  "id": "ac1ae895-1992-5666-b3c3-cec52e7c64c4",
+  "type": "Attraction",
+  "name": "Sentosa Tiger Sky Tower E-voucher",
+  "location": "Sentosa, Singapore",
+  "category": "Other attractions",
+  "points": 53,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/277d1e20-c9e5-4154-bb5b-106b0c66c124.jpg"
+ },
+ {
+  "id": "f3ddcb6b-6928-580f-80fe-ef4f93e813d2",
+  "type": "Attraction",
+  "name": "1-Altitude Upper Viewing Gallery E-voucher",
+  "location": "Singapore, Singapore",
+  "category": "Day tour",
+  "points": 175,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/a52b318a-ab30-4cd4-90f0-26f5c1e4b1c3.jpg"
+ },
+ {
+  "id": "b3c6d2bc-9afe-58af-a840-11a004546423",
+  "type": "Activity",
+  "name": "Buffet Dinner at Baiyoke Sky Hotel (Chinese Market Rate)",
+  "location": "Bangkok, Thailand",
+  "category": "Fine dining",
+  "points": 82,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3ee3ed26-3f89-43f6-9ef3-3cf5853062d3.jpg"
+ },
+ {
+  "id": "32566285-5c53-53a4-b92b-081ce57df0cb",
+  "type": "Day Tour",
+  "name": "Full-day Tour of Abu Dhabi from Dubai with Transfer",
+  "location": "Dubai, United Arab Emirates",
+  "category": "Day tour",
+  "points": 139,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/a4bb3e6d-7064-44b9-bae5-68bebf59e08b.jpg"
+ },
+ {
+  "id": "a9ecb870-6ada-5e69-a75d-4cdd0974232b",
+  "type": "Attraction",
+  "name": "Bird Park & Lunch with Parrots",
+  "location": "Singapore, Singapore",
+  "category": "Nature parks and reserves",
+  "points": 145,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/d121710b-d47e-4797-ad4e-e3c525d56b37.jpg"
+ },
+ {
+  "id": "68931d00-ea19-40f3-9dc0-517b4fe4cec4",
+  "type": "Attraction",
+  "name": "APITEST in DEMO - ASM Museum",
+  "location": "Singapore, Singapore",
+  "category": "Themeparks",
+  "points": 73,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3890a157-300f-4635-a655-b524b6eb542d.jpg"
+ },
+ {
+  "id": "796c4082-638d-418b-9db8-7c56d1636847",
+  "type": "Attraction",
+  "name": "Time slot Reservation - HeadRock VR",
+  "location": "Sentosa, Singapore",
+  "category": "Kids & Family",
+  "points": 102,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/e828ac84-9b15-4c20-89ed-0c7a649f78f5.jpg"
+ },
+ {
+  "id": "4df58c75-9226-4599-9094-70cb7ce23f1f",
+  "type": "Day Tour",
+  "name": "Discover The Best of Kuala Lumpur Sightseeing Tour",
+  "location": "Kuala Lumpur, Malaysia",
+  "category": "Day tour",
+  "points": 83,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/a5613764-1448-4f01-a9ff-9ae17b52c0f1.jpeg"
+ },
+ {
+  "id": "043ac211-2802-4613-a652-d1499e0bc887",
+  "type": "Attraction",
+  "name": "2-in-1 Park Hopper: Singapore Night Safari + River Wonders",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 257,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/1af3e8aa-faf2-481a-98a1-dcded8682bf7.jpg"
+ },
+ {
+  "id": "63f1e313-e90b-521b-9f65-678e56badb0b",
+  "type": "Attraction",
+  "name": "IMG Worlds of Adventure Entrance Ticket",
+  "location": "Dubai, United Arab Emirates",
+  "category": "Other attractions",
+  "points": 220,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/522246fc-52f6-4638-8867-8696a91ec8ef.jpg"
+ },
+ {
+  "id": "5be6279d-2770-4e4c-ac0b-3f13057e3703",
+  "type": "Activity",
+  "name": "Tokyo Subway Ticket",
+  "location": "Tokyo, Japan",
+  "category": "Train",
+  "points": 30,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/b583c7f7-030e-4d71-a27e-09cc70487396.jpg"
+ },
+ {
+  "id": "b49fd2f5-8d1b-4071-94d9-3e3a2c8219f8",
+  "type": "Event",
+  "name": "Formula 1 Singapore Airlines Singapore Grand Prix (API Integration Test)",
+  "location": "Singapore, Singapore",
+  "category": "Event",
+  "points": 6111,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/444e37f2-1ddd-4f2c-ad68-3c772b819842.jpg"
+ },
+ {
+  "id": "99fb9ff2-f70e-4e11-b68f-b9b6bda0e764",
+  "type": "Attraction",
+  "name": "Jewel Changi Airport Attractions",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 190,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/69f0dead-431d-48ce-ac6c-885079321aa9.jpg"
+ },
+ {
+  "id": "e8e4d54a-21cb-4b11-a19b-c150ef56df18",
+  "type": "Attraction",
+  "name": "Changi Experience Studio",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 62,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/e166b1e8-7774-4286-9b3e-fc379a17cefa.jpg"
+ },
+ {
+  "id": "a60ee8e4-dc7e-4f5d-b57c-b8a3232d3f2a",
+  "type": "Activity",
+  "name": "Test Product in Singapore",
+  "location": "Singapore, Singapore",
+  "category": "Shopping",
+  "points": 44,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3cc10bda-bb58-4765-adf4-a920bba65820.jpg"
+ },
+ {
+  "id": "5c348749-3ce5-4579-887a-2266f06a830d",
+  "type": "Activity",
+  "name": "ArtScience Museum™ (FOR TESTING)",
+  "location": "Singapore, Singapore",
+  "category": "Kids & Family",
+  "points": 73,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/6fec9bfd-d9df-44a4-93bd-803f72ffe198.jpg"
+ },
+ {
+  "id": "02fed470-1b2c-4937-b7cb-3156fd5e3403",
+  "type": "Day Tour",
+  "name": "Singapore Heartlands Tour",
+  "location": "Singapore, Singapore",
+  "category": "Other attractions",
+  "points": 114,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3f693222-6d5f-486f-855d-d8e7fae87cf0.jpg"
+ },
+ {
+  "id": "cf55356b-d0d7-5a3e-923a-78c95fc3990b",
+  "type": "Attraction",
+  "name": "Hong Kong Disneyland Bundles",
+  "location": "Hong Kong, Hong Kong",
+  "category": "Themeparks",
+  "points": 302,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/ef0e9b37-b453-45d2-aba1-9c2b84b80102.jpg"
+ },
+ {
+  "id": "ece9842b-cd24-5a02-9459-0ef6b37c953a",
+  "type": "Attraction",
+  "name": "Alcazar Cabaret Show E-Voucher",
+  "location": "Pattaya, Thailand",
+  "category": "Music performance",
+  "points": 60,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/409923bb-7206-4fb4-8a19-4658952fbda0.jpg"
+ },
+ {
+  "id": "4cabc9e6-7419-5a32-9b98-096cfe449e0d",
+  "type": "Day Tour",
+  "name": "Offline Day Tour Listing",
+  "location": "Bali, Indonesia",
+  "category": "Bus",
+  "points": 56,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/b022aad3-4de4-45d9-ae69-5827c1f87090.jpg"
+ },
+ {
+  "id": "1b8a9594-5224-4baa-acfb-a98621014797",
+  "type": "Activity",
+  "name": "Jewel Changi VALUE BUNDLE: Multiple Activities, One Package",
+  "location": "Singapore, Singapore",
+  "category": "Other attractions",
+  "points": 266,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/184e70ba-50e5-49e4-a7b8-0bb9dfffad1a.jpg"
+ },
+ {
+  "id": "8e18ab29-1297-4e3c-b8cb-cbbc6a00d0dd",
+  "type": "Event",
+  "name": "Central Perk SG Presents Chandler's Comedy Night",
+  "location": "Singapore, Singapore",
+  "category": "Nightlife",
+  "points": 146,
+  "image": "https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/3e213d11-8717-4eba-8a6b-4aa7e1229bf7.jpg"
+ },
+ {
+  "id": "69430978-45a1-44f6-9bd0-aa8d3cba5c06",
+  "type": "Attraction",
+  "name": "Venice: Gondola Ride with Live Commentary",
+  "location": "Venice, Italy",
+  "category": "Other attractions",
+  "points": 167,
+  "image": ""
+ }
+]
