@@ -74,14 +74,14 @@ const Cashback = () => {
 
       <div className="px-4 pb-8 space-y-5">
         {/* Available Balance */}
-        <div className="rounded-xl bg-card border border-border p-4">
+        <div className="rounded-xl bg-[#ECE8E3] p-4">
           <p className="text-xs text-muted-foreground mb-0.5">Available Points</p>
           <p className="text-2xl font-bold text-foreground">{available.toLocaleString()}</p>
           <p className="text-xs text-muted-foreground">≈ {(available * POINTS_TO_MUR_RATE).toFixed(2)} SAR</p>
         </div>
 
         {/* Points selector */}
-        <div className="rounded-xl bg-card border border-border p-4 space-y-4">
+        <div className="rounded-xl bg-[#ECE8E3] p-4 space-y-4">
           <div>
             <p className="text-sm font-semibold text-card-foreground mb-1">Select Points to Redeem</p>
             <p className="text-xs text-muted-foreground">Min {MIN_POINTS.toLocaleString()} points</p>
@@ -124,7 +124,7 @@ const Cashback = () => {
         </div>
 
         {/* Summary & Submit */}
-        <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+        <div className="rounded-xl bg-[#ECE8E3] p-4 space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Points to redeem</span>
             <span className="font-semibold text-foreground">{selectedPoints.toLocaleString()}</span>

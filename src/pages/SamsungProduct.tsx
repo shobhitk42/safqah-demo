@@ -149,9 +149,9 @@ const SamsungProduct = () => {
             <button
               key={d.id}
               onClick={() => setDevice(d.id)}
-              className={`flex w-full items-start justify-between gap-4 rounded-2xl border bg-card p-4 text-left ${
-                selectedDevice.id === d.id ? "border-primary ring-1 ring-primary" : "border-border"
-              }`}
+              className={`flex w-full items-start justify-between gap-4 rounded-2xl border bg-[#F1EEEA] p-4 text-left ${
+ selectedDevice.id === d.id ?"border-primary ring-1 ring-primary":"border-transparent"
+ }`}
             >
               <div>
                 <p className="text-base font-semibold text-card-foreground">{d.name}</p>
@@ -171,9 +171,9 @@ const SamsungProduct = () => {
             <button
               key={s.id}
               onClick={() => setStorage(s.id)}
-              className={`flex w-full items-center justify-between gap-4 rounded-2xl border bg-card p-5 text-left ${
-                selectedStorage.id === s.id ? "border-primary ring-1 ring-primary" : "border-border"
-              }`}
+              className={`flex w-full items-center justify-between gap-4 rounded-2xl border bg-[#F1EEEA] p-5 text-left ${
+ selectedStorage.id === s.id ?"border-primary ring-1 ring-primary":"border-transparent"
+ }`}
             >
               <p className="text-lg font-semibold text-card-foreground">{s.label}</p>
               <p className="text-right text-xs font-semibold text-reward-gold">{formatPoints(selectedDevice.price + s.add)}</p>

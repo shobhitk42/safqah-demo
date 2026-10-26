@@ -107,15 +107,15 @@ const ProductDetail = () => {
 
       {/* Benefits */}
       <div className="mx-4 mb-6 grid grid-cols-3 gap-3">
-        <div className="rounded-xl bg-card p-3 border border-border text-center">
+        <div className="rounded-xl bg-[#ECE8E3] p-3 text-center">
           <Truck className="h-4 w-4 text-primary mx-auto mb-1" />
           <p className="text-[10px] text-muted-foreground">Free Delivery</p>
         </div>
-        <div className="rounded-xl bg-card p-3 border border-border text-center">
+        <div className="rounded-xl bg-[#ECE8E3] p-3 text-center">
           <Shield className="h-4 w-4 text-primary mx-auto mb-1" />
           <p className="text-[10px] text-muted-foreground">2-Yr Warranty</p>
         </div>
-        <div className="rounded-xl bg-card p-3 border border-border text-center">
+        <div className="rounded-xl bg-[#ECE8E3] p-3 text-center">
           <Sparkles className="h-4 w-4 text-reward-gold mx-auto mb-1" />
           <p className="text-[10px] text-muted-foreground">Earn Points</p>
         </div>

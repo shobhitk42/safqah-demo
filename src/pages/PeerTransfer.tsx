@@ -68,8 +68,8 @@ const PeerTransfer = () => {
               key={c.phone}
               onClick={() => setSelected(c.phone)}
               className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-all ${
-                selected === c.phone ? "border-primary bg-primary/5" : "border-border bg-card"
-              }`}
+ selected === c.phone ?"border-primary bg-primary/5":"border-transparent bg-[#F1EEEA]"
+ }`}
             >
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-xs font-bold text-primary-foreground">
                 {c.initials}
@@ -83,7 +83,7 @@ const PeerTransfer = () => {
           ))}
         </div>
       ) : (
-        <div className="mx-4 mb-4 rounded-2xl border border-border bg-card p-4">
+        <div className="mx-4 mb-4 border-b py-4">
           <p className="mb-2 text-sm font-semibold text-card-foreground">Member's Number*</p>
           <div className="flex items-center gap-2">
             <span className="rounded-xl border border-border px-3 py-2.5 text-sm font-semibold text-foreground">+971</span>
@@ -99,7 +99,7 @@ const PeerTransfer = () => {
         </div>
       )}
 
-      <div className="mx-4 rounded-2xl border border-border bg-card p-4">
+      <div className="mx-4 rounded-2xl bg-[#ECE8E3] p-4">
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm font-semibold text-card-foreground">Points to transfer</p>
           <span className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">

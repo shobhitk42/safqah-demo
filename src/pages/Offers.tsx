@@ -113,7 +113,7 @@ const Offers = () => {
             <button
               key={offer.slug}
               onClick={() => navigate(`/offers/${offer.slug}`)}
-              className="group flex flex-col overflow-hidden rounded-xl bg-white border border-[#E8E8EE] text-left transition-all hover:shadow-md hover:-translate-y-0.5"
+              className="group flex flex-col overflow-hidden rounded-xl bg-white text-left transition-all hover:shadow-md hover:-translate-y-0.5"
             >
               <div className="aspect-square w-full overflow-hidden bg-[#F6F3EF]">
                 <img

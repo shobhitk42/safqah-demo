@@ -16,7 +16,7 @@ const WalletCard = ({ title, icon, redeemable, pending, pendingLabel, footnote }
   const total = redeemable + pending;
   const redeemablePct = total > 0 ? (redeemable / total) * 100 : 0;
   return (
-    <div className="rounded-2xl bg-white border border-[#E8E8EE] shadow-[0_8px_24px_-12px_rgba(26,26,46,0.10)] overflow-hidden">
+    <div className="rounded-2xl bg-[#ECE8E3] overflow-hidden">
       {/* Ratio bar */}
       <div className="flex h-1.5 w-full">
         <div style={{ width: `${redeemablePct}%`, backgroundColor: "#02AD4C" }} />

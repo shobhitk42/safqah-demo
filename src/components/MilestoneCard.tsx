@@ -17,7 +17,7 @@ const MilestoneCard = ({ ms, visible, index: i }: MilestoneCardProps) => {
   const unit = ms.unit ? ` ${ms.unit}` : "";
   return (
     <div
-      className="milestone-card group relative rounded-md bg-card border border-[#E8E8EE] px-5 py-5 overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:border-[#02AD4C]/60 hover:shadow-[0_14px_36px_-18px_rgba(2,173,76,0.45)] cursor-pointer"
+      className="milestone-card group relative rounded-2xl bg-[#ECE8E3] border border-transparent px-5 py-5 overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:border-[#02AD4C]/60 hover:shadow-[0_14px_36px_-18px_rgba(2,173,76,0.45)] cursor-pointer"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(10px)",
@@ -28,7 +28,7 @@ const MilestoneCard = ({ ms, visible, index: i }: MilestoneCardProps) => {
         <div className="flex items-center gap-3 min-w-0">
           <span
             className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[6deg]"
-            style={{ borderColor: "#E8E8EE", backgroundColor: "#F6F3EF" }}
+            style={{ backgroundColor: "#FFFFFF" }}
           >
             <MIcon className="h-3.5 w-3.5" strokeWidth={1.25} style={{ color: "#02AD4C" }} />
           </span>

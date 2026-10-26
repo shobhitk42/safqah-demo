@@ -41,7 +41,7 @@ const PayWithRewards = () => {
         </p>
       </div>
 
-      <div className="mx-4 mb-4 rounded-2xl border border-border bg-card p-4">
+      <div className="mx-4 mb-4 rounded-2xl bg-[#ECE8E3] p-4">
         <label className="flex cursor-pointer items-center gap-3">
           <Checkbox checked={full} onCheckedChange={(v) => setFull(Boolean(v))} />
           <span className="flex-1 text-sm font-semibold text-card-foreground">Redeem all available points</span>
@@ -49,7 +49,7 @@ const PayWithRewards = () => {
         </label>
       </div>
 
-      <div className={`mx-4 mb-4 rounded-2xl border border-border bg-card p-4 transition-opacity ${full ? "pointer-events-none opacity-50" : ""}`}>
+      <div className={`mx-4 mb-4 rounded-2xl bg-[#ECE8E3] p-4 transition-opacity ${full ?"pointer-events-none opacity-50":""}`}>
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm font-semibold text-card-foreground">Select points to redeem</p>
           <span className="rounded-lg bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">{value.toLocaleString()} pts</span>
@@ -61,7 +61,7 @@ const PayWithRewards = () => {
         </div>
       </div>
 
-      <div className="mx-4 rounded-2xl border border-border bg-card p-4">
+      <div className="mx-4 rounded-2xl bg-[#ECE8E3] p-4">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Points utilised</span>
           <span className="font-bold text-reward-gold">{pointsUsed.toLocaleString()} Points</span>

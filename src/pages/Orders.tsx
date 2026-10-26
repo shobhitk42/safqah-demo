@@ -48,7 +48,7 @@ const OrdersPage = () => {
 
       <div className="px-4 flex flex-col gap-3">
         {orders.map((order) => (
-          <div key={order.id} className="rounded-xl bg-card border border-border p-4 shadow-sm">
+          <div key={order.id} className="rounded-xl bg-[#ECE8E3] p-4">
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted shrink-0">
                 <order.icon className="h-5 w-5 text-muted-foreground" />

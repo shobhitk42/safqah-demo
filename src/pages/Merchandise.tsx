@@ -44,7 +44,7 @@ const MerchandisePage = () => {
 
       {/* Search */}
       <div className="px-4 mb-4">
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2.5">
+        <div className="flex items-center gap-2 border-b px-3 py-2.5">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input type="text" placeholder="Search merchandise..." className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none" />
         </div>

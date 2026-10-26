@@ -39,7 +39,7 @@ const CategoryPage = () => {
       </div>
 
       <div className="px-4 py-8">
-        <div className="rounded-2xl bg-card p-6 shadow-sm border border-border text-center">
+        <div className="rounded-2xl bg-[#ECE8E3] p-6 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mx-auto mb-4">
             <span className="text-2xl">🚀</span>
           </div>

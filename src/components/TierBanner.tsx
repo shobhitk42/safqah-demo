@@ -69,11 +69,11 @@ const TierBanner = () => {
         </div>
 
         {/* Progress bar */}
-        <div className="relative h-9 overflow-hidden rounded-lg bg-white/70 ring-1 ring-[#C9CED3]">
-          <div className="h-full rounded-lg bg-gradient-to-r from-[#277D57] to-[#02AD4C]" style={{ width: `${Math.max(progressInTier, 4)}%` }} />
-          <span className="absolute inset-y-0 left-3 flex items-center whitespace-nowrap text-[13px] text-[#302F2D]">
-            Points earned: <span className="ml-1 tabular-nums font-semibold">{totalEarned.toLocaleString()}</span>
-          </span>
+        <p className="mb-2.5 text-[13px] text-[#302F2D]">
+          Points earned: <span className="ml-1 tabular-nums font-semibold">{totalEarned.toLocaleString()}</span>
+        </p>
+        <div className="relative h-2.5 overflow-hidden rounded-full bg-white/70 ring-1 ring-[#C9CED3]">
+          <div className="h-full rounded-full bg-gradient-to-r from-[#277D57] to-[#02AD4C]" style={{ width: `${Math.max(progressInTier, 4)}%` }} />
         </div>
         <div className="relative mb-2 mt-1 flex justify-between text-[11px] text-foreground/50 tabular-nums">
           {[0, 25, 50, 75, 100].map((pct) => (

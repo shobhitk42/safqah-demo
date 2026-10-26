@@ -46,7 +46,7 @@ const PlayAndWinSection = () => {
           <button
             key={g.key}
             onClick={() => navigate("/play-win", { state: { game: g.key } })}
-            className="group relative flex items-center gap-4 overflow-hidden rounded-2xl bg-card p-4 text-left shadow-sm ring-1 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 hover:ring-primary/30 active:scale-[0.98]"
+            className="group relative flex items-center gap-4 overflow-hidden rounded-2xl bg-[#ECE8E3] p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 hover:ring-primary/30 active:scale-[0.98]"
           >
             {/* soft gradient glow behind icon */}
             <span

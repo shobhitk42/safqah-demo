@@ -127,8 +127,8 @@ const Donations = () => {
             key={c.id}
             onClick={() => setActiveCategory(c.id)}
             className={`rounded-xl border p-2 text-center transition ${
-              activeCategory === c.id ? "border-primary bg-primary/10" : "border-border bg-card"
-            }`}
+ activeCategory === c.id ?"border-primary bg-primary/10":"border-transparent bg-[#F1EEEA]"
+ }`}
           >
             <img
               src={c.image}
@@ -144,7 +144,7 @@ const Donations = () => {
       {/* Campaigns */}
       <div className="mt-5 space-y-4 px-4">
         {list.map((c) => (
-            <div key={c.id} className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+            <div key={c.id} className="overflow-hidden rounded-2xl bg-[#ECE8E3]">
               <img
                 src={c.image}
                 alt={c.title}
@@ -181,8 +181,8 @@ const Donations = () => {
                     key={a}
                     onClick={() => setAmount(a)}
                     className={`rounded-xl border py-2 text-xs font-semibold ${
-                      amount === a ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground"
-                    }`}
+ amount === a ?"border-primary bg-primary/10 text-primary":"border-transparent text-foreground"
+ }`}
                   >
                     {a.toLocaleString()}
                   </button>

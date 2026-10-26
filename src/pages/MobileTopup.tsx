@@ -98,7 +98,7 @@ const MobileTopup = () => {
 
       <div className="px-4 pb-8 space-y-5">
         {/* Phone Number */}
-        <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+        <div className="border-b py-4 space-y-3">
           <p className="text-sm font-semibold text-card-foreground">Enter Mobile Number</p>
           <div className="flex items-center gap-2">
             <div className="flex h-10 items-center justify-center rounded-lg bg-muted px-3">
@@ -116,7 +116,7 @@ const MobileTopup = () => {
         </div>
 
         {/* Choose Operator */}
-        <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+        <div className="border-b border-border py-4 space-y-3">
           <p className="text-sm font-semibold text-card-foreground">Choose Operator</p>
           <div className="grid grid-cols-2 gap-2">
             {operators.map((op) => (
@@ -124,10 +124,10 @@ const MobileTopup = () => {
                 key={op.id}
                 onClick={() => setSelectedOperator(op.id)}
                 className={`flex items-center gap-2.5 rounded-xl p-3 border transition-colors ${
-                  selectedOperator === op.id
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:bg-muted"
-                }`}
+ selectedOperator === op.id
+ ?"border-primary bg-primary/5"
+ :"border-transparent bg-[#F1EEEA] hover:bg-[#E9E5E0]"
+ }`}
               >
                 <div
                   className="flex h-10 w-10 items-center justify-center rounded-lg shrink-0 text-[10px] font-bold text-primary-foreground"
@@ -143,7 +143,7 @@ const MobileTopup = () => {
 
         {/* Select Amount */}
         {selectedOperator && (
-          <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+          <div className="border-b border-border py-4 space-y-3">
             <p className="text-sm font-semibold text-card-foreground">Select Amount</p>
             <div className="grid grid-cols-3 gap-2">
               {denominations.map((d) => {
@@ -153,12 +153,12 @@ const MobileTopup = () => {
                     key={d.value}
                     onClick={() => affordable && setSelectedDenom(d.value)}
                     className={`rounded-xl p-3 border text-center transition-colors ${
-                      selectedDenom === d.value
-                        ? "border-primary bg-primary/5"
-                        : affordable
-                        ? "border-border hover:bg-muted"
-                        : "border-border opacity-40 cursor-not-allowed"
-                    }`}
+ selectedDenom === d.value
+ ?"border-primary bg-primary/5"
+ : affordable
+ ?"border-transparent bg-[#F1EEEA] hover:bg-[#E9E5E0]"
+ :"border-transparent opacity-40 cursor-not-allowed"
+ }`}
                     disabled={!affordable}
                   >
                     <p className="text-sm font-bold text-card-foreground">{d.points.toLocaleString()} pts</p>
@@ -171,7 +171,7 @@ const MobileTopup = () => {
 
         {/* Summary & Proceed */}
         {selectedDenom && selectedDenomObj && (
-          <div className="rounded-xl bg-card border border-border p-4 space-y-3">
+          <div className="rounded-xl bg-[#ECE8E3] p-4 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Points required</span>
               <span className="font-semibold text-primary">{selectedDenomObj.points.toLocaleString()}</span>

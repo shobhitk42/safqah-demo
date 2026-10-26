@@ -102,7 +102,7 @@ const Checkout = () => {
       </div>
 
       {/* Product Summary */}
-      <div className="mx-4 mb-4 flex items-center gap-3 rounded-xl bg-card p-3 border border-border">
+      <div className="mx-4 mb-4 flex items-center gap-3 rounded-xl bg-[#ECE8E3] p-3">
         <img src={product.image} alt={product.name} className="h-14 w-14 rounded-lg object-cover" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-card-foreground truncate">{product.name}</p>
@@ -119,7 +119,7 @@ const Checkout = () => {
       </div>
 
       {/* Order Summary */}
-      <div className="mx-4 mb-6 rounded-2xl bg-card p-4 border border-border">
+      <div className="mx-4 mb-6 rounded-2xl bg-[#ECE8E3] p-4">
         <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
         <div className="flex justify-between text-sm mb-2">
           <span className="text-muted-foreground">Points</span>

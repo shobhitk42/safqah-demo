@@ -103,7 +103,7 @@ const FlightsPage = () => {
           <p className="text-sm text-muted-foreground mb-6">Your flight has been booked successfully</p>
 
           {/* Flight summary card */}
-          <div className="rounded-2xl bg-card border border-border p-4 mb-4 text-left shadow-sm">
+          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4 text-left">
             <div className="flex items-center gap-2 mb-3">
               <span className="text-lg">{selectedFlight?.logo}</span>
               <span className="text-sm font-semibold text-foreground">{selectedFlight?.airline}</span>
@@ -129,7 +129,7 @@ const FlightsPage = () => {
           </div>
 
           {/* Payment summary */}
-          <div className="rounded-2xl bg-card border border-border p-4 mb-4 text-left shadow-sm space-y-2.5">
+          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4 text-left space-y-2.5">
             <h3 className="text-xs font-semibold text-foreground uppercase tracking-wider">Payment Summary</h3>
             {pointsUsed > 0 && (
               <div className="flex justify-between text-sm">
@@ -172,7 +172,7 @@ const FlightsPage = () => {
         </div>
 
         {/* Flight summary */}
-        <div className="mx-4 mt-4 rounded-2xl bg-card border border-border p-4 shadow-sm">
+        <div className="mx-4 mt-4 rounded-2xl bg-[#ECE8E3] p-4">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg">{selectedFlight.logo}</span>
             <span className="text-sm font-semibold text-foreground">{selectedFlight.airline}</span>
@@ -203,7 +203,7 @@ const FlightsPage = () => {
 
         {/* Points only summary */}
         {(
-          <div className="mx-4 mt-4 rounded-2xl bg-card border border-border p-4">
+          <div className="mx-4 mt-4 rounded-2xl bg-[#ECE8E3] p-4">
             <div className="flex justify-between text-sm mb-1">
               <span className="text-muted-foreground">Points required</span>
               <span className="font-bold text-foreground">{flightPoints.toLocaleString()} pts</span>
@@ -217,7 +217,7 @@ const FlightsPage = () => {
 
         {/* Total & Book button */}
         <div className="mx-4 mt-6">
-          <div className="rounded-2xl bg-card border border-border p-4 mb-4">
+          <div className="rounded-2xl bg-[#ECE8E3] p-4 mb-4">
             <h3 className="text-xs font-semibold text-foreground mb-2 uppercase tracking-wider">Order Summary</h3>
             {pointsUsed > 0 && (
               <div className="flex justify-between text-sm py-1">
@@ -277,7 +277,7 @@ const FlightsPage = () => {
             <button
               key={flight.id}
               onClick={() => handleSelectFlight(flight)}
-              className="w-full rounded-2xl bg-card border border-border p-4 shadow-sm text-left hover:border-primary/40 transition-colors"
+              className="w-full rounded-2xl bg-[#F1EEEA] border border-transparent p-4 text-left hover:border-primary/40 transition-colors"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -332,7 +332,7 @@ const FlightsPage = () => {
         <div className="absolute inset-0 bg-primary/60" />
       </div>
 
-      <div className="mx-4 -mt-4 relative z-10 rounded-2xl bg-card p-5 shadow-lg border border-border">
+      <div className="mx-4 -mt-4 relative z-10 py-4 border-b">
         <div className="flex gap-6 mb-6 border-b border-border">
           <button
             onClick={() => setTripType("one-way")}
@@ -357,7 +357,7 @@ const FlightsPage = () => {
           <label className="text-xs font-semibold text-foreground mb-1.5 block">From*</label>
           <button
             onClick={() => { setShowFromDropdown(!showFromDropdown); setShowToDropdown(false); }}
-            className="flex w-full items-center rounded-lg border border-border px-3 py-2.5"
+            className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5"
           >
             <span className={cn("flex-1 text-sm text-left truncate", from ? "text-foreground" : "text-muted-foreground")}>
               {from ? `${from.name} (${from.code})` : "Select city or airport"}
@@ -365,7 +365,7 @@ const FlightsPage = () => {
             <MapPin className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
           </button>
           {showFromDropdown && (
-            <div className="absolute left-0 right-0 top-full mt-1 bg-card border border-border rounded-xl shadow-lg z-20 max-h-48 overflow-y-auto">
+            <div className="absolute left-0 right-0 top-full mt-1 border-b z-20 max-h-48 overflow-y-auto">
               <input
                 autoFocus
                 value={fromSearch}
@@ -392,7 +392,7 @@ const FlightsPage = () => {
           <label className="text-xs font-semibold text-foreground mb-1.5 block">To*</label>
           <button
             onClick={() => { setShowToDropdown(!showToDropdown); setShowFromDropdown(false); }}
-            className="flex w-full items-center rounded-lg border border-border px-3 py-2.5"
+            className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5"
           >
             <span className={cn("flex-1 text-sm text-left truncate", to ? "text-foreground" : "text-muted-foreground")}>
               {to ? `${to.name} (${to.code})` : "Select city or airport"}
@@ -400,7 +400,7 @@ const FlightsPage = () => {
             <MapPin className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
           </button>
           {showToDropdown && (
-            <div className="absolute left-0 right-0 top-full mt-1 bg-card border border-border rounded-xl shadow-lg z-20 max-h-48 overflow-y-auto">
+            <div className="absolute left-0 right-0 top-full mt-1 border-b z-20 max-h-48 overflow-y-auto">
               <input
                 autoFocus
                 value={toSearch}
@@ -427,7 +427,7 @@ const FlightsPage = () => {
             <label className="text-xs font-semibold text-foreground mb-1.5 block">Departure*</label>
             <Popover>
               <PopoverTrigger asChild>
-                <button className="flex w-full items-center rounded-lg border border-border px-3 py-2.5">
+                <button className="flex w-full items-center rounded-lg border border-transparent px-3 py-2.5">
                   <span className={cn("flex-1 text-sm text-left truncate", date ? "text-foreground" : "text-muted-foreground")}>
                     {date ? format(date, "dd MMM yyyy") : "Select Date"}
                   </span>
@@ -448,7 +448,7 @@ const FlightsPage = () => {
           </div>
           <div>
             <label className="text-xs font-semibold text-foreground mb-1.5 block">Passengers*</label>
-            <div className="flex items-center rounded-lg border border-border px-3 py-2.5">
+            <div className="flex items-center rounded-lg px-3 py-2.5">
               <span className="flex-1 text-sm text-foreground truncate">1 Pax, Economy</span>
               <ChevronsUpDown className="h-4 w-4 text-muted-foreground ml-2 shrink-0" />
             </div>

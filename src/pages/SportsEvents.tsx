@@ -145,10 +145,10 @@ const SportsEvents = () => {
                 setSelectedCategory(selectedCategory === cat.label ? null : cat.label)
               }
               className={`flex min-w-[80px] flex-col items-center gap-1 rounded-xl p-3 transition-colors border ${
-                selectedCategory === cat.label
-                  ? "border-primary bg-primary/10"
-                  : "border-border bg-card"
-              }`}
+ selectedCategory === cat.label
+ ?"border-primary bg-primary/10"
+ :"border-transparent bg-[#F1EEEA]"
+ }`}
             >
               <span className="text-xl">{cat.icon}</span>
               <span className="text-[10px] font-medium text-card-foreground whitespace-nowrap">
@@ -187,7 +187,7 @@ const SportsEvents = () => {
 
         <div className="space-y-3">
           {filtered.length === 0 && (
-            <div className="rounded-2xl bg-card border border-border p-6 text-center">
+            <div className="rounded-2xl bg-[#ECE8E3] p-6 text-center">
               <Search className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
               <p className="text-sm text-muted-foreground">No events found. Try a different search.</p>
             </div>

@@ -62,10 +62,10 @@ const HotelsPage = () => {
             </div>
           </div>
 
-          <div className="mx-4 mt-4 rounded-xl bg-card p-4 shadow-lg border border-border">
+          <div className="mx-4 mt-4 py-4 border-b">
             <div className="mb-3">
               <label className="text-[10px] font-semibold text-muted-foreground uppercase">Location</label>
-              <div className="flex items-center gap-2 mt-1 rounded-lg border border-border px-3 py-2.5">
+              <div className="flex items-center gap-2 mt-1 border-b px-3 py-2.5">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
                 <input value={location} onChange={(e) => setLocation(e.target.value)} type="text" placeholder="e.g. Riyadh, Jeddah, AlUla" className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground outline-none" />
               </div>
@@ -73,14 +73,14 @@ const HotelsPage = () => {
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
                 <label className="text-[10px] font-semibold text-muted-foreground uppercase">Check In</label>
-                <div className="flex items-center gap-1 mt-1 rounded-lg border border-border px-3 py-2.5">
+                <div className="flex items-center gap-1 mt-1 border-b px-3 py-2.5">
                   <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                   <input type="date" value={checkIn.split('/').reverse().join('-')} onChange={(e) => setCheckIn(e.target.value.split('-').reverse().join('/'))} className="w-full bg-transparent text-xs font-medium text-foreground outline-none" />
                 </div>
               </div>
               <div>
                 <label className="text-[10px] font-semibold text-muted-foreground uppercase">Check Out</label>
-                <div className="flex items-center gap-1 mt-1 rounded-lg border border-border px-3 py-2.5">
+                <div className="flex items-center gap-1 mt-1 border-b px-3 py-2.5">
                   <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                   <input type="date" value={checkOut.split('/').reverse().join('-')} onChange={(e) => setCheckOut(e.target.value.split('-').reverse().join('/'))} className="w-full bg-transparent text-xs font-medium text-foreground outline-none" />
                 </div>
@@ -89,13 +89,13 @@ const HotelsPage = () => {
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
                 <label className="text-[10px] font-semibold text-muted-foreground uppercase">Guests</label>
-                <div className="flex items-center gap-1 mt-1 rounded-lg border border-border px-3 py-2.5">
+                <div className="flex items-center gap-1 mt-1 rounded-lg px-3 py-2.5">
                   <span className="text-sm font-medium text-foreground">2 · 1 Room</span>
                 </div>
               </div>
               <div>
                 <label className="text-[10px] font-semibold text-muted-foreground uppercase">Nationality</label>
-                <div className="flex items-center gap-1 mt-1 rounded-lg border border-border px-3 py-2.5">
+                <div className="flex items-center gap-1 mt-1 rounded-lg px-3 py-2.5">
                   <span className="text-sm font-medium text-foreground">Saudi Arabia</span>
                   <ChevronsUpDown className="h-3.5 w-3.5 text-muted-foreground ml-auto" />
                 </div>

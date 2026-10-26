@@ -137,7 +137,7 @@ const ExperienceDetail = () => {
           </div>
 
           {/* Price card */}
-          <div className="mx-4 mt-5 rounded-2xl border border-border bg-card p-4">
+          <div className="mx-4 mt-5 rounded-2xl bg-[#ECE8E3] p-4">
             <p className="text-[11px] text-muted-foreground">From</p>
             <p className="text-2xl font-bold text-primary">
               {experience.points.toLocaleString()} pts
@@ -234,10 +234,10 @@ const ExperienceDetail = () => {
                       setTime(slot);
                     }}
                     className={`rounded-lg border py-2.5 text-sm font-semibold transition ${
-                      active
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-card text-foreground hover:border-primary/50"
-                    }`}
+ active
+ ?"border-primary bg-primary text-primary-foreground"
+ :"border-transparent bg-[#F1EEEA] text-foreground hover:border-primary/50"
+ }`}
                   >
                     {slot}
                   </button>
@@ -263,7 +263,7 @@ const ExperienceDetail = () => {
       {step === "review" && (
         <div className="px-4 pt-5">
           <h2 className="text-lg font-bold text-foreground">Review your booking</h2>
-          <div className="mt-4 rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="mt-4 rounded-2xl bg-[#ECE8E3] overflow-hidden">
             <img src={experience.image} alt={experience.name} className="h-32 w-full object-cover" />
             <div className="p-4 space-y-3">
               <div>
@@ -292,7 +292,7 @@ const ExperienceDetail = () => {
       )}
 
       {/* Bottom CTA card */}
-      <div className="mx-4 mt-6 rounded-2xl border border-border bg-card p-4">
+      <div className="mx-4 mt-6 rounded-2xl bg-[#ECE8E3] p-4">
         {step === "details" && (
           <>
             <div className="flex items-center justify-between mb-3">

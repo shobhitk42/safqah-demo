@@ -30,7 +30,7 @@ const CartPage = () => {
         <>
       <div className="px-4 flex flex-col gap-3 mb-6">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-3 rounded-xl bg-card p-3 shadow-sm border border-border">
+          <div key={item.id} className="flex items-center gap-3 rounded-xl bg-[#ECE8E3] p-3">
             <img src={item.image} alt={item.name} className="h-16 w-16 rounded-lg object-cover" loading="lazy" width={512} height={512} />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-card-foreground truncate">{item.name}</p>
@@ -38,7 +38,7 @@ const CartPage = () => {
               <div className="flex items-center gap-2 mt-2">
                 <button
                   onClick={() => updateQty(item.id, item.qty - 1)}
-                  className="flex h-6 w-6 items-center justify-center rounded-md border border-border"
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-transparent"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="h-3 w-3 text-muted-foreground" />
@@ -46,7 +46,7 @@ const CartPage = () => {
                 <span className="text-sm font-medium text-foreground">{item.qty}</span>
                 <button
                   onClick={() => updateQty(item.id, item.qty + 1)}
-                  className="flex h-6 w-6 items-center justify-center rounded-md border border-border"
+                  className="flex h-6 w-6 items-center justify-center rounded-md border border-transparent"
                   aria-label="Increase quantity"
                 >
                   <Plus className="h-3 w-3 text-muted-foreground" />
@@ -65,7 +65,7 @@ const CartPage = () => {
       </div>
 
       {/* Summary */}
-      <div className="mx-4 rounded-2xl bg-card p-5 border border-border">
+      <div className="mx-4 rounded-2xl bg-[#ECE8E3] p-5">
         <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
         <div className="flex justify-between text-sm mb-2">
           <span className="text-muted-foreground">Subtotal</span>

@@ -79,7 +79,7 @@ const TrendingSection = () => {
               <article
                 key={item.name}
                 onClick={() => navigate(section.link)}
-                className="group shrink-0 w-[268px] cursor-pointer bg-white border border-[#E8E8EE] rounded-md overflow-hidden flex flex-col"
+                className="group shrink-0 w-[268px] cursor-pointer bg-white rounded-md overflow-hidden flex flex-col"
               >
                 <div className="h-40 w-full overflow-hidden bg-muted">
                   <img

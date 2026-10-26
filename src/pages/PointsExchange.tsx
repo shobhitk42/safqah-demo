@@ -68,7 +68,7 @@ const PointsExchangePage = () => {
                 <button
                   key={p.id}
                   onClick={() => openPartner(p)}
-                  className="w-full text-left flex items-center gap-3 rounded-xl bg-card p-4 shadow-sm border border-border transition-transform hover:scale-[1.01] active:scale-[0.98]"
+                  className="w-full text-left flex items-center gap-3 rounded-xl bg-[#F1EEEA] p-4 border border-transparent transition-transform hover:scale-[1.01] active:scale-[0.98]"
                 >
                   <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${p.gradient} shrink-0 shadow-md`}>
                     <span className="text-primary-foreground font-bold text-sm">{p.initials}</span>
@@ -92,7 +92,7 @@ const PointsExchangePage = () => {
           <p className="text-xs text-muted-foreground mb-3">Home / Airmiles / {selected.name}</p>
 
           {/* Brand card */}
-          <div className="rounded-2xl bg-card border border-border p-5 shadow-sm">
+          <div className="border-b py-4">
             <div className="flex items-start justify-between mb-4">
               <div className={`h-24 w-full rounded-xl bg-gradient-to-br ${selected.gradient} flex items-center justify-center`}>
                 <span className="text-primary-foreground text-2xl font-bold tracking-wider">{selected.name}</span>
@@ -137,7 +137,7 @@ const PointsExchangePage = () => {
           </div>
 
           {/* T&C accordion */}
-          <div className="mt-4 rounded-xl bg-card border border-border p-4">
+          <div className="mt-4 rounded-xl bg-[#ECE8E3] p-4">
             <p className="text-sm font-semibold text-primary mb-2">Terms & Conditions</p>
             <ul className="text-[11px] text-muted-foreground list-disc pl-4 space-y-1">
               <li>Miles are credited to your linked {selected.program} account within 24 hours.</li>
