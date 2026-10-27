@@ -8,7 +8,6 @@ import {
 const categories = [
   // { icon: Apple, label: "Apple Store", path: "/apple-store" }, // hidden for now
   // { icon: Smartphone, label: "Samsung Store", path: "/samsung-store" }, // hidden for now
-  { icon: Wallet, label: "Instant Purchase", path: "/pay-with-rewards" },
   { icon: PlaneTakeoff, label: "Flights", path: "/flights" },
   { icon: BedDouble, label: "Hotels", path: "/hotels" },
   { icon: CarFront, label: "Car Rental", path: "/car-rental" },
@@ -20,6 +19,7 @@ const categories = [
   { icon: ArrowLeftRight, label: "Miles Exchange", path: "/points-exchange" },
   { icon: Smartphone, label: "Mobile Top-up", path: "/mobile-topup" },
   { icon: Coins, label: "Cashback", path: "/cashback" },
+  { icon: Wallet, label: "Instant Purchase", path: "/pay-with-rewards" },
   { icon: Heart, label: "Donations", path: "/donations" },
   { icon: Users, label: "Peer to Peer Transfer", path: "/peer-transfer" },
   { icon: BadgePercent, label: "Offers", path: "/offers" },

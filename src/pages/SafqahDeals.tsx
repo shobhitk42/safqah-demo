@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarRange, Eye, EyeOff, Handshake, ListTree, Settings, ShieldCheck, Wallet, Gift } from "lucide-react";
+import { CalendarRange, Coins, Eye, EyeOff, Handshake, ListTree, Settings, ShieldCheck, Wallet, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DealCard from "@/components/DealCard";
 import RewardsLoader from "@/components/RewardsLoader";
+import { useUser } from "@/contexts/UserContext";
 import hotelModern from "@/assets/hotel-modern.jpg";
 import hotelClassic from "@/assets/hotel-classic.jpg";
 import exploreImg from "@/assets/exp-ritz-dubai.jpg";
@@ -30,7 +31,8 @@ const navItems = [
 /** Static replica of the Safqah investment app's Deals screen; the CTA opens the rewards app. */
 const SafqahDeals = () => {
   const navigate = useNavigate();
-  const [hidden, setHidden] = useState(false);
+  const { user } = useUser();
+  const [hidden, setHidden] = useState(true);
   const [loading, setLoading] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
@@ -47,15 +49,22 @@ const SafqahDeals = () => {
     <div className="mx-auto min-h-screen max-w-md bg-background pb-28">
       {loading && <RewardsLoader />}
       <div className="flex items-center justify-between px-5 pt-6">
-        <div className="flex items-center gap-3">
-          <span className="text-[17px] font-bold text-foreground">Hi</span>
-          <button
-            onClick={() => setHidden((h) => !h)}
-            aria-label={hidden ? "Show details" : "Hide details"}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted"
-          >
-            {hidden ? <EyeOff className="h-4 w-4 text-foreground/70" /> : <Eye className="h-4 w-4 text-foreground/70" />}
-          </button>
+        <div>
+          <div className="flex items-center gap-3">
+            <span className="text-[17px] font-bold text-foreground">Hi</span>
+            <button
+              onClick={() => setHidden((h) => !h)}
+              aria-label={hidden ? "Show details" : "Hide details"}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-muted"
+            >
+              {hidden ? <EyeOff className="h-4 w-4 text-foreground/70" /> : <Eye className="h-4 w-4 text-foreground/70" />}
+            </button>
+          </div>
+          <p className="mt-2 flex items-center gap-1.5 text-[12px] text-foreground/50">
+            <Coins className="h-3.5 w-3.5 text-primary" />
+            Points
+            <span className="font-semibold tabular-nums text-foreground">{hidden ? "*****" : user.availablePoints.toLocaleString()}</span>
+          </p>
         </div>
         <Button size="sm" className="gap-2" onClick={openRewards} disabled={loading}>
           <Gift className="h-4 w-4" />
