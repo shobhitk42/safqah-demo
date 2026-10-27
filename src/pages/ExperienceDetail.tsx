@@ -1,19 +1,17 @@
 import { useState } from "react";
+import { cashOf, priceText, STOREFRONT_RATE, type PaymentResult } from "@/lib/pricing";
+import PaymentStep from "@/components/booking/PaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import BookingHeader from "@/components/booking/BookingHeader";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Search, Clock, Gauge, MapPin, ChevronDown, ChevronUp, Check, X, Calendar } from "lucide-react";
 import { getExperience } from "@/data/experiences";
 import { useUser } from "@/contexts/UserContext";
 import BottomAction from "@/components/booking/BottomAction";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
 
-type Step = "details" | "availability" | "review";
+type Step = "details" | "availability" | "review" | "payment";
 
 const ExperienceDetail = () => {
   const navigate = useNavigate();
@@ -25,7 +23,9 @@ const ExperienceDetail = () => {
   const [guests, setGuests] = useState(2);
   const [date, setDate] = useState("2026-08-04");
   const [time, setTime] = useState("19:00");
-  const [confirmed, setConfirmed] = useState(false);
+  const { addBooking } = useBookings();
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+  const [reference, setReference] = useState("");
   const [step, setStep] = useState<Step>("details");
   const [slotChosen, setSlotChosen] = useState<number | null>(null);
 
@@ -58,6 +58,57 @@ const ExperienceDetail = () => {
       {openSection === sid && <div className="pb-4 text-sm text-muted-foreground leading-relaxed">{children}</div>}
     </div>
   );
+
+  const confirmBooking = (result: PaymentResult) => {
+    const ref = makeReference("EXP");
+    setPayment(result);
+    setReference(ref);
+    addBooking({
+      item: experience.name,
+      category: "Experiences",
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
+      date: `${date} · ${time}`,
+      status: "Confirmed",
+      meta: `${guests} guest${guests > 1 ? "s" : ""} · ${currentRate.label} · ${ref}`,
+    });
+  };
+
+  if (reference) {
+    return (
+      <BookingConfirmation
+        heading="Booking confirmed"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Experience", value: experience.name },
+          { label: "Date", value: date },
+          { label: "Time", value: time },
+          { label: "Rate", value: currentRate.label },
+          { label: "Guests", value: String(guests) },
+        ]}
+      />
+    );
+  }
+
+  if (step === "payment") {
+    return (
+      <div className="mx-auto min-h-screen max-w-md bg-background">
+        <BookingHeader title="Payment" onBack={() => setStep("review")} steps={["Experience", "Review", "Payment"]} current={2} />
+        <PaymentStep
+          totalPoints={totalPoints}
+          totalCash={cashOf(totalPoints, STOREFRONT_RATE)}
+          onConfirm={confirmBooking}
+          rows={[
+            { label: "Experience", value: experience.name },
+            { label: "Date", value: `${date} · ${time}` },
+            { label: "Guests", value: String(guests) },
+          ]}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-44">
@@ -112,7 +163,7 @@ const ExperienceDetail = () => {
       {step === "details" && (
         <>
           {/* Hero image */}
-          <div className="relative">
+          <div className="relative mx-5 mt-2 overflow-hidden rounded-3xl">
             <img src={experience.image} alt={experience.name} className="h-56 w-full object-cover" width={1024} height={1024} />
             <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
             <span className="absolute top-3 left-3 rounded-full bg-primary/90 text-primary-foreground text-[10px] font-semibold px-2.5 py-1 uppercase tracking-wider">
@@ -150,7 +201,7 @@ const ExperienceDetail = () => {
           <div className="mx-4 mt-5 rounded-2xl bg-[#ECE8E3] p-4">
             <p className="text-[11px] text-muted-foreground">From</p>
             <p className="text-2xl font-bold text-primary">
-              {experience.points.toLocaleString()} pts
+              {priceText(experience.points, STOREFRONT_RATE)}
             </p>
             <p className="text-[11px] text-muted-foreground mt-0.5">per guest · free cancellation up to 24h</p>
           </div>
@@ -233,7 +284,7 @@ const ExperienceDetail = () => {
               >
                 {experience.rateTypes.map((r, i) => (
                   <option key={r.label} value={i}>
-                    {r.label} — {r.points.toLocaleString()} pts
+                    {r.label} — {priceText(r.points, STOREFRONT_RATE)}
                   </option>
                 ))}
               </select>
@@ -302,7 +353,7 @@ const ExperienceDetail = () => {
               <div className="border-t border-border pt-3 flex items-center justify-between">
                 <span className="text-sm font-semibold text-foreground">Total</span>
                 <div className="text-right">
-                  <p className="text-base font-bold text-primary">{totalPoints.toLocaleString()} pts</p>
+                  <p className="text-base font-bold text-primary">{priceText(totalPoints, STOREFRONT_RATE)}</p>
                 </div>
               </div>
             </div>
@@ -337,35 +388,9 @@ const ExperienceDetail = () => {
         />
       )}
       {step === "review" && (
-        <BottomAction label={`Book now · ${totalPoints.toLocaleString()} pts`} onClick={() => setConfirmed(true)} />
+        <BottomAction label={`Continue to payment · ${priceText(totalPoints, STOREFRONT_RATE)}`} onClick={() => setStep("payment")} />
       )}
 
-      <Dialog open={confirmed} onOpenChange={setConfirmed}>
-        <DialogContent className="max-w-[360px] rounded-2xl border border-[#02AD4C]/45 !bg-[#FFFFFF] p-7 shadow-[0_24px_70px_rgba(26, 26, 46,0.24),0_0_0_1px_rgba(2, 173, 76,0.12)] dark:border-[#02AD4C]/55 dark:!bg-[#1F242D] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_34px_rgba(2, 173, 76,0.18)]">
-          <DialogHeader className="space-y-3">
-            <div className="mx-auto mb-1 flex h-12 w-12 items-center justify-center rounded-full border border-[#02AD4C]/45 bg-[#02AD4C]/12">
-              <Check className="h-6 w-6 text-[#02AD4C]" strokeWidth={1.8} />
-            </div>
-            <DialogTitle className="text-center text-[24px] font-light leading-tight text-[#302F2D] dark:text-[#FFFFFF]">
-              Booking Confirmed
-            </DialogTitle>
-            <DialogDescription className="text-center text-sm leading-6 text-[#6B6B7A] dark:text-[#FFFFFF]/75">
-              Your {experience.name} is booked for {date} at {time}. Confirmation sent to your email.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="mt-2">
-            <button
-              onClick={() => {
-                setConfirmed(false);
-                navigate("/orders");
-              }}
-              className="w-full rounded-xl bg-[#02AD4C] py-3 text-sm font-semibold text-[#302F2D] shadow-[0_10px_28px_rgba(2, 173, 76,0.28)] transition hover:translate-y-[-1px] hover:shadow-[0_14px_34px_rgba(2, 173, 76,0.34)]"
-            >
-              View my bookings
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

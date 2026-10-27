@@ -1,214 +1,175 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Tag, Check } from "lucide-react";
+import { ArrowLeft, ChevronDown, Coins } from "lucide-react";
 import { getOffer } from "@/data/offers";
 import { useUser } from "@/contexts/UserContext";
+import { useBookings } from "@/contexts/BookingsContext";
+import { cashOf, fmtCash, type PaymentResult } from "@/lib/pricing";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import BookingHeader from "@/components/booking/BookingHeader";
+import PaymentStep from "@/components/booking/PaymentStep";
+import { makeReference } from "@/components/booking/hotelData";
 
 const OfferDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const offer = slug ? getOffer(slug) : undefined;
   const { user } = useUser();
+  const { addBooking } = useBookings();
 
-  const [stage, setStage] = useState<"detail" | "confirm" | "success">("detail");
-  const [balance, setBalance] = useState(user.wallets.consumer.redeemable);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [step, setStep] = useState<"detail" | "payment" | "confirmed">("detail");
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+  const [reference, setReference] = useState("");
 
   if (!offer) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto w-full max-w-md px-4 pt-10">
-          <button
-            onClick={() => navigate("/offers")}
-            className="inline-flex items-center gap-1 text-[13px] text-[#02AD4C]"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to offers
-          </button>
-          <p className="mt-6 text-[14px] text-[#302F2D]">Offer not found.</p>
-        </div>
+      <div className="mx-auto flex min-h-screen max-w-md items-center justify-center">
+        <button onClick={() => navigate("/offers")} className="text-[11px] uppercase tracking-[0.24em] text-primary">
+          ← Back to offers
+        </button>
       </div>
     );
   }
 
-  const REDEEM_COST = offer.cost;
-  const insufficient = balance < REDEEM_COST;
-  const after = balance - REDEEM_COST;
+  const free = offer.cost === 0;
+  const validUntil = offer.validUntil ?? "31 Aug 2026";
 
-  const handleActivate = () => setStage("confirm");
-  const handleConfirm = () => {
-    setBalance((b) => b - REDEEM_COST);
-    setStage("success");
+  const activate = (result: PaymentResult) => {
+    const ref = makeReference("OFR");
+    addBooking({
+      item: `${offer.brand} — ${offer.headline}`,
+      category: "Offers",
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
+      date: new Date().toLocaleDateString("en-GB"),
+      status: "Activated",
+      meta: ref,
+    });
+    setPayment(result);
+    setReference(ref);
+    setStep("confirmed");
   };
 
+  if (step === "confirmed") {
+    return (
+      <BookingConfirmation
+        noun="Offer"
+        heading="Offer activated"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Brand", value: offer.brand },
+          { label: "Offer", value: offer.headline },
+          { label: "Valid until", value: validUntil },
+        ]}
+      />
+    );
+  }
+
+  if (step === "payment") {
+    return (
+      <div className="mx-auto min-h-screen max-w-md bg-background">
+        <BookingHeader title="Payment" onBack={() => setStep("detail")} steps={["Offer", "Payment"]} current={1} />
+        <PaymentStep
+          noun="order"
+          totalPoints={offer.cost}
+          totalCash={cashOf(offer.cost)}
+          onConfirm={activate}
+          rows={[
+            { label: "Brand", value: offer.brand },
+            { label: "Offer", value: offer.headline },
+          ]}
+        />
+      </div>
+    );
+  }
+
+  const chips = [free ? "Free" : "Points offer", `Valid until ${validUntil}`];
+
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <div className="mx-auto w-full max-w-md">
-        {/* Hero */}
-        <div className="relative">
-          <img
-            src={offer.image}
-            alt={offer.brand}
-            width={800}
-            height={800}
-            className={`w-full h-[220px] ${offer.image.startsWith("http") ? "object-contain bg-white" : "object-cover"}`}
-          />
-          <button
-            onClick={() => navigate(-1)}
-            aria-label="Back"
-            className="absolute top-4 left-4 h-9 w-9 inline-flex items-center justify-center rounded-full bg-white/95 shadow-md"
-          >
-            <ArrowLeft className="h-4 w-4 text-[#302F2D]" strokeWidth={2} />
-          </button>
-        </div>
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-28">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-4">
+        <button onClick={() => navigate("/offers")} aria-label="Back" className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+          <ArrowLeft className="h-4 w-4 text-foreground" />
+        </button>
+        <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">Offer</p>
+        <span className="flex items-center gap-1.5 rounded-full bg-[#ECE8E3] px-3 py-1.5 text-[13px] font-semibold tabular-nums text-foreground">
+          <Coins className="h-3.5 w-3.5 text-primary" /> {user.availablePoints.toLocaleString()}
+        </span>
+      </div>
 
-        <div className="px-5 pt-5">
-          {/* Brand */}
-          <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#E6F6EC]">
-              <Tag className="h-3 w-3 text-[#02AD4C]" strokeWidth={2} />
-            </span>
-            <span className="text-[13px] font-medium text-[#302F2D]">
-              {offer.brand}
-            </span>
-          </div>
-
-          <h1 className="text-[18px] font-bold text-[#302F2D] leading-snug">
-            {offer.headline}
-          </h1>
-          <p className="mt-2 text-[14px] font-semibold text-[#02AD4C]">
-            {offer.value}
-          </p>
-          <p className="mt-1 text-[12px] text-[#9CA3AF]">Valid until {offer.validUntil ?? "31 Aug 2026"}</p>
-
-          <p className="mt-5 text-[13px] leading-relaxed text-[#302F2D]/80">
-            {offer.description}
-          </p>
-
-          {offer.howTo && (
-            <div className="mt-6">
-              <h2 className="text-[13px] font-bold text-[#302F2D]">How to use</h2>
-              <ol className="mt-2 list-decimal space-y-1 pl-5 text-[13px] leading-relaxed text-[#302F2D]/80">
-                {offer.howTo.map((step) => <li key={step}>{step}</li>)}
-              </ol>
-            </div>
-          )}
-          {offer.terms && (
-            <div className="mt-5">
-              <h2 className="text-[13px] font-bold text-[#302F2D]">Terms</h2>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-[13px] leading-relaxed text-[#302F2D]/80">
-                {offer.terms.map((t) => <li key={t}>{t}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {/* Balance chip */}
-          <div className="mt-6 rounded-xl border border-[#E8E8EE] bg-white p-4">
-            <div className="flex items-center justify-between text-[12px] text-[#6B6B7A]">
-              <span>Cost</span>
-              <span className="tabular-nums font-semibold text-[#302F2D]">
-                {REDEEM_COST === 0 ? "Free" : `${REDEEM_COST.toLocaleString()} pts`}
-              </span>
-            </div>
-            <div className="mt-1.5 flex items-center justify-between text-[12px] text-[#6B6B7A]">
-              <span>Your redeemable balance</span>
-              <span className="tabular-nums font-semibold" style={{ color: "#02AD4C" }}>
-                {balance.toLocaleString()} pts
-              </span>
-            </div>
-            {insufficient && (
-              <p className="mt-3 text-[12px] font-medium" style={{ color: "#B8863F" }}>
-                Insufficient redeemable points. You need{" "}
-                {(REDEEM_COST - balance).toLocaleString()} more points to redeem this offer.
-              </p>
-            )}
-          </div>
-
-          {/* CTA */}
-          <button
-            type="button"
-            onClick={handleActivate}
-            disabled={insufficient}
-            className="mt-6 w-full rounded-xl bg-[#02AD4C] py-3.5 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 active:opacity-80 disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            Activate Offer
-          </button>
-
-          <p className="mt-3 text-center text-[11px] text-[#9CA3AF]">
-            Terms &amp; conditions apply
-          </p>
+      {/* Brand tile */}
+      <div className="px-4">
+        <div className="flex h-56 items-center justify-center overflow-hidden rounded-2xl border border-border bg-white p-8">
+          <img src={offer.image} alt={offer.brand} className="max-h-full max-w-full object-contain" />
         </div>
       </div>
 
-      {/* Confirmation modal */}
-      {stage === "confirm" && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-md rounded-t-2xl sm:rounded-2xl bg-white p-6">
-            <h3 className="text-[16px] font-bold text-[#302F2D]">
-              Redeem {offer.brand}?
-            </h3>
-            <div className="mt-4 space-y-2 text-[13px]">
-              <div className="flex justify-between">
-                <span className="text-[#6B6B7A]">Cost</span>
-                <span className="tabular-nums font-semibold text-[#302F2D]">
-                  {REDEEM_COST === 0 ? "Free" : `${REDEEM_COST.toLocaleString()} pts`}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#6B6B7A]">Your balance</span>
-                <span className="tabular-nums font-semibold text-[#302F2D]">
-                  {balance.toLocaleString()} pts <span className="text-[11px] text-[#9CA3AF] font-normal">(Redeemable)</span>
-                </span>
-              </div>
-              <div className="flex justify-between pt-2 border-t border-[#E8E8EE]">
-                <span className="text-[#6B6B7A]">After redeem</span>
-                <span className="tabular-nums font-bold" style={{ color: "#02AD4C" }}>
-                  {after.toLocaleString()} pts
-                </span>
-              </div>
-            </div>
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setStage("detail")}
-                className="flex-1 h-12 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirm}
-                className="flex-1 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-              >
-                Confirm Redemption
-              </button>
-            </div>
-          </div>
+      {/* Title */}
+      <div className="px-4 pt-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">{offer.brand}</p>
+        <h1 className="mt-1 text-[26px] font-bold leading-tight text-foreground">{offer.headline}</h1>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {chips.map((c) => (
+            <span key={c} className="rounded-full bg-foreground px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-background">{c}</span>
+          ))}
         </div>
-      )}
+      </div>
 
-      {/* Success state */}
-      {stage === "success" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center">
-            <div
-              className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full animate-scale-in"
-              style={{ backgroundColor: "#02AD4C" }}
-            >
-              <Check className="h-7 w-7 text-white" strokeWidth={2.5} />
-            </div>
-            <h3 className="text-[17px] font-bold text-[#302F2D]">Redeemed successfully!</h3>
-            <p className="mt-2 text-[13px] text-[#6B6B7A]">
-              New balance:{" "}
-              <span className="font-semibold" style={{ color: "#02AD4C" }}>
-                {balance.toLocaleString()} pts
-              </span>
-            </p>
-            <button
-              onClick={() => navigate("/offers")}
-              className="mt-6 w-full h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-            >
-              Back to offers
-            </button>
+      {/* Value + cost */}
+      <div className="mt-8 grid grid-cols-[1fr_auto] items-end gap-3 px-4">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">You get</p>
+          <div className="mt-2 flex min-h-14 items-center rounded-xl border border-[#CFCBD0] px-4 py-2 text-[14px] font-medium leading-snug text-foreground">
+            {offer.value}
           </div>
         </div>
-      )}
+        <div className="min-w-[110px]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cost</p>
+          <div className="mt-2 flex h-14 flex-col items-center justify-center rounded-xl border border-primary/50 bg-primary/5">
+            <span className="text-[17px] font-bold leading-none tabular-nums text-primary">{free ? "Free" : `${offer.cost.toLocaleString()} pts`}</span>
+            {!free && <span className="mt-1 text-[10px] text-muted-foreground">{fmtCash(cashOf(offer.cost))}</span>}
+          </div>
+        </div>
+      </div>
+
+      {/* About */}
+      <section className="mx-4 mt-8 border-y border-border">
+        <button onClick={() => setAboutOpen((o) => !o)} className="flex w-full items-center justify-between py-4 text-left">
+          <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">About this offer</span>
+          <ChevronDown className={`h-4 w-4 transition-transform ${aboutOpen ? "rotate-180" : ""}`} />
+        </button>
+        {aboutOpen && (
+          <div className="space-y-4 pb-5 text-[13px] leading-relaxed text-muted-foreground">
+            <p>{offer.description}</p>
+            {offer.howTo && (
+              <div>
+                <p className="font-semibold text-foreground">How to use</p>
+                <ol className="mt-1 list-decimal space-y-1 pl-5">{offer.howTo.map((s) => <li key={s}>{s}</li>)}</ol>
+              </div>
+            )}
+            {offer.terms && (
+              <div>
+                <p className="font-semibold text-foreground">Terms</p>
+                <ul className="mt-1 list-disc space-y-1 pl-5">{offer.terms.map((t) => <li key={t}>{t}</li>)}</ul>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Fixed Bottom CTA */}
+      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-card px-4 py-3">
+        <button
+          onClick={() => (free ? activate({ mode: "points", pointsUsed: 0, cashPaid: 0 }) : setStep("payment"))}
+          className="h-12 w-full rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Activate Offer
+        </button>
+      </div>
     </div>
   );
 };

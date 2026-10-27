@@ -170,15 +170,9 @@ const GiftCardsPage = () => {
             <div
               key={card.name}
               onClick={() => card.slug && navigate(`/gift-card/${card.slug}`)}
-              className={`group flex flex-col overflow-hidden rounded-xl bg-card border shadow-sm transition-all active:scale-[0.98] ${
-                card.slug
-                  ? "cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
-                  : "cursor-default opacity-95"
+              className={`group flex flex-col overflow-hidden rounded-xl bg-card border border-[#E8E8EE] transition-all active:scale-[0.98] ${
+                card.slug ? "cursor-pointer" : "cursor-default opacity-95"
               }`}
-              style={{
-                borderColor: card.slug ? "#02AD4C" : "#E8E8EE",
-                boxShadow: card.slug ? "0 2px 12px rgba(2, 173, 76,0.08)" : undefined,
-              }}
             >
               <div className="aspect-[4/3] w-full bg-white flex items-center justify-center p-4 border-b border-[#F6F3EF]">
                 {card.image ? (
@@ -211,11 +205,7 @@ const GiftCardsPage = () => {
               </div>
               <div className="p-2.5">
                 <p className="text-[12px] font-semibold text-card-foreground leading-tight truncate">{card.name}</p>
-                {card.slug ? (
-                  <p className="mt-1.5 text-[10px] uppercase tracking-[0.2em]" style={{ color: "#02AD4C" }}>
-                    Redeem →
-                  </p>
-                ) : (
+                {!card.slug && (
                   <p className="mt-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground/45">
                     {card.tags[0]}
                   </p>

@@ -1,3 +1,4 @@
+import { fmtCash, fmtPts, cashOf } from "@/lib/pricing";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Package, Gift, Plane, ShoppingBag, Sparkles } from "lucide-react";
 import { useBookings } from "@/contexts/BookingsContext";
@@ -29,11 +30,12 @@ const OrdersPage = () => {
       item: b.item,
       category: b.category,
       points: b.points,
+      cashPaid: b.cashPaid,
       date: b.date,
       status: b.status,
       icon: Sparkles,
     })),
-    ...staticOrders,
+    ...staticOrders.map((o) => ({ ...o, cashPaid: undefined as number | undefined })),
   ];
 
   return (
@@ -57,7 +59,11 @@ const OrdersPage = () => {
                 <p className="text-sm font-semibold text-card-foreground truncate">{order.item}</p>
                 <p className="text-[10px] text-muted-foreground mt-0.5">{order.category} • {order.id}</p>
                 <div className="flex items-center justify-between mt-2">
-                  <p className="text-xs font-bold text-reward-gold">{order.points.toLocaleString()} pts</p>
+                  <p className="text-xs font-bold text-reward-gold">
+                    {order.cashPaid !== undefined
+                      ? [order.points > 0 && fmtPts(order.points), order.cashPaid > 0 && fmtCash(order.cashPaid)].filter(Boolean).join(" + ")
+                      : `${fmtPts(order.points)} · ${fmtCash(cashOf(order.points))}`}
+                  </p>
                   <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusColor[order.status] || statusColor.Processing}`}>
                     {order.status}
                   </span>

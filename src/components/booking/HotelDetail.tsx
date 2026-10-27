@@ -1,4 +1,5 @@
-import { Star, MapPin, Clock, ShieldCheck } from "lucide-react";
+import { Star, MapPin, Clock, ShieldCheck, Check } from "lucide-react";
+import { priceText } from "@/lib/pricing";
 import BottomAction from "./BottomAction";
 import { AMENITIES, ROOMS, roomPrice, describeHotel, type HotelSummary } from "./hotelData";
 
@@ -22,7 +23,7 @@ const HotelDetail = ({ hotel, gallery, checkIn, checkOut, nights, room, onRoomCh
       <div className="pb-48">
         <div className="flex gap-2 overflow-x-auto px-5 scrollbar-hide">
           {gallery.map((src, i) => (
-            <img key={i} src={src} alt={`${hotel.name} ${i + 1}`} className="h-56 w-[86%] shrink-0 rounded-3xl object-cover" loading="lazy" />
+            <img key={i} src={src} alt={`${hotel.name} ${i + 1}`} className={`h-56 shrink-0 rounded-3xl object-cover ${gallery.length > 1 ? "w-[86%]" : "w-full"}`} loading="lazy" />
           ))}
         </div>
 
@@ -30,9 +31,11 @@ const HotelDetail = ({ hotel, gallery, checkIn, checkOut, nights, room, onRoomCh
           <section>
             <div className="flex flex-wrap gap-2">
               {hotel.tag && <span className="rounded-full bg-[#ECE8E3] px-3 py-1 text-[11px] font-semibold text-foreground">{hotel.tag}</span>}
-              <span className="flex items-center gap-1 rounded-full bg-[#ECE8E3] px-3 py-1 text-[11px] font-semibold text-foreground">
-                <Star className="h-3 w-3 fill-[#FCEE21] text-[#B8A800]" /> {hotel.rating}
-              </span>
+              {hotel.rating > 0 && (
+                <span className="flex items-center gap-1 rounded-full bg-[#ECE8E3] px-3 py-1 text-[11px] font-semibold text-foreground">
+                  <Star className="h-3 w-3 fill-[#FCEE21] text-[#B8A800]" /> {hotel.rating}
+                </span>
+              )}
             </div>
             <h2 className="mt-3 text-[22px] font-bold leading-tight text-foreground">{hotel.name}</h2>
             {hotel.area && (
@@ -43,17 +46,26 @@ const HotelDetail = ({ hotel, gallery, checkIn, checkOut, nights, room, onRoomCh
             <p className="mt-3 text-[14px] leading-relaxed text-foreground/75">{describeHotel(hotel)}</p>
           </section>
 
-          <section>
-            <h3 className="text-[15px] font-bold text-foreground">Popular amenities</h3>
-            <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-3">
-              {AMENITIES.map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2.5 text-[13px] text-foreground/80">
-                  <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} />
-                  {label}
-                </div>
-              ))}
-            </div>
-          </section>
+          {(!hotel.amenities || hotel.amenities.length > 0) && (
+            <section>
+              <h3 className="text-[15px] font-bold text-foreground">{hotel.amenities ? "Amenities" : "Popular amenities"}</h3>
+              <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-3">
+                {hotel.amenities
+                  ? hotel.amenities.map((label) => (
+                      <div key={label} className="flex items-center gap-2.5 text-[13px] text-foreground/80">
+                        <Check className="h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} />
+                        {label}
+                      </div>
+                    ))
+                  : AMENITIES.map(({ icon: Icon, label }) => (
+                      <div key={label} className="flex items-center gap-2.5 text-[13px] text-foreground/80">
+                        <Icon className="h-4 w-4 text-primary" strokeWidth={1.75} />
+                        {label}
+                      </div>
+                    ))}
+              </div>
+            </section>
+          )}
 
           <section>
             <h3 className="text-[15px] font-bold text-foreground">Choose your room</h3>
@@ -77,7 +89,7 @@ const HotelDetail = ({ hotel, gallery, checkIn, checkOut, nights, room, onRoomCh
                       <p className="mt-0.5 text-[12px] text-muted-foreground">{r.detail}</p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-[15px] font-bold tabular-nums text-primary">{perNight.toLocaleString()} pts</p>
+                      <p className="text-[15px] font-bold tabular-nums text-primary">{priceText(perNight, hotel.rate)}</p>
                       <p className="text-[11px] text-muted-foreground">per night</p>
                     </div>
                   </button>
@@ -106,7 +118,7 @@ const HotelDetail = ({ hotel, gallery, checkIn, checkOut, nights, room, onRoomCh
             <span className="text-muted-foreground">
               {selected.name} · {nights} night{nights > 1 ? "s" : ""}
             </span>
-            <span className="text-[16px] font-bold tabular-nums text-primary">{total.toLocaleString()} pts</span>
+            <span className="text-[16px] font-bold tabular-nums text-primary">{priceText(total, hotel.rate)}</span>
           </>
         }
       />

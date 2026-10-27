@@ -1,17 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { fmtCash, fmtPts, type PaymentResult } from "@/lib/pricing";
 
 interface BookingConfirmationProps {
   heading: string;
   reference: string;
   rows: { label: string; value: string }[];
-  email: string;
-  pointsUsed: number;
+  email?: string;
+  /** "Booking" (default) or "Order". */
+  noun?: string;
+  payment: PaymentResult;
   balanceAfter: number;
 }
 
-const BookingConfirmation = ({ heading, reference, rows, email, pointsUsed, balanceAfter }: BookingConfirmationProps) => {
+const BookingConfirmation = ({ heading, reference, rows, email, payment, balanceAfter, noun = "Booking" }: BookingConfirmationProps) => {
   const navigate = useNavigate();
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background px-5 pb-28 pt-12">
@@ -20,9 +23,9 @@ const BookingConfirmation = ({ heading, reference, rows, email, pointsUsed, bala
           <CheckCircle2 className="h-10 w-10 text-primary" strokeWidth={1.5} />
         </span>
         <h1 className="mt-5 text-[22px] font-bold text-foreground">{heading}</h1>
-        <p className="mt-1 text-[13px] text-muted-foreground">A confirmation has been sent to {email}</p>
+        <p className="mt-1 text-[13px] text-muted-foreground">A confirmation has been sent to {email || "your registered email"}</p>
         <div className="mt-5 rounded-xl bg-[#ECE8E3] px-5 py-3">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Booking reference</p>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{noun} reference</p>
           <p className="mt-0.5 text-[18px] font-bold tracking-wider text-foreground">{reference}</p>
         </div>
       </div>
@@ -34,13 +37,21 @@ const BookingConfirmation = ({ heading, reference, rows, email, pointsUsed, bala
             <span className="text-right font-medium text-foreground">{r.value}</span>
           </div>
         ))}
+        {payment.pointsUsed > 0 && (
+          <div className="flex items-center justify-between py-3 text-[14px]">
+            <span className="text-muted-foreground">Points redeemed</span>
+            <span className="font-bold tabular-nums text-primary">{fmtPts(payment.pointsUsed)}</span>
+          </div>
+        )}
+        {payment.cashPaid > 0 && (
+          <div className="flex items-center justify-between py-3 text-[14px]">
+            <span className="text-muted-foreground">Paid by card</span>
+            <span className="font-bold tabular-nums text-foreground">{fmtCash(payment.cashPaid)}</span>
+          </div>
+        )}
         <div className="flex items-center justify-between py-3 text-[14px]">
-          <span className="text-muted-foreground">Points redeemed</span>
-          <span className="font-bold tabular-nums text-primary">{pointsUsed.toLocaleString()} pts</span>
-        </div>
-        <div className="flex items-center justify-between py-3 text-[14px]">
-          <span className="text-muted-foreground">Remaining balance</span>
-          <span className="tabular-nums text-foreground">{balanceAfter.toLocaleString()} pts</span>
+          <span className="text-muted-foreground">Points balance</span>
+          <span className="tabular-nums text-foreground">{fmtPts(balanceAfter)}</span>
         </div>
       </div>
 

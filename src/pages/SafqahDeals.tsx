@@ -39,7 +39,8 @@ const SafqahDeals = () => {
   const openRewards = () => {
     if (loading) return;
     setLoading(true);
-    timer.current = setTimeout(() => navigate("/loyalty"), 2400);
+    // the home screen picks up the loader and fades it out, so there is no hard cut
+    timer.current = setTimeout(() => navigate("/loyalty", { state: { fromLoader: true } }), 2400);
   };
 
   return (

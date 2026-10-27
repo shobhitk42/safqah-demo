@@ -1,161 +1,87 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Search, Filter } from "lucide-react";
 import { offers } from "@/data/offers";
 
-import { ArrowUpDown, SlidersHorizontal, ChevronRight } from "lucide-react";
-
-
-const CATEGORIES = [
-  "All",
-  "Dining",
-  "Shopping",
-  "Travel",
-  "Entertainment",
-  "Groceries",
-  "Health",
-  "Electronics",
-];
+const CATEGORIES = ["All", "Dining", "Shopping", "Travel", "Entertainment", "Groceries", "Health", "Electronics"];
 
 const Offers = () => {
-  const [selected, setSelected] = useState("All");
   const navigate = useNavigate();
+  const [selected, setSelected] = useState("All");
+  const [query, setQuery] = useState("");
+
+  const shown = offers.filter((o) => `${o.brand} ${o.headline}`.toLowerCase().includes(query.trim().toLowerCase()));
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <div className="mx-auto w-full max-w-md">
-        {/* Header */}
-        <header className="flex items-center justify-between px-4 pt-5 pb-3">
-          <h1 className="text-[20px] font-bold text-foreground">Offers</h1>
-          <div className="flex items-center gap-2">
-            <button
-              aria-label="Sort"
-              className="h-9 w-9 inline-flex items-center justify-center rounded-full border border-[#E8E8EE] bg-card"
-            >
-              <ArrowUpDown className="h-4 w-4 text-[#302F2D]" strokeWidth={1.5} />
-            </button>
-            <button
-              aria-label="Filter"
-              className="h-9 w-9 inline-flex items-center justify-center rounded-full border border-[#E8E8EE] bg-card"
-            >
-              <SlidersHorizontal className="h-4 w-4 text-[#302F2D]" strokeWidth={1.5} />
-            </button>
-          </div>
-        </header>
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
+      {/* Header */}
+      <div className="flex items-center gap-3 bg-card px-4 py-4">
+        <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+          <ArrowLeft className="h-4 w-4 text-foreground" />
+        </button>
+        <h1 className="text-base font-semibold text-foreground">All Offers</h1>
+      </div>
 
-        {/* Banner */}
-        <div className="px-4">
-          <div
-            className="relative overflow-hidden rounded-xl h-[140px] flex items-center"
-            style={{
-              background: "linear-gradient(90deg, #E6F6EC 0%, #FFFFFF 100%)",
-            }}
-          >
-            <div className="flex-1 px-5 py-4">
-              <h2 className="text-[15px] font-semibold text-[#302F2D] leading-snug">
-                Exclusive perks for Safqah Capital members
-              </h2>
-              <p className="mt-1.5 text-[11px] text-[#302F2D]/70 leading-relaxed pr-2">
-                Activate deals from top Saudi brands — all free with your membership.
-              </p>
-              <button
-                type="button"
-                className="mt-3 inline-flex items-center rounded-full border border-[#02AD4C] px-4 py-1.5 text-[11px] font-medium text-[#02AD4C] bg-transparent hover:bg-[#02AD4C]/5 transition-colors"
-              >
-                Explore
-              </button>
-            </div>
-            <div className="w-[110px] h-full flex items-center justify-center pr-3">
-              <div
-                className="relative h-[100px] w-[60px] rounded-[14px] border-2 border-[#02AD4C]/40 bg-white shadow-md flex flex-col items-center justify-center gap-1.5"
-              >
-                <div className="h-1 w-6 rounded-full bg-[#02AD4C]/20" />
-                <div className="h-8 w-8 rounded-full bg-[#02AD4C] flex items-center justify-center text-white text-[11px] font-bold">
-                  %
-                </div>
-                <div className="h-1 w-4 rounded-full bg-[#02AD4C]/20" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Category pills */}
-        <div className="mt-4">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide px-4 pb-1">
-            {CATEGORIES.map((cat) => {
-              const active = selected === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelected(cat)}
-                  className="shrink-0 rounded-full px-4 py-1.5 text-[12px] font-medium transition-colors border"
-                  style={{
-                    backgroundColor: active ? "#02AD4C" : "#FFFFFF",
-                    color: active ? "#FFFFFF" : "#302F2D",
-                    borderColor: active ? "#02AD4C" : "#E8E8EE",
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Results row */}
-        <div className="flex items-center justify-between px-4 mt-4 mb-3">
-          <span className="text-[12px] text-[#9CA3AF]">{offers.length} offers</span>
-          <span className="text-[12px] text-[#9CA3AF]">Sort by: Relevance ▾</span>
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-2 gap-3 px-4">
-          {offers.map((offer) => (
-            <button
-              key={offer.slug}
-              onClick={() => navigate(`/offers/${offer.slug}`)}
-              className="group flex flex-col overflow-hidden rounded-xl bg-white text-left transition-all hover:shadow-md hover:-translate-y-0.5"
-            >
-              <div className={`aspect-square w-full overflow-hidden ${offer.image.startsWith("http") ? "bg-white" : "bg-[#F6F3EF]"}`}>
-                <img
-                  src={offer.image}
-                  alt={offer.brand}
-                  loading="lazy"
-                  width={800}
-                  height={800}
-                  className={`h-full w-full transition-transform duration-500 group-hover:scale-105 ${offer.image.startsWith("http") ? "object-contain" : "object-cover"}`}
-                />
-              </div>
-              <div className="flex flex-col gap-1 p-3">
-                <span className="text-[12px] text-[#9CA3AF] leading-tight">
-                  {offer.brand}
-                </span>
-                <p
-                  className="text-[14px] font-bold text-[#302F2D] leading-snug overflow-hidden"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {offer.headline}
-                </p>
-                <span className="text-[12px] font-bold text-[#02AD4C] tracking-wide mt-0.5">
-                  {offer.cost === 0 ? "Free" : `${offer.cost.toLocaleString()} pts`}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        {/* Pagination */}
-        <div className="flex items-center justify-center gap-1.5 mt-8 px-4 text-[12px] text-[#9CA3AF]">
-          <span>Page 1 of 3</span>
-          <span className="inline-flex items-center gap-0.5 text-[#02AD4C] font-medium">
-            Next <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} />
-          </span>
+      {/* Search */}
+      <div className="bg-card px-4 py-3">
+        <div className="flex items-center gap-2 rounded-lg bg-secondary px-3 py-2.5">
+          <Search className="h-4 w-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for offers..."
+            className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+          />
+          <Filter className="h-4 w-4 text-muted-foreground" />
         </div>
       </div>
 
+      {/* Filter chips */}
+      <div className="flex gap-2 overflow-x-auto bg-card px-4 py-3 scrollbar-hide">
+        {CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelected(cat)}
+            className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium ${selected === cat ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Breadcrumb */}
+      <div className="flex items-center justify-between px-4 pb-2 pt-3">
+        <p className="text-[11px] text-muted-foreground">Home / Offers</p>
+        <p className="text-[11px] text-muted-foreground">{shown.length} items</p>
+      </div>
+
+      {/* Grid */}
+      <div className="px-3 pb-8">
+        <div className="mb-6 px-1">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/50">Curated for you</p>
+          <p className="mt-1 text-[11px] text-foreground/45">Tap any offer to view details and activate it.</p>
+        </div>
+        <div className="grid grid-cols-2 gap-2.5">
+          {shown.map((offer) => (
+            <div
+              key={offer.slug}
+              onClick={() => navigate(`/offers/${offer.slug}`)}
+              className="flex cursor-pointer flex-col overflow-hidden rounded-xl border border-[#E8E8EE] bg-card transition-all active:scale-[0.98]"
+            >
+              <div className="flex aspect-[4/3] w-full items-center justify-center border-b border-[#F6F3EF] bg-white p-4">
+                <img src={offer.image} alt={offer.brand} loading="lazy" className="max-h-full max-w-full object-contain" />
+              </div>
+              <div className="p-2.5">
+                <p className="truncate text-[12px] font-semibold leading-tight text-card-foreground">{offer.brand}</p>
+                <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">{offer.headline}</p>
+                <p className="mt-1 text-[11px] font-bold text-primary">{offer.cost === 0 ? "Free" : `${offer.cost.toLocaleString()} pts`}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {shown.length === 0 && <p className="py-16 text-center text-sm text-muted-foreground">No offers found</p>}
+      </div>
     </div>
   );
 };

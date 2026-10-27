@@ -1,4 +1,5 @@
 import DealCard from "@/components/DealCard";
+import { priceText, STOREFRONT_RATE } from "@/lib/pricing";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, Clock, Heart } from "lucide-react";
@@ -91,7 +92,7 @@ const ExperiencesPage = () => {
             topChips={[exp.type ?? exp.category, LIVE ? exp.category : exp.difficulty].filter(Boolean) as string[]}
             badge={exp.location}
             rows={[
-              { label: "Points", value: `${exp.points.toLocaleString()} pts` },
+              { label: "Points", value: priceText(exp.points, STOREFRONT_RATE) },
               ...(LIVE ? [] : [{ label: "Duration", value: exp.duration }]),
             ]}
             onClick={() => navigate(`/experience/${exp.id}`)}

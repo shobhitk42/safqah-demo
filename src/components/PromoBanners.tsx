@@ -21,8 +21,8 @@ const PromoBanners = () => {
       to: "/gift-cards",
     },
     {
-      title: "Weekend privileges",
-      subtitle: "Enhanced earn rate across the collection",
+      title: "Premium merchandise",
+      subtitle: "Redeem leading brands with your points",
       icon: Sparkles,
       to: "/merchandise",
     },

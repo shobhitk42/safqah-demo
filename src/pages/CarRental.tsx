@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { priceText } from "@/lib/pricing";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin, Calendar, Car, Users, Fuel } from "lucide-react";
 import { toast } from "sonner";
@@ -111,8 +112,14 @@ const CarRentalPage = () => {
                 className="w-full text-left rounded-xl bg-[#F1EEEA] border border-transparent p-4 active:scale-[0.99] transition-transform"
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
                     <Car className="h-6 w-6 text-primary" />
+                    <img
+                      src={`https://cdn.simpleicons.org/${p.model.split(" ")[0].toLowerCase()}`}
+                      alt={`${p.model.split(" ")[0]} logo`}
+                      className="absolute inset-0 h-full w-full rounded-xl bg-white p-2.5 object-contain"
+                      onError={(e) => { e.currentTarget.style.display = "none"; }}
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-card-foreground">{p.model}</p>
@@ -123,7 +130,7 @@ const CarRentalPage = () => {
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-sm font-bold text-reward-gold">{p.pts.toLocaleString()} pts</p>
+                    <p className="text-sm font-bold text-reward-gold">{priceText(p.pts)}</p>
                   </div>
                 </div>
               </button>

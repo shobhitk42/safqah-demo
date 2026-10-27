@@ -1,5 +1,6 @@
 import SectionTitle from "@/components/SectionTitle";
 import { useUser } from "@/contexts/UserContext";
+import { getExperience } from "@/data/experiences";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -19,13 +20,16 @@ const PickedForYou = () => {
 
       <div className="flex gap-6 overflow-x-auto scrollbar-hide -mx-5 px-5 pb-1">
         {user.pickedForYou.map((item) => {
-          const experienceCats = ["Hotels", "Sports Events", "Experiences", "Lounge", "Events"];
-          const isExperience = experienceCats.includes(item.category);
-          const target = isExperience ? `/experience/${item.id}` : `/product/${item.id}`;
+          const target =
+            item.category === "Hotels" ? "/hotels"
+            : item.category === "Lounge" ? "/lounge"
+            : item.category === "Sports Events" || item.category === "Events" ? "/sports-events"
+            : item.category === "Experiences" ? (getExperience(item.id) ? `/experience/${item.id}` : "/experiences")
+            : `/product/${item.id}`;
           return (
             <article
               key={item.id}
-              onClick={() => navigate(target)}
+              onClick={() => navigate(target, item.category === "Hotels" ? { state: { hotel: item.name } } : undefined)}
               className="group shrink-0 w-[268px] cursor-pointer bg-white rounded-[16px] overflow-hidden flex flex-col"
             >
               <div className="h-40 w-full overflow-hidden bg-muted">

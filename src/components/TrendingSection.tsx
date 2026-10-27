@@ -1,6 +1,11 @@
 import SectionTitle from "@/components/SectionTitle";
+import AppleLogo, { isApple } from "@/components/AppleLogo";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { live, LIVE_PREFIX, giftFilterKey } from "@/data/live";
+import { liveExperiences } from "@/data/experiences";
+import liveHotels from "@/data/live/hotels.json";
+import { priceText } from "@/lib/pricing";
 import fashionImg from "@/assets/fashion.jpg";
 import fashion2Img from "@/assets/fashion2.jpg";
 import gamingImg from "@/assets/gaming.jpg";
@@ -14,7 +19,10 @@ import headphonesImg from "@/assets/headphones.jpg";
 import smartwatchImg from "@/assets/smartwatch.jpg";
 import perfumeImg from "@/assets/perfume.jpg";
 
-const sections = [
+type TrendingItem = { name: string; image: string; price: string; to?: string; state?: { hotel: string } };
+type TrendingSectionData = { label: string; title: string; subtext: string; link: string; items: TrendingItem[] };
+
+const sections: TrendingSectionData[] = [
   {
     label: "Experiences",
     title: "Discover must-try activities",
@@ -45,10 +53,10 @@ const sections = [
     subtext: "Objects worth returning to.",
     link: "/merchandise",
     items: [
-      { name: "Designer Perfumes", image: perfumeImg, price: "4,500 pts" },
-      { name: "iPhone 16 Pro", image: iphoneImg, price: "59,900 pts" },
-      { name: "Bose Headphones", image: headphonesImg, price: "14,900 pts" },
-      { name: "Apple Watch S10", image: smartwatchImg, price: "19,900 pts" },
+      { name: "Designer Perfumes", image: perfumeImg, price: priceText(4500), to: "/product/chanel-no5" },
+      { name: "iPhone 16 Pro", image: iphoneImg, price: priceText(45000), to: "/product/iphone-16-pro" },
+      { name: "Bose Headphones", image: headphonesImg, price: priceText(12000), to: "/product/bose-headphones" },
+      { name: "Apple Watch Series 10", image: smartwatchImg, price: priceText(18000), to: "/product/apple-watch-10" },
     ],
   },
   {
@@ -65,6 +73,22 @@ const sections = [
   },
 ];
 
+// Real catalogue items (with their own pages) replace the sample tiles when available
+const liveFashionCards: TrendingItem[] = live.giftcards
+  .filter((p) => giftFilterKey(p.category) === "fashion")
+  .slice(0, 4)
+  .map((p) => ({ name: p.name, image: p.image, price: `Start From ${p.pointsOptions[0]?.toLocaleString() ?? p.points.toLocaleString()} pts`, to: `/gift-card/${LIVE_PREFIX}${p.id}` }));
+const liveExperienceTiles: TrendingItem[] = liveExperiences
+  .slice(0, 4)
+  .map((e) => ({ name: e.name, image: e.image, price: `Start From ${e.points.toLocaleString()} pts`, to: `/experience/${e.id}` }));
+const liveHotelTiles: TrendingItem[] = (liveHotels as { name: string; image: string }[])
+  .slice(0, 4)
+  .map((h) => ({ name: h.name, image: h.image, price: "View options", to: "/hotels", state: { hotel: h.name } }));
+
+if (liveFashionCards.length === 4) sections[1].items = liveFashionCards;
+if (liveExperienceTiles.length === 4) sections[0].items = liveExperienceTiles;
+if (liveHotelTiles.length === 4) sections[3].items = liveHotelTiles;
+
 const TrendingSection = () => {
   const navigate = useNavigate();
 
@@ -78,7 +102,7 @@ const TrendingSection = () => {
             {section.items.map((item) => (
               <article
                 key={item.name}
-                onClick={() => navigate(section.link)}
+                onClick={() => navigate(item.to ?? section.link, { state: item.state })}
                 className="group shrink-0 w-[268px] cursor-pointer bg-white rounded-md overflow-hidden flex flex-col"
               >
                 <div className="h-40 w-full overflow-hidden bg-muted">
@@ -99,7 +123,7 @@ const TrendingSection = () => {
                     className="mt-5 text-[16px] leading-snug text-foreground"
                     style={{ fontFamily: "'IBM Plex Sans Arabic', sans-serif", fontWeight: 500, letterSpacing: "0.005em" }}
                   >
-                    {item.name}
+                    {isApple(item.name) && <AppleLogo className="mr-1.5 inline-block h-3.5 w-3.5 -translate-y-px" />}{item.name}
                   </h3>
                   <p
                     className="mt-3 text-[13px] leading-relaxed text-foreground/60"

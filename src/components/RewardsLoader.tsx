@@ -6,12 +6,14 @@ const STEPS = ["Syncing your points…", "Unlocking your Platinum benefits…", 
 const DURATION = 2400;
 
 /** Full-screen transition shown while the Deals screen hands over to the rewards app. */
-const RewardsLoader = () => {
+/** `settled` shows the finished state straight away (used to hand over to the next screen). */
+const RewardsLoader = ({ leaving = false, settled = false }: { leaving?: boolean; settled?: boolean }) => {
   const { user } = useUser();
-  const [count, setCount] = useState(0);
-  const [step, setStep] = useState(0);
+  const [count, setCount] = useState(settled ? user.availablePoints : 0);
+  const [step, setStep] = useState(settled ? STEPS.length - 1 : 0);
 
   useEffect(() => {
+    if (settled) return;
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
@@ -25,16 +27,24 @@ const RewardsLoader = () => {
       cancelAnimationFrame(raf);
       clearInterval(timer);
     };
-  }, [user.availablePoints]);
+  }, [user.availablePoints, settled]);
 
   return (
     <div
       role="status"
       aria-live="polite"
-      className="z-[100] flex flex-col items-center justify-center overflow-hidden animate-in fade-in duration-300"
+      className={`z-[100] flex flex-col items-center justify-center overflow-hidden ${settled ? "pointer-events-none" : "animate-in fade-in zoom-in-95 duration-500"}`}
       style={{
         position: "fixed",
-        inset: 0,
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        marginInline: "auto",
+        width: "100%",
+        maxWidth: "28rem",
+        opacity: leaving ? 0 : 1,
+        transition: "opacity 400ms ease",
         background:
           "radial-gradient(70% 90% at 0% 0%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 60%), radial-gradient(75% 105% at 100% 100%, rgba(8,40,24,0.80) 0%, rgba(8,40,24,0.35) 40%, rgba(8,40,24,0) 75%), #0E9A48",
       }}
@@ -67,7 +77,7 @@ const RewardsLoader = () => {
       </p>
 
       <div className="mt-6 h-1 w-44 overflow-hidden rounded-full bg-white/25">
-        <div className="rewards-progress h-full rounded-full bg-white" style={{ animationDuration: `${DURATION}ms` }} />
+        <div className="rewards-progress h-full rounded-full bg-white" style={settled ? { width: "100%", animation: "none" } : { animationDuration: `${DURATION}ms` }} />
       </div>
     </div>
   );

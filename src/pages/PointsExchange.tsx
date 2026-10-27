@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Plane, ChevronDown, Check } from "lucide-react";
-import { toast } from "sonner";
 import { useUser } from "@/contexts/UserContext";
 import { liveMiles } from "@/data/live";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
 
 type Partner = {
   id: string;
@@ -60,6 +62,8 @@ const PointsExchangePage = () => {
   const { user } = useUser();
   const availableRewards = user.availablePoints;
   const [memberId, setMemberId] = useState("");
+  const { addBooking } = useBookings();
+  const [done, setDone] = useState<{ reference: string; partner: Partner; points: number; received: string; member: string } | null>(null);
 
   const openPartner = (p: Partner) => {
     setSelected(p);
@@ -75,6 +79,26 @@ const PointsExchangePage = () => {
   const unitLabel = selected?.unit ?? (selected?.category === "Airline" ? "Miles" : "Points");
   const needsMember = !!selected?.memberField;
   const canConvert = amount <= availableRewards && (!needsMember || memberId.trim().length >= 5);
+
+  if (done) {
+    const { partner, points, received, member, reference } = done;
+    return (
+      <BookingConfirmation
+        noun="Conversion"
+        heading="Conversion successful"
+        reference={reference}
+        payment={{ mode: "points", pointsUsed: points, cashPaid: 0 }}
+        balanceAfter={availableRewards - points}
+        rows={[
+          { label: "Partner", value: partner.name },
+          { label: "Programme", value: partner.program },
+          ...(member ? [{ label: partner.memberField ?? "Member number", value: member }] : []),
+          { label: "You receive", value: received },
+          { label: "Credit time", value: partner.terms ? "Within 24 hours of conversion" : "Within 24 hours" },
+        ]}
+      />
+    );
+  }
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
@@ -218,7 +242,17 @@ const PointsExchangePage = () => {
           <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
             <button
               onClick={() => {
-                toast.success(`Converted ${amount.toLocaleString()} pts to ${milesReceived.toLocaleString()} ${selected.name} ${unitLabel}`, { description: selected.terms ? `Credited to ${selected.program} member ${memberId}.` : "Miles will be credited within 24 hours." });
+                const reference = makeReference("MLS");
+                const received = `${milesReceived.toLocaleString()} ${selected.name} ${unitLabel}`;
+                addBooking({
+                  item: `${selected.name} ${unitLabel} conversion`,
+                  category: "Miles Exchange",
+                  points: amount,
+                  date: new Date().toLocaleDateString("en-GB"),
+                  status: "Completed",
+                  meta: `${received} · ${reference}`,
+                });
+                setDone({ reference, partner: selected, points: amount, received, member: memberId });
                 setSelected(null);
               }}
               disabled={!canConvert}

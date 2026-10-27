@@ -1,10 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Trash2, Minus, Plus } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { LIVE_PREFIX } from "@/data/live";
+import { SAMPLE_RATE, STOREFRONT_RATE, cashOf, fmtCash, priceText } from "@/lib/pricing";
+
+const rateOf = (id: string) => (id.startsWith(LIVE_PREFIX) ? STOREFRONT_RATE : SAMPLE_RATE);
 
 const CartPage = () => {
   const navigate = useNavigate();
   const { items, updateQty, removeItem, totalPoints, count } = useCart();
+  const totalCash = items.reduce((s, i) => s + cashOf(i.points * i.qty, rateOf(i.id)), 0);
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-20">
@@ -34,7 +39,7 @@ const CartPage = () => {
             <img src={item.image} alt={item.name} className="h-16 w-16 rounded-lg object-cover" loading="lazy" width={512} height={512} />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-card-foreground truncate">{item.name}</p>
-              <p className="text-xs font-bold text-reward-gold mt-1">{item.points.toLocaleString()} pts</p>
+              <p className="text-xs font-bold text-reward-gold mt-1">{priceText(item.points, rateOf(item.id))}</p>
               <div className="flex items-center gap-2 mt-2">
                 <button
                   onClick={() => updateQty(item.id, item.qty - 1)}
@@ -69,15 +74,15 @@ const CartPage = () => {
         <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
         <div className="flex justify-between text-sm mb-2">
           <span className="text-muted-foreground">Subtotal</span>
-          <span className="text-foreground">{totalPoints.toLocaleString()} pts</span>
+          <span className="text-foreground">{totalPoints.toLocaleString()} pts · {fmtCash(totalCash)}</span>
         </div>
         <div className="flex justify-between text-sm mb-3">
           <span className="text-muted-foreground">Service Fee</span>
-          <span className="text-foreground">0 pts</span>
+          <span className="text-foreground">Free</span>
         </div>
         <div className="border-t border-border pt-3 flex justify-between">
           <span className="text-sm font-bold text-foreground">Total</span>
-          <span className="text-sm font-bold text-reward-gold">{totalPoints.toLocaleString()} pts</span>
+          <span className="text-sm font-bold text-reward-gold">{totalPoints.toLocaleString()} pts · {fmtCash(totalCash)}</span>
         </div>
         <button
           onClick={() => navigate("/checkout/cart")}

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import AppleLogo from "@/components/AppleLogo";
 import { ArrowRight } from "lucide-react";
 import { samsungImages } from "@/data/samsungProducts";
 import iphoneShort from "@/assets/iphone-17-pro-short.png.asset.json";
@@ -33,7 +34,7 @@ const TechRewardsBanner = () => {
                 onClick={() => navigate("/apple-store")}
                 className="group flex w-fit items-center gap-1 rounded-full bg-primary-foreground px-3.5 py-1.5 text-[11px] font-semibold text-foreground transition-transform hover:scale-105"
               >
-                Apple Store <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                <AppleLogo className="h-3 w-3" /> Store <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
               </button>
               <button
                 onClick={() => navigate("/samsung-store")}

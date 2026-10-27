@@ -18,6 +18,13 @@ import watchImg from "@/assets/boost-watch.jpg";
 import walletImg from "@/assets/boost-wallet.jpg";
 import { appleProducts } from "@/data/appleProducts";
 import { samsungProducts } from "@/data/samsungProducts";
+import { findLive, LIVE_PREFIX } from "@/data/live";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
+import { useUser } from "@/contexts/UserContext";
+import PaymentStep from "@/components/booking/PaymentStep";
+import { SAMPLE_RATE, STOREFRONT_RATE, cashOf, paidText, priceText, type PaymentResult } from "@/lib/pricing";
 
 const products = [
   { id: "chanel-no5", name: "Chanel No. 5 EDP", points: 4500, price: 45, image: perfumeImg },
@@ -45,15 +52,16 @@ const products = [
 ];
 
 
-const AVAILABLE_POINTS = 52400;
-
 const Checkout = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
-  const { items: cartItems, totalPoints: cartPoints, totalPrice: cartPrice, clear: clearCart } = useCart();
+  const { items: cartItems, totalPoints: cartPoints, clear: clearCart } = useCart();
 
   const isCart = productId === "cart";
-  const singleProduct = products.find((p) => p.id === productId);
+  const liveItem = findLive("merchandise", productId ?? "");
+  const singleProduct =
+    products.find((p) => p.id === productId) ??
+    (liveItem && { id: productId ?? "", name: liveItem.name, points: liveItem.points, price: liveItem.points, image: liveItem.image });
 
   const product = isCart
     ? cartItems.length > 0
@@ -64,13 +72,33 @@ const Checkout = () => {
               ? cartItems[0].name
               : `${cartItems.length} items in your cart`,
           points: cartPoints,
-          price: cartPrice,
           image: cartItems[0].image,
         }
       : null
     : singleProduct;
 
-  const [showSuccess, setShowSuccess] = useState(false);
+  const { addBooking } = useBookings();
+  const { user } = useUser();
+  const [reference, setReference] = useState("");
+  const [placed, setPlaced] = useState<{ name: string; value: string } | null>(null);
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+
+  if (reference && placed) {
+    return (
+      <BookingConfirmation
+        noun="Order"
+        heading="Order confirmed"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Item", value: placed.name },
+          { label: "Order value", value: placed.value },
+          { label: "Delivery", value: "Estimated 3–5 working days" },
+        ]}
+      />
+    );
+  }
 
   if (!product) {
     return (
@@ -82,12 +110,25 @@ const Checkout = () => {
     );
   }
 
-  const pointsNeeded = product.points;
-  const hasEnoughPoints = AVAILABLE_POINTS >= pointsNeeded;
+  const rate = isCart ? SAMPLE_RATE : liveItem && !products.some((p) => p.id === productId) ? STOREFRONT_RATE : SAMPLE_RATE;
+  const totalCash = isCart
+    ? cartItems.reduce((sum, i) => sum + cashOf(i.points * i.qty, i.id.startsWith(LIVE_PREFIX) ? STOREFRONT_RATE : SAMPLE_RATE), 0)
+    : cashOf(product.points, rate);
 
-
-  const handleConfirm = () => {
-    setShowSuccess(true);
+  const handleConfirm = (result: PaymentResult) => {
+    const ref = makeReference("ORD");
+    addBooking({
+      item: product.name,
+      category: "Merchandise",
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
+      date: new Date().toLocaleDateString("en-GB"),
+      status: "Processing",
+      meta: ref,
+    });
+    setPayment(result);
+    setReference(ref);
+    setPlaced({ name: product.name, value: priceText(product.points, isCart ? totalCash / (product.points || 1) : rate) });
     if (isCart) clearCart();
   };
 
@@ -106,75 +147,16 @@ const Checkout = () => {
         <img src={product.image} alt={product.name} className="h-14 w-14 rounded-lg object-cover" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-card-foreground truncate">{product.name}</p>
-          <div className="flex items-center gap-3 mt-1">
-            <span className="text-xs font-bold text-reward-gold">{product.points.toLocaleString()} pts</span>
-          </div>
+          <p className="mt-1 text-xs font-bold text-reward-gold">{priceText(product.points, isCart ? totalCash / (product.points || 1) : rate)}</p>
         </div>
       </div>
 
-      {/* Points Balance */}
-      <div className="mx-4 mb-5 rounded-xl safqah-banner p-4">
-        <p className="text-xs text-primary-foreground/70">Your Available Points</p>
-        <p className="text-2xl font-bold text-primary-foreground">{AVAILABLE_POINTS.toLocaleString()} pts</p>
-      </div>
-
-      {/* Order Summary */}
-      <div className="mx-4 mb-6 rounded-2xl bg-[#ECE8E3] p-4">
-        <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
-        <div className="flex justify-between text-sm mb-2">
-          <span className="text-muted-foreground">Points</span>
-          <span className="font-semibold text-reward-gold">{pointsNeeded.toLocaleString()} pts</span>
-        </div>
-        {!hasEnoughPoints && (
-          <p className="text-xs text-destructive font-medium">Insufficient points</p>
-        )}
-        <div className="border-t border-border pt-3 mt-2 flex justify-between">
-          <span className="text-sm font-bold text-foreground">Total</span>
-          <span className="text-sm font-bold text-reward-gold">{pointsNeeded.toLocaleString()} pts</span>
-        </div>
-      </div>
-
-      {/* Fixed Bottom CTA */}
-      <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
-        <button
-          onClick={handleConfirm}
-          disabled={!hasEnoughPoints}
-          className="w-full flex items-center justify-center gap-2 h-[52px] rounded-xl bg-primary px-5 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-        >
-          Confirm Redemption
-        </button>
-      </div>
-
-      {/* Success Dialog */}
-      <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
-        <DialogContent className="max-w-sm mx-auto rounded-2xl">
-          <DialogHeader>
-            <div className="flex justify-center mb-3">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/20">
-                <Check className="h-8 w-8 text-accent" />
-              </div>
-            </div>
-            <DialogTitle className="text-center text-xl">Redemption Successful!</DialogTitle>
-          </DialogHeader>
-          <div className="text-center space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Your {product.name} has been ordered successfully.
-            </p>
-            <button
-              onClick={() => { setShowSuccess(false); navigate("/orders"); }}
-              className="w-full mt-4 flex items-center justify-center gap-2 h-12 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-            >
-              View Orders
-            </button>
-            <button
-              onClick={() => { setShowSuccess(false); navigate("/merchandise"); }}
-              className="w-full flex items-center justify-center gap-2 h-12 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <PaymentStep
+        noun="order"
+        totalPoints={product.points}
+        totalCash={totalCash}
+        onConfirm={handleConfirm}
+      />
     </div>
   );
 };

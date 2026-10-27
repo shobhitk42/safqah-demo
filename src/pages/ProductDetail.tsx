@@ -1,4 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
+import AppleLogo, { isApple } from "@/components/AppleLogo";
+import { SAMPLE_RATE, STOREFRONT_RATE, cashOf, fmtCash } from "@/lib/pricing";
 import { ArrowLeft, Star, ShoppingCart, Shield, Truck, Sparkles } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/components/ui/sonner";
@@ -36,7 +38,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { productId } = useParams();
   const liveItem = findLive("merchandise", productId ?? "");
-  const product =
+  const product: (typeof products)[number] & { delivery?: string; terms?: string[] } | undefined =
     products.find((p) => p.id === productId) ??
     (liveItem && {
       id: `live-${liveItem.id}`,
@@ -48,6 +50,8 @@ const ProductDetail = () => {
       rating: 4.7,
       reviews: 0,
       description: liveItem.description,
+      delivery: liveItem.deliveryDays,
+      terms: liveItem.termsList,
     });
   const { addItem, count, items } = useCart();
   const inCart = !!product && items.some((i) => i.id === product.id);
@@ -80,7 +84,7 @@ const ProductDetail = () => {
       {/* Product Image with luxury frame */}
       <div className="px-4 mb-5">
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-secondary via-card to-secondary shadow-lg">
-          <img src={product.image} alt={product.name} className="w-full h-72 object-cover" />
+          <img src={product.image} alt={product.name} className={`w-full h-72 ${product.image.startsWith("http") ? "bg-white object-contain" : "object-cover"}`} />
           <div className="absolute top-3 left-3 flex gap-1.5">
             <span className="px-2 py-1 rounded-full text-[10px] font-semibold bg-card/95 text-primary shadow-sm">In Stock</span>
             <span className="px-2 py-1 rounded-full text-[10px] font-semibold bg-reward-gold/95 text-primary-foreground shadow-sm">Exclusive</span>
@@ -90,9 +94,9 @@ const ProductDetail = () => {
 
       {/* Product Info */}
       <div className="px-4 mb-4">
-        <span className="text-[10px] font-semibold text-primary uppercase tracking-widest">{product.category}</span>
+        <span className="flex items-center gap-1.5 text-[10px] font-semibold text-primary uppercase tracking-widest">{isApple(product.name) && <AppleLogo className="h-3 w-3" />}{product.category}</span>
         <h1 className="text-2xl font-bold text-foreground mt-1 leading-tight">{product.name}</h1>
-        <div className="flex items-center gap-2 mt-2">
+        {product.reviews > 0 && <div className="flex items-center gap-2 mt-2">
           <div className="flex items-center gap-1">
             {[1,2,3,4,5].map((i) => (
               <Star key={i} className={`h-3.5 w-3.5 ${i <= Math.round(product.rating) ? "fill-reward-gold text-reward-gold" : "text-muted"}`} />
@@ -100,7 +104,7 @@ const ProductDetail = () => {
             <span className="text-sm font-semibold text-foreground ml-1">{product.rating}</span>
           </div>
           <span className="text-xs text-muted-foreground">({product.reviews} reviews)</span>
-        </div>
+        </div>}
         <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{product.description}</p>
       </div>
 
@@ -110,7 +114,7 @@ const ProductDetail = () => {
           <div>
             <p className="text-[10px] text-primary-foreground/80 uppercase tracking-widest">Redeem with points</p>
             <p className="text-3xl font-bold text-primary-foreground mt-0.5">{product.points.toLocaleString()}</p>
-            <p className="text-[10px] text-primary-foreground/80">reward points</p>
+            <p className="text-[10px] text-primary-foreground/80">reward points · {fmtCash(cashOf(product.points, liveItem && !products.some((p) => p.id === productId) ? STOREFRONT_RATE : SAMPLE_RATE))}</p>
           </div>
         </div>
         <div className="mt-3 pt-3 border-t border-primary-foreground/20 flex items-center gap-2">
@@ -127,13 +131,22 @@ const ProductDetail = () => {
         </div>
         <div className="rounded-xl bg-[#ECE8E3] p-3 text-center">
           <Shield className="h-4 w-4 text-primary mx-auto mb-1" />
-          <p className="text-[10px] text-muted-foreground">2-Yr Warranty</p>
+          <p className="text-[10px] text-muted-foreground">{product.delivery ? `Ships in ${product.delivery} days` : "2-Yr Warranty"}</p>
         </div>
         <div className="rounded-xl bg-[#ECE8E3] p-3 text-center">
           <Sparkles className="h-4 w-4 text-reward-gold mx-auto mb-1" />
           <p className="text-[10px] text-muted-foreground">Earn Points</p>
         </div>
       </div>
+
+      {product.terms && (
+        <div className="mx-4 mb-6">
+          <h2 className="text-sm font-bold text-foreground mb-2">Delivery &amp; returns</h2>
+          <ul className="list-disc space-y-1 pl-5 text-[12px] leading-relaxed text-muted-foreground">
+            {product.terms.map((t) => <li key={t}>{t}</li>)}
+          </ul>
+        </div>
+      )}
 
       {/* Fixed Bottom CTA */}
       <div className="fixed bottom-[56px] left-1/2 -translate-x-1/2 w-full max-w-md bg-card border-t border-border px-4 py-3 z-40 flex gap-2">

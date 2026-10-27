@@ -1,6 +1,14 @@
 import { useMemo, useState } from "react";
+import { cashOf, fmtCash, priceText, STOREFRONT_RATE, type PaymentResult } from "@/lib/pricing";
+import PaymentStep from "@/components/booking/PaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import BookingHeader from "@/components/booking/BookingHeader";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Check, Gift, Mail, ShieldCheck, Zap } from "lucide-react";
+import { ArrowLeft, ChevronDown, Coins, Mail } from "lucide-react";
+import { toast } from "sonner";
+import { useCart } from "@/contexts/CartContext";
 import { useUser } from "@/contexts/UserContext";
 import { findLive, giftCategoryLabel } from "@/data/live";
 
@@ -29,12 +37,16 @@ const GiftCardDetail = () => {
 
   const [picked, setPicked] = useState<number | null>(null);
   const [recipient, setRecipient] = useState("");
-  const [step, setStep] = useState<"select" | "success">("select");
+  const [step, setStep] = useState<"select" | "payment" | "success">("select");
+  const { addBooking } = useBookings();
+  const { addItem, items } = useCart();
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+  const [reference, setReference] = useState("");
 
   const amount = picked ?? denominations[Math.min(1, denominations.length - 1)];
   const setAmount = setPicked;
   const pointsNeeded = amount;
-  const canAfford = user.availablePoints >= pointsNeeded;
 
   if (!card) {
     return (
@@ -46,175 +58,176 @@ const GiftCardDetail = () => {
     );
   }
 
-  if (step === "success") {
+  if (step === "payment") {
     return (
-      <div className="mx-auto min-h-screen max-w-md pb-24 px-6 pt-6">
-        <div className="mt-16 flex flex-col items-center text-center">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "#302F2D" }}>
-            <Check className="h-6 w-6" style={{ color: "#02AD4C" }} strokeWidth={1.5} />
-          </div>
-          <p className="mt-6 text-[10px] uppercase tracking-[0.28em]" style={{ color: "rgba(2, 173, 76,0.7)" }}>
-            Redemption confirmed
-          </p>
-          <h1 className="mt-3 text-[26px] leading-tight text-foreground" style={{ fontWeight: 300 }}>
-            Your {card.name} card<br />is on its way.
-          </h1>
-          <span aria-hidden className="mt-5 block h-px" style={{ width: 60, backgroundColor: "#02AD4C" }} />
-          <p className="mt-6 text-[13px] leading-relaxed text-foreground/60 max-w-[300px]">
-            Your gift card is delivered to {recipient || "your registered email"} within moments. A copy is filed under your orders.
-          </p>
-
-          <div className="mt-10 w-full rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(2, 173, 76,0.06)" }}>
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-[0.24em] text-foreground/50">Points debited</span>
-              <span className="text-[13px] tabular-nums" style={{ color: "#02AD4C", fontWeight: 500 }}>
-                {pointsNeeded.toLocaleString()} PTS
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-10 flex w-full flex-col gap-3">
-            <button
-              onClick={() => navigate("/orders")}
-              className="w-full rounded-md py-4 text-[11px] uppercase tracking-[0.24em] text-primary-foreground transition-opacity hover:opacity-90"
-              style={{ backgroundColor: "#302F2D" }}
-            >
-              View in orders
-            </button>
-            <button
-              onClick={() => navigate("/gift-cards")}
-              className="w-full py-3 text-[11px] uppercase tracking-[0.24em] text-foreground/60 hover:text-foreground transition-colors"
-            >
-              Back to gift cards
-            </button>
-          </div>
-        </div>
+      <div className="mx-auto min-h-screen max-w-md bg-background">
+        <BookingHeader title="Payment" onBack={() => setStep("select")} steps={["Gift card", "Payment"]} current={1} />
+        <PaymentStep
+          noun="order"
+          totalPoints={pointsNeeded}
+          totalCash={cashOf(pointsNeeded, STOREFRONT_RATE)}
+          rows={[
+            { label: "Gift card", value: card.name },
+            { label: "Delivered to", value: recipient || "Your registered email" },
+          ]}
+          onConfirm={(result) => {
+            const ref = makeReference("GFT");
+            addBooking({
+              item: `${card.name} gift card`,
+              category: "Gift Cards",
+              points: result.pointsUsed,
+              cashPaid: result.cashPaid,
+              date: new Date().toLocaleDateString("en-GB"),
+              status: "Delivered",
+              meta: ref,
+            });
+            setPayment(result);
+            setReference(ref);
+            setStep("success");
+          }}
+        />
       </div>
     );
   }
 
+  if (step === "success") {
+    return (
+      <BookingConfirmation
+        noun="Order"
+        heading="Order confirmed"
+        reference={reference}
+        email={recipient}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Gift card", value: card.name },
+          { label: "Value", value: priceText(pointsNeeded, STOREFRONT_RATE) },
+          { label: "Delivery", value: "Within moments" },
+        ]}
+      />
+    );
+  }
+
+  const delivery = liveCard?.delivery === "delayed" ? `Delivery in ${liveCard.deliveryDays} days` : "Instant delivery";
+  const useMode = liveCard && /online/i.test(liveCard.redemption) ? "Online use" : "In-store use";
+  const chips = [delivery, useMode, liveCard?.currency ?? "SAR"];
+  const validity = liveCard?.terms.match(/Valid for ([^.]+)\./)?.[1];
+
+  const inCart = items.some((i) => i.id === `${slug}-${amount}`);
+
+  const handleAddToCart = () => {
+    addItem({ id: `${slug}-${amount}`, name: `${card.name} · ${amount.toLocaleString()}`, image: liveCard?.image ?? "", points: pointsNeeded, price: cashOf(pointsNeeded, STOREFRONT_RATE) });
+    toast.success("Added to cart", { description: card.name, duration: 1800 });
+  };
+
   return (
-    <div className="mx-auto min-h-screen max-w-md pb-32">
+    <div className="mx-auto min-h-screen max-w-md bg-background pb-28">
       {/* Header */}
-      <div className="flex items-center gap-4 px-6 pt-6 pb-4">
-        <button
-          onClick={() => navigate("/gift-cards")}
-          aria-label="Back"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E8E8EE] text-foreground hover:bg-card transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" strokeWidth={1.25} />
+      <div className="flex items-center justify-between px-4 py-4">
+        <button onClick={() => navigate("/gift-cards")} aria-label="Back" className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+          <ArrowLeft className="h-4 w-4 text-foreground" />
         </button>
-        <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/50">Gift card</p>
+        <p className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">Gift card</p>
+        <span className="flex items-center gap-1.5 rounded-full bg-[#ECE8E3] px-3 py-1.5 text-[13px] font-semibold tabular-nums text-foreground">
+          <Coins className="h-3.5 w-3.5 text-primary" /> {user.availablePoints.toLocaleString()}
+        </span>
       </div>
 
-      {/* Hero card */}
-      <div className="px-6">
-        <div
-          className="relative overflow-hidden rounded-md px-7 py-10"
-          style={{ backgroundColor: "#302F2D" }}
-        >
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ backgroundColor: "#02AD4C" }} />
-          <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full border border-[hsl(0_0%_100%/0.06)]" />
-          {liveCard?.image && (
-            <div className="absolute right-5 top-5 flex h-14 w-20 items-center justify-center overflow-hidden rounded-lg bg-white p-1.5">
-              <img src={liveCard.image} alt={card.name} className="max-h-full max-w-full object-contain" />
-            </div>
+      {/* Brand tile */}
+      <div className="px-4">
+        <div className="flex h-56 items-center justify-center overflow-hidden rounded-2xl border border-border bg-white p-8">
+          {liveCard?.image ? (
+            <img src={liveCard.image} alt={card.name} className="max-h-full max-w-full object-contain" />
+          ) : (
+            <p className="text-center text-[26px] font-bold text-foreground">{card.name}</p>
           )}
-          <p className="text-[10px] uppercase tracking-[0.32em]" style={{ color: "#02AD4C" }}>{card.category}</p>
-          <h1 className="mt-4 text-[30px] leading-[1.1] text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>{card.name}</h1>
-          <p className="mt-5 max-w-[300px] text-[13px] leading-relaxed text-[hsl(0_0%_100%/0.6)]">{card.blurb}</p>
-          <div className="mt-8 flex items-baseline gap-2">
-            <span className="text-[38px] leading-none tabular-nums text-[hsl(0_0%_100%)]" style={{ fontWeight: 200 }}>
-              {amount.toLocaleString()}
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#02AD4C" }}>PTS</span>
+        </div>
+      </div>
+
+      {/* Title */}
+      <div className="px-4 pt-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">{card.category}</p>
+        <h1 className="mt-1 text-[26px] font-bold leading-tight text-foreground">{card.name}</h1>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {chips.map((c) => (
+            <span key={c} className="rounded-full bg-foreground px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-background">{c}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Denomination + points */}
+      <div className="mt-8 grid grid-cols-[1fr_auto] items-end gap-3 px-4">
+        <div>
+          <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Denomination</label>
+          <div className="relative mt-2">
+            <select
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              className="h-14 w-full appearance-none rounded-xl border border-[#CFCBD0] bg-background px-4 pr-10 text-[15px] font-medium text-foreground outline-none focus:border-primary"
+            >
+              {denominations.map((d) => (
+                <option key={d} value={d}>{liveCard?.currency ?? "SAR"} {cashOf(d, STOREFRONT_RATE).toLocaleString()}</option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          </div>
+        </div>
+        <div className="min-w-[132px]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Points required</p>
+          <div className="mt-2 flex h-14 flex-col items-center justify-center rounded-xl border border-primary/50 bg-primary/5">
+            <span className="text-[17px] font-bold leading-none tabular-nums text-primary">{pointsNeeded.toLocaleString()} pts</span>
+            <span className="mt-1 text-[10px] text-muted-foreground">{fmtCash(cashOf(pointsNeeded, STOREFRONT_RATE))}</span>
           </div>
         </div>
       </div>
 
-      {/* Denomination */}
-      <section className="px-6 mt-10">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/50">Choose denomination</p>
-        <div className="mt-4 grid grid-cols-3 gap-3">
-          {denominations.map((d) => {
-            const active = amount === d;
-            return (
-              <button
-                key={d}
-                onClick={() => setAmount(d)}
-                className={`rounded-md border py-3.5 text-[13px] tabular-nums transition-all ${
-                  active
-                    ? "text-primary-foreground"
-                    : "text-foreground/70 hover:text-foreground bg-card"
-                }`}
-                style={{
-                  backgroundColor: active ? "#302F2D" : undefined,
-                  borderColor: active ? "#302F2D" : "#E8E8EE",
-                  fontWeight: 400,
-                }}
-              >
-                {d.toLocaleString()} pts
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Recipient */}
-      <section className="px-6 mt-10">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/50">Deliver to</p>
-        <div className="mt-4 flex items-center gap-3 border-b border-[#E8E8EE] pb-3">
-          <Mail className="h-4 w-4 text-foreground/40" strokeWidth={1.25} />
+      {/* Delivery */}
+      <section className="mx-4 mt-8">
+        <label className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Deliver to</label>
+        <div className="mt-2 flex items-center gap-3 border-b border-[#CFCBD0] pb-3">
+          <Mail className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
           <input
             type="email"
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
             placeholder="recipient@email.com"
-            className="flex-1 bg-transparent text-[14px] text-foreground placeholder:text-foreground/35 outline-none"
+            className="flex-1 bg-transparent text-[14px] text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
-        <p className="mt-2 text-[11px] text-foreground/45">Leave blank to send to your own registered email.</p>
+        <p className="mt-2 text-[11px] text-muted-foreground">Leave blank to send to your own registered email.</p>
       </section>
 
-      {/* Summary */}
-      <section className="mx-6 mt-10 rounded-md bg-card border border-[#E8E8EE] p-6" style={{ boxShadow: "0 2px 12px rgba(2, 173, 76,0.06)" }}>
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-[0.22em] text-foreground/50">Points required</span>
-          <span className="text-[15px] tabular-nums" style={{ color: "#02AD4C", fontWeight: 500 }}>
-            {pointsNeeded.toLocaleString()} PTS
-          </span>
-        </div>
-        <div className="my-4 h-px bg-[#E8E8EE]" />
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-[0.22em] text-foreground/50">Available balance</span>
-          <span className="text-[13px] text-foreground/70 tabular-nums">{user.availablePoints.toLocaleString()} PTS</span>
-        </div>
-      </section>
-
-      {/* Trust row */}
-      <div className="px-6 mt-6 grid grid-cols-3 gap-4 text-center">
-        {[
-          { icon: Zap, label: liveCard ? (liveCard.delivery === "delayed" ? `Delivery in ${liveCard.deliveryDays} days` : "Instant delivery") : "Instant delivery" },
-          { icon: ShieldCheck, label: "Secure by Safqah" },
-          { icon: Gift, label: liveCard ? `Valid ${liveCard.terms.match(/Valid for ([^.]+)\./)?.[1] ?? ""}`.trim() : "No expiry" },
-        ].map(({ icon: Icon, label }) => (
-          <div key={label} className="flex flex-col items-center gap-2">
-            <Icon className="h-4 w-4 text-foreground/60" strokeWidth={1.25} />
-            <span className="text-[10px] uppercase tracking-[0.16em] text-foreground/50 leading-tight">{label}</span>
+      {/* About */}
+      <section className="mx-4 mt-8 border-y border-border">
+        <button onClick={() => setAboutOpen((o) => !o)} className="flex w-full items-center justify-between py-4 text-left">
+          <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-foreground">About this card</span>
+          <ChevronDown className={`h-4 w-4 transition-transform ${aboutOpen ? "rotate-180" : ""}`} />
+        </button>
+        {aboutOpen && (
+          <div className="space-y-3 pb-5 text-[13px] leading-relaxed text-muted-foreground">
+            <p>{card.blurb}</p>
+            {liveCard?.redemption && <p><span className="font-semibold text-foreground">How to redeem: </span>{liveCard.redemption}</p>}
+            {validity && <p><span className="font-semibold text-foreground">Validity: </span>{validity}</p>}
+            {liveCard?.termsList && (
+              <ul className="list-disc space-y-1 pl-5">{liveCard.termsList.map((t) => <li key={t}>{t}</li>)}</ul>
+            )}
           </div>
-        ))}
-      </div>
+        )}
+      </section>
 
-      {/* Fixed CTA */}
-      <div
-        className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3"
-      >
+      {/* Fixed Bottom CTA */}
+      <div className="fixed bottom-[56px] left-1/2 z-40 flex w-full max-w-md -translate-x-1/2 gap-2 border-t border-border bg-card px-4 py-3">
         <button
-          disabled={!canAfford}
-          onClick={() => setStep("success")}
-          className="h-[52px] w-full rounded-xl bg-primary text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+          onClick={() => (inCart ? navigate("/cart") : handleAddToCart())}
+          className="h-12 flex-1 rounded-[10px] border border-[#CFCBD0] bg-transparent px-5 text-[15px] font-semibold text-primary transition-colors hover:bg-primary/5"
         >
-          {canAfford ? `Redeem for ${pointsNeeded.toLocaleString()} pts` : "Insufficient points"}
+          {inCart ? "Go to Cart" : "Add to Cart"}
+        </button>
+        <button
+          onClick={() => setStep("payment")}
+          className="h-12 flex-1 rounded-[10px] bg-primary px-5 text-[15px] font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Buy Now
         </button>
       </div>
     </div>

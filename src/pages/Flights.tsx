@@ -10,7 +10,8 @@ import { toast } from "sonner";
 import BookingHeader from "@/components/booking/BookingHeader";
 import BottomAction from "@/components/booking/BottomAction";
 import GuestDetailsForm, { useGuestForm } from "@/components/booking/GuestDetailsForm";
-import PointsPaymentStep from "@/components/booking/PointsPaymentStep";
+import PaymentStep from "@/components/booking/PaymentStep";
+import { cashOf, fmtCash, type PaymentResult } from "@/lib/pricing";
 import BookingConfirmation from "@/components/booking/BookingConfirmation";
 import FlightDetail from "@/components/booking/FlightDetail";
 import { makeReference } from "@/components/booking/hotelData";
@@ -90,14 +91,16 @@ const FlightsPage = () => {
     setStep("details");
   };
 
-  const handleBook = () => {
+  const handleBook = (result: PaymentResult) => {
     if (!selectedFlight || !from || !to) return;
+    setPayment(result);
     const ref = makeReference("FLT");
     setReference(ref);
     addBooking({
       item: `${from.name} → ${to.name}`,
       category: "Flights",
-      points: selectedFlight.points,
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
       date: date ? format(date, "dd MMM yyyy") + (isRound && returnDate ? ` – ${format(returnDate, "dd MMM yyyy")}` : "") : "",
       status: "Confirmed",
       meta: `${selectedFlight.airline} ${selectedFlight.code} · ${ref}`,
@@ -116,7 +119,7 @@ const FlightsPage = () => {
   // Payment calculations
   const flightPoints = selectedFlight?.points || 0;
 
-  const pointsUsed = flightPoints;
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
 
   const STEPS = ["Flight", "Traveller", "Payment"];
   const wrap = (children: React.ReactNode, title: string, current: number, back: () => void) => (
@@ -172,8 +175,9 @@ const FlightsPage = () => {
   // ─── PAYMENT ───
   if (step === "payment" && selectedFlight && from && to) {
     return wrap(
-      <PointsPaymentStep
+      <PaymentStep
         totalPoints={flightPoints}
+        totalCash={cashOf(flightPoints)}
         onConfirm={handleBook}
         rows={[
           { label: "Flight", value: `${selectedFlight.airline} ${selectedFlight.code}` },
@@ -198,8 +202,8 @@ const FlightsPage = () => {
         heading="Flight booked"
         reference={reference}
         email={traveller.contact.email}
-        pointsUsed={flightPoints}
-        balanceAfter={user.availablePoints - flightPoints}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
         rows={[
           { label: "Flight", value: `${selectedFlight.airline} ${selectedFlight.code}` },
           { label: "Route", value: `${from.code} → ${to.code}` },
@@ -256,6 +260,7 @@ const FlightsPage = () => {
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-bold text-primary">{flight.points.toLocaleString()} pts</p>
+                  <p className="text-[10px] text-muted-foreground">{fmtCash(cashOf(flight.points))}</p>
                 </div>
               </div>
               <div className="flex items-center justify-between">

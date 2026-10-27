@@ -7,6 +7,11 @@ export type HotelSummary = {
   rating: number;
   area?: string;
   tag?: string;
+  // Real hotels (src/data/live/hotels.json) carry their own star class and amenities
+  stars?: number;
+  amenities?: string[];
+  /** SAR per point; storefront hotels are 1, sample hotels use the default. */
+  rate?: number;
 };
 
 export const AMENITIES = [
@@ -29,7 +34,9 @@ export const ROOMS = [
 export const roomPrice = (base: number, mult: number) => Math.round((base * mult) / 100) * 100;
 
 export const describeHotel = (h: HotelSummary) =>
-  `${h.name} offers a refined stay${h.area ? ` in ${h.area}` : ""}, with elegant rooms, award-winning dining and attentive service. Unwind by the pool, recharge at the spa or explore the surroundings with the concierge team on hand to help.`;
+  h.amenities
+    ? `${h.name}${h.area ? ` is located in ${h.area}` : ""}${h.stars ? ` and is a ${h.stars}-star property` : ""}. Final room options and rates are confirmed when you book.`
+    : `${h.name} offers a refined stay${h.area ? ` in ${h.area}` : ""}, with elegant rooms, award-winning dining and attentive service. Unwind by the pool, recharge at the spa or explore the surroundings with the concierge team on hand to help.`;
 
 /** Parses dd/mm/yyyy into a Date. */
 export const parseDMY = (v: string) => {

@@ -7,10 +7,10 @@ import foodImg from "@/assets/food.jpg";
 import jewelleryImg from "@/assets/jewellery.jpg";
 
 const categories = [
-  { name: "Gold & Jewellery", image: jewelleryImg, type: "In Merchandise", filter: "jewellery" },
+  { name: "Gold & Jewellery", image: jewelleryImg, type: "In Gift Cards", filter: "jewellery" },
   { name: "Fashion", image: fashionImg, type: "In Gift Cards", filter: "fashion" },
   { name: "Food", image: foodImg, type: "In Gift Cards", filter: "food" },
-  { name: "Gaming", image: gamingImg, type: "In Gift Cards", filter: "gaming" },
+  { name: "Gaming", image: gamingImg, type: "In Gift Cards", filter: "entertainment" },
 ];
 
 const ShopByCategory = () => {

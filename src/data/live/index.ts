@@ -27,6 +27,7 @@ export type LiveProduct = {
   terms: string;
   redemption: string;
   parentProductId: number | null;
+  termsList?: string[];
   // lounge extras
   city?: string;
   airport?: string;

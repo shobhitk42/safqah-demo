@@ -1,11 +1,12 @@
 import DealCard from "@/components/DealCard";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation as useRouterLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, MapPin, Calendar, ChevronsUpDown, Search, Hotel, Star } from "lucide-react";
 import { toast } from "sonner";
 import BookingHeader from "@/components/booking/BookingHeader";
 import GuestDetailsForm, { useGuestForm } from "@/components/booking/GuestDetailsForm";
-import PointsPaymentStep from "@/components/booking/PointsPaymentStep";
+import PaymentStep from "@/components/booking/PaymentStep";
+import { cashOf, priceText, STOREFRONT_RATE, SAMPLE_RATE, type PaymentResult } from "@/lib/pricing";
 import BookingConfirmation from "@/components/booking/BookingConfirmation";
 import HotelDetail from "@/components/booking/HotelDetail";
 import BottomAction from "@/components/booking/BottomAction";
@@ -17,6 +18,7 @@ import hotelClassic from "@/assets/hotel-classic.jpg";
 import hotelModern from "@/assets/hotel-modern.jpg";
 import hotelDesert from "@/assets/hotel-desert.jpg";
 import hotelImg from "@/assets/hotel.jpg";
+import liveHotelData from "@/data/live/hotels.json";
 
 const popular = [
   { name: "Park Hyatt Jeddah", price: 24000, image: hotelBeach, rating: 4.9 },
@@ -35,8 +37,27 @@ const searchResults = [
   { name: "Banyan Tree AlUla", area: "AlUla", price: 42000, image: hotelDesert, rating: 4.9, tag: "Desert Retreat" },
 ];
 
+// Real Riyadh hotels (src/data/live/hotels.json); the mock lists above stay as a fallback.
+// Nightly prices are in points, using the storefront's per-night figure as-is.
+const liveHotels: HotelSummary[] = liveHotelData.map((h) => ({
+  name: h.name,
+  price: h.price,
+  image: h.image,
+  rating: 0,
+  area: h.area,
+  tag: h.stars ? `${h.stars}-star` : "Riyadh",
+  stars: h.stars,
+  amenities: h.amenities,
+  rate: STOREFRONT_RATE,
+}));
+const resultsList: HotelSummary[] = liveHotels.length ? liveHotels : searchResults;
+const popularList: HotelSummary[] = liveHotels.length
+  ? [...liveHotels].sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0) || b.price - a.price).slice(0, 6)
+  : popular;
+
 const HotelsPage = () => {
   const navigate = useNavigate();
+  const routerState = useRouterLocation().state as { hotel?: string } | null;
   const [step, setStep] = useState<"search" | "results" | "detail" | "guests" | "payment" | "confirmed">("search");
   const [hotel, setHotel] = useState<HotelSummary | null>(null);
   const [roomId, setRoomId] = useState(ROOMS[0].id);
@@ -54,10 +75,19 @@ const HotelsPage = () => {
     setStep("detail");
   };
 
+  // Deep link from the home screen: open that hotel straight away
+  useEffect(() => {
+    const target = routerState?.hotel && resultsList.find((h) => h.name === routerState.hotel);
+    if (target) openHotel(target);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const nights = nightsBetween(checkIn, checkOut);
   const room = ROOMS.find((r) => r.id === roomId) ?? ROOMS[0];
   const totalPoints = hotel ? roomPrice(hotel.price, room.mult) * nights : 0;
   const lead = guestForm.people[0];
+  const totalCash = cashOf(totalPoints, hotel?.rate ?? SAMPLE_RATE);
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
 
   const goGuests = () => {
     guestForm.setShowErrors(false);
@@ -71,14 +101,16 @@ const HotelsPage = () => {
     }
     setStep("payment");
   };
-  const confirmBooking = () => {
+  const confirmBooking = (result: PaymentResult) => {
     if (!hotel) return;
+    setPayment(result);
     const ref = makeReference("HTL");
     setReference(ref);
     addBooking({
       item: hotel.name,
       category: "Hotels",
-      points: totalPoints,
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
       date: `${checkIn} – ${checkOut}`,
       status: "Confirmed",
       meta: `${room.name} · ${nights} night${nights > 1 ? "s" : ""} · ${ref}`,
@@ -106,7 +138,7 @@ const HotelsPage = () => {
     return wrap(
       <HotelDetail
         hotel={hotel}
-        gallery={[hotel.image, hotelImg, hotelModern, hotelClassic]}
+        gallery={hotel.amenities ? [hotel.image] : [hotel.image, hotelImg, hotelModern, hotelClassic]}
         checkIn={checkIn}
         checkOut={checkOut}
         nights={nights}
@@ -143,8 +175,9 @@ const HotelsPage = () => {
 
   if (step === "payment" && hotel) {
     return wrap(
-      <PointsPaymentStep
+      <PaymentStep
         totalPoints={totalPoints}
+        totalCash={totalCash}
         onConfirm={confirmBooking}
         rows={[
           { label: "Hotel", value: hotel.name },
@@ -167,8 +200,8 @@ const HotelsPage = () => {
         heading="Booking confirmed"
         reference={reference}
         email={guestForm.contact.email}
-        pointsUsed={totalPoints}
-        balanceAfter={user.availablePoints - totalPoints}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
         rows={[
           { label: "Hotel", value: hotel.name },
           { label: "Room", value: room.name },
@@ -249,14 +282,14 @@ const HotelsPage = () => {
           <div className="px-4 py-6">
             <h3 className="text-base font-semibold text-foreground mb-3">Popular Luxury Stays</h3>
             <div className="flex flex-col gap-6">
-              {popular.map((h) => (
+              {popularList.map((h) => (
                 <DealCard
                   key={h.name}
                   image={h.image}
                   title={h.name}
-                  topChips={["Luxury stay"]}
+                  topChips={[h.stars ? `${h.stars}-star` : "Luxury stay"]}
                   rows={[
-                    { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
+                    { label: "Per night", value: priceText(h.price, h.rate) },
                   ]}
                   onClick={() => openHotel(h)}
                 />
@@ -268,17 +301,17 @@ const HotelsPage = () => {
 
       {step === "results" && (
         <div className="px-4 py-2">
-          <p className="text-xs text-muted-foreground mb-3">{checkIn} - {checkOut} · {searchResults.length} properties</p>
+          <p className="text-xs text-muted-foreground mb-3">{checkIn} - {checkOut} · {resultsList.length} properties</p>
           <div className="flex flex-col gap-6">
-            {searchResults.map((h) => (
+            {resultsList.map((h) => (
               <DealCard
                 key={h.name}
                 image={h.image}
                 title={h.name}
-                topChips={[h.tag, `★ ${h.rating}`]}
+                topChips={[h.tag, h.rating ? `★ ${h.rating}` : ""].filter(Boolean) as string[]}
                 badge={h.area}
                 rows={[
-                  { label: "Points", value: `${h.price.toLocaleString()} pts / night` },
+                  { label: "Per night", value: priceText(h.price, h.rate) },
                 ]}
                 onClick={() => openHotel(h)}
               />

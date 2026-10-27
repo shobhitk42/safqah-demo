@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AppleLogo from "@/components/AppleLogo";
 import { ChevronRight } from "lucide-react";
 import { formatPoints } from "@/data/appleProducts";
 import iphoneHero from "@/assets/iphone-17-pro-hero-new.png.asset.json";
@@ -14,7 +15,7 @@ const AppleFeature = () => {
     <div className="mb-6 px-0">
       <div className="overflow-hidden rounded-3xl bg-foreground shadow-lg">
         <div className="px-5 pt-6 text-center">
-          <p className="text-xs font-medium tracking-wide text-background/70">New at the Apple Store</p>
+          <p className="flex items-center justify-center gap-1.5 text-xs font-medium tracking-wide text-background/70"><AppleLogo className="h-3 w-3" /> New at the Apple Store</p>
           <h3 className="mt-1 text-2xl font-bold tracking-tight text-background">iPhone 17 Pro</h3>
           <p className="mt-1 text-sm text-background/70">All out Pro. Redeem entirely with Points.</p>
         </div>

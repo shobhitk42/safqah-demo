@@ -1,1 +1,32 @@
-[]
+[
+ {
+  "id": 103887,
+  "name": "Unite All Schools",
+  "description": "Unite All Schools gives teachers and students opportunities to grow as global citizen leaders, working on real-life projects with peers from diverse countries through innovative virtual exchange programmes. Students and teachers build the problem-solving, collaboration and leadership skills to tackle local and global challenges together.",
+  "image": "https://res.cloudinary.com/dyyjph6kx/image/upload/fl_lossy,f_auto,q_auto,c_pad,b_white,h_280,w_420/gift_vouchers/pict_original_c67wbb.png",
+  "category": "Education",
+  "country": "Saudi Arabia",
+  "currency": "USD",
+  "valueType": "open_value",
+  "denominations": [],
+  "min": 39,
+  "max": 942,
+  "points": 39,
+  "pointsMax": 942,
+  "pointsOptions": [
+   39,
+   942
+  ],
+  "delivery": "delayed",
+  "deliveryDays": "0",
+  "terms": "A confirmation email is sent to your registered email or phone number after you donate.",
+  "termsList": [
+   "A confirmation email is sent to your registered email or phone number after you donate.",
+   "Donations are non-refundable and cannot be cancelled.",
+   "The charity's receipt is delivered directly by the donation supplier within 45 to 60 days.",
+   "This donation does not provide any tax benefit, so no tax certificate is issued."
+  ],
+  "redemption": "",
+  "parentProductId": null
+ }
+]

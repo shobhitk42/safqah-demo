@@ -16,3 +16,6 @@ const AppleLogo = ({ className }: AppleLogoProps) => (
 );
 
 export default AppleLogo;
+
+/** True for products/brands that should carry the Apple mark. */
+export const isApple = (name: string) => /\b(apple|iphone|ipad|macbook|imac|airpods|itunes)\b/i.test(name);

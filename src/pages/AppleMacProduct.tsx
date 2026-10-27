@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AppleLogo from "@/components/AppleLogo";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ShoppingBag, Truck, Store } from "lucide-react";
 import { appleImages, formatPoints, toPoints } from "@/data/appleProducts";
@@ -124,6 +125,7 @@ const AppleMacProduct = () => {
       </div>
 
       <div className="px-6 pt-8">
+        <AppleLogo className="mb-2 h-6 w-6 text-foreground" />
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Buy {config.family}</h1>
       </div>
 

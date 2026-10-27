@@ -5,6 +5,8 @@ export interface Booking {
   item: string;
   category: string;
   points: number;
+  /** Cash paid by card, when the order was paid with cash or cash + points. */
+  cashPaid?: number;
   date: string;
   status: string;
   meta?: string;

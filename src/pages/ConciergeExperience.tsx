@@ -19,14 +19,10 @@ import {
 import { conciergeExperiences } from "@/data/conciergeExperiences";
 import { useUser } from "@/contexts/UserContext";
 import { useBookings } from "@/contexts/BookingsContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { cashOf, type PaymentResult } from "@/lib/pricing";
+import PaymentStep from "@/components/booking/PaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import { makeReference } from "@/components/booking/hotelData";
 
 type Step = "details" | "availability" | "review";
 
@@ -57,7 +53,8 @@ const ConciergeExperience = () => {
   const [guests, setGuests] = useState(2);
   const [date, setDate] = useState("2026-08-04");
   const [time, setTime] = useState("19:00");
-  const [confirmed, setConfirmed] = useState(false);
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+  const [reference, setReference] = useState("");
   const [step, setStep] = useState<Step>("details");
   const [slotChosen, setSlotChosen] = useState<number | null>(null);
 
@@ -66,6 +63,23 @@ const ConciergeExperience = () => {
       <div className="mx-auto min-h-screen max-w-md bg-background flex items-center justify-center">
         <p className="text-foreground/60 text-sm">Experience not found</p>
       </div>
+    );
+  }
+
+  if (reference) {
+    return (
+      <BookingConfirmation
+        heading="Booking confirmed"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Experience", value: exp.title },
+          { label: "Date", value: date },
+          { label: "Time", value: time },
+          { label: "Guests", value: String(guests) },
+        ]}
+      />
     );
   }
 
@@ -219,8 +233,8 @@ const ConciergeExperience = () => {
       {step === "details" && (
         <>
           {/* Hero */}
-          <div className="relative">
-            <img src={exp.image} alt={exp.title} className="h-64 w-full object-cover" />
+          <div className="relative mx-5 mt-2 overflow-hidden rounded-3xl">
+            <img src={exp.image} alt={exp.title} className="h-56 w-full object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
             <span
               className="absolute top-3 left-4 rounded-sm px-2.5 py-1 text-[9px] uppercase tracking-[0.24em]"
@@ -498,91 +512,27 @@ const ConciergeExperience = () => {
             </div>
           </div>
 
-          {/* Points Balance */}
-          <div
-            className="mx-4 mb-5 rounded-xl p-4"
-            style={{ background: "linear-gradient(135deg,#02AD4C 0%,#1F6B85 100%)" }}
-          >
-            <p className="text-xs text-white/70">Your Available Points</p>
-            <p className="text-2xl font-bold text-white">
-              {user.availablePoints.toLocaleString()} pts
-            </p>
-          </div>
-
-          {/* Order Summary */}
-          <div className="mx-4 mb-6 rounded-2xl bg-[#ECE8E3] p-4">
-            <h3 className="text-sm font-semibold text-foreground mb-3">Order Summary</h3>
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Points</span>
-              <span className="font-semibold" style={{ color: "#02AD4C" }}>
-                {totalPoints.toLocaleString()} pts
-              </span>
-            </div>
-            {user.availablePoints < totalPoints && (
-              <p className="text-xs text-destructive font-medium">Insufficient points</p>
-            )}
-            <div className="border-t border-border pt-3 mt-2 flex justify-between">
-              <span className="text-sm font-bold text-foreground">Total</span>
-              <span className="text-sm font-bold" style={{ color: "#02AD4C" }}>
-                {totalPoints.toLocaleString()} pts
-              </span>
-            </div>
-          </div>
-
-          {/* Fixed Bottom CTA */}
-          <div className="fixed bottom-[56px] left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-border bg-background px-5 pb-4 pt-3">
-            <button
-              onClick={() => {
-                addBooking({
-                  item: exp.title,
-                  category: "Concierge",
-                  points: totalPoints,
-                  date: `${date} · ${time}`,
-                  status: "Confirmed",
-                  meta: `${guests} guest${guests > 1 ? "s" : ""} · ${currentRate.label}`,
-                });
-                setConfirmed(true);
-              }}
-              disabled={user.availablePoints < totalPoints}
-              className="w-full rounded-xl py-3.5 text-sm font-semibold text-white disabled:opacity-50 transition-all hover:brightness-110 active:scale-[0.98]"
-              style={primaryBtnStyle}
-            >
-              Confirm Booking
-            </button>
-          </div>
+          <PaymentStep
+            totalPoints={totalPoints}
+            totalCash={cashOf(totalPoints)}
+            onConfirm={(result) => {
+              const ref = makeReference("EXP");
+              addBooking({
+                item: exp.title,
+                category: "Concierge",
+                points: result.pointsUsed,
+                cashPaid: result.cashPaid,
+                date: `${date} · ${time}`,
+                status: "Confirmed",
+                meta: `${guests} guest${guests > 1 ? "s" : ""} · ${currentRate.label} · ${ref}`,
+              });
+              setPayment(result);
+              setReference(ref);
+            }}
+          />
         </div>
       )}
 
-      <Dialog open={confirmed} onOpenChange={setConfirmed}>
-        <DialogContent className="max-w-sm bg-[#FFFFFF] border border-[#02AD4C]/40 shadow-[0_20px_60px_-20px_rgba(2, 173, 76,0.35)] dark:bg-[#1F242D] dark:border-[#02AD4C]/30 rounded-lg">
-          <DialogHeader>
-            <div
-              className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full"
-              style={{ background: "#F6F3EF" }}
-            >
-              <Check className="h-6 w-6" strokeWidth={1.5} style={{ color: "#02AD4C" }} />
-            </div>
-            <DialogTitle className="text-center" style={{ fontWeight: 300 }}>
-              Booking Confirmed
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Your {exp.title} is booked for {date} at {time}. Confirmation sent to your email.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <button
-              onClick={() => {
-                setConfirmed(false);
-                navigate("/orders");
-              }}
-              className="w-full rounded-md py-3 text-[12px] uppercase tracking-[0.18em]"
-              style={{ background: "#302F2D", color: "#FFFFFF", fontWeight: 500 }}
-            >
-              View my bookings
-            </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

@@ -1,6 +1,12 @@
 import { useState } from "react";
+import { fmtCash, fmtPts, type PaymentResult } from "@/lib/pricing";
+import PaymentStep from "@/components/booking/PaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import BookingHeader from "@/components/booking/BookingHeader";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Smartphone, ChevronRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Smartphone, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/contexts/UserContext";
@@ -44,44 +50,63 @@ const MobileTopup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedOperator, setSelectedOperator] = useState<string | null>(null);
   const [selectedDenom, setSelectedDenom] = useState<number | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const { addBooking } = useBookings();
+  const [paying, setPaying] = useState(false);
+  const [payment, setPayment] = useState<PaymentResult | null>(null);
+  const [reference, setReference] = useState("");
 
   const selectedDenomObj = denominations.find((d) => d.value === selectedDenom);
-  const canProceed = phoneNumber.length >= 9 && selectedOperator && selectedDenom && (selectedDenomObj?.points ?? 0) <= user.availablePoints;
+  const canProceed = phoneNumber.length >= 9 && selectedOperator && selectedDenom;
 
-  const handleSubmit = () => {
-    if (!canProceed) return;
-    setSubmitted(true);
-    toast.success("Mobile top-up successful!");
+  const operatorName = operators.find((o) => o.id === selectedOperator)?.name ?? "";
+
+  const handleConfirm = (result: PaymentResult) => {
+    if (!selectedDenomObj) return;
+    const ref = makeReference("TOP");
+    addBooking({
+      item: `${operatorName} top-up · SAR ${selectedDenomObj.value}`,
+      category: "Mobile Top-up",
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
+      date: new Date().toLocaleDateString("en-GB"),
+      status: "Completed",
+      meta: `+966 ${phoneNumber} · ${ref}`,
+    });
+    setPayment(result);
+    setReference(ref);
   };
 
-  if (submitted) {
+  if (payment && selectedDenomObj) {
     return (
-      <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
-        <div className="flex items-center gap-3 px-4 py-4">
-          <button onClick={() => navigate("/loyalty")} className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
-            <ArrowLeft className="h-4 w-4 text-foreground" />
-          </button>
-          <h1 className="text-lg font-semibold text-foreground">Mobile Top-up</h1>
-        </div>
-        <div className="flex flex-col items-center justify-center px-6 pt-16 pb-8 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-4">
-            <CheckCircle2 className="h-8 w-8 text-primary" />
-          </div>
-          <h2 className="text-lg font-bold text-foreground mb-1">Top-up Successful!</h2>
-          <p className="text-sm text-muted-foreground mb-1">
-            <span className="font-semibold text-foreground">{selectedDenomObj?.points.toLocaleString()} pts</span> recharged to <span className="font-semibold text-foreground">+966 {phoneNumber}</span>
-          </p>
-          <p className="text-xs text-muted-foreground mb-1">
-            Points redeemed from your balance.
-          </p>
-          <p className="text-xs text-muted-foreground mb-6">
-            Operator: {operators.find((o) => o.id === selectedOperator)?.name}
-          </p>
-          <Button onClick={() => { setSubmitted(false); setPhoneNumber(""); setSelectedOperator(null); setSelectedDenom(null); }} variant="outline" size="sm">
-            Recharge Another Number
-          </Button>
-        </div>
+      <BookingConfirmation
+        noun="Order"
+        heading="Top-up successful"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Operator", value: operatorName },
+          { label: "Number", value: `+966 ${phoneNumber}` },
+          { label: "Recharge value", value: fmtCash(selectedDenomObj.value) },
+        ]}
+      />
+    );
+  }
+
+  if (paying && selectedDenomObj) {
+    return (
+      <div className="mx-auto min-h-screen max-w-md bg-background">
+        <BookingHeader title="Payment" onBack={() => setPaying(false)} steps={["Top-up", "Payment"]} current={1} />
+        <PaymentStep
+          noun="order"
+          totalPoints={selectedDenomObj.points}
+          totalCash={selectedDenomObj.value}
+          onConfirm={handleConfirm}
+          rows={[
+            { label: "Operator", value: operatorName },
+            { label: "Number", value: `+966 ${phoneNumber}` },
+          ]}
+        />
       </div>
     );
   }
@@ -162,7 +187,7 @@ const MobileTopup = () => {
             <p className="text-sm font-semibold text-card-foreground">Select Amount</p>
             <div className="grid grid-cols-3 gap-2">
               {denominations.map((d) => {
-                const affordable = d.points <= user.availablePoints;
+                const affordable = true;
                 return (
                   <button
                     key={d.value}
@@ -176,7 +201,7 @@ const MobileTopup = () => {
  }`}
                     disabled={!affordable}
                   >
-                    <p className="text-sm font-bold text-card-foreground">{d.points.toLocaleString()} pts</p>
+                    <p className="text-sm font-bold text-card-foreground">{fmtPts(d.points)} · {fmtCash(d.value)}</p>
                   </button>
                 );
               })}
@@ -192,12 +217,12 @@ const MobileTopup = () => {
               <span className="font-semibold text-primary">{selectedDenomObj.points.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Remaining points</span>
-              <span className="font-medium text-foreground">{(user.availablePoints - selectedDenomObj.points).toLocaleString()}</span>
+              <span className="text-muted-foreground">Cash value</span>
+              <span className="font-medium text-foreground">{fmtCash(selectedDenomObj.value)}</span>
             </div>
             <div className="border-t border-border my-1" />
-            <Button onClick={handleSubmit} disabled={!canProceed} className="w-full gap-1.5" size="lg">
-              Proceed to Recharge
+            <Button onClick={() => setPaying(true)} disabled={!canProceed} className="w-full gap-1.5" size="lg">
+              Continue to payment
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>

@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { STOREFRONT_RATE, cashOf, priceText, type PaymentResult } from "@/lib/pricing";
+import PaymentStep from "@/components/booking/PaymentStep";
+import BookingConfirmation from "@/components/booking/BookingConfirmation";
+import BookingHeader from "@/components/booking/BookingHeader";
+import { makeReference } from "@/components/booking/hotelData";
+import { useBookings } from "@/contexts/BookingsContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart, CheckCircle2, MapPin } from "lucide-react";
+import { ArrowLeft, Heart, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useUser } from "@/contexts/UserContext";
 import { toast } from "sonner";
+import { live } from "@/data/live";
+import DealCard from "@/components/DealCard";
 import animalsImg from "@/assets/donate-animals.jpg";
 import foodImg from "@/assets/donate-food.jpg";
 import educationImg from "@/assets/donate-education.jpg";
@@ -43,6 +51,11 @@ interface Campaign {
   org: string;
   location: string;
   image: string;
+  // Real campaigns carry a description, terms and a points range (min to max)
+  description?: string;
+  terms?: string[];
+  min?: number;
+  max?: number;
 }
 
 const campaigns: Campaign[] = [
@@ -74,30 +87,103 @@ const campaigns: Campaign[] = [
 
 const amountOptions = [500, 1000, 2500, 5000];
 
+const liveCategory = (c: string): CategoryId => {
+  const k = c.toLowerCase();
+  if (k.includes("educat")) return "education";
+  if (k.includes("animal")) return "animals";
+  if (k.includes("environ")) return "environment";
+  return "humanitarian";
+};
+const liveCampaigns: Campaign[] = live.charity.map((p) => ({
+  id: String(p.id),
+  category: liveCategory(p.category),
+  title: p.name,
+  org: "Global Giving",
+  location: p.country || "Saudi Arabia",
+  image: p.image,
+  description: p.description,
+  terms: p.termsList,
+  min: p.min,
+  max: p.max,
+}));
+const allCampaigns = liveCampaigns.length ? liveCampaigns : campaigns;
+// Quick-pick amounts inside a real campaign's range
+const quickAmounts = (c: Campaign) =>
+  c.min && c.max
+    ? [...new Set([c.min, 100, 250, 500, c.max].filter((a) => a >= c.min! && a <= c.max!))].sort((a, b) => a - b)
+    : amountOptions;
+const shownCategories = categories.filter((c) => allCampaigns.some((x) => x.category === c.id));
+
 const Donations = () => {
   const navigate = useNavigate();
   const { user } = useUser();
-  const [activeCategory, setActiveCategory] = useState<CategoryId>("animals");
+  const [activeCategory, setActiveCategory] = useState<CategoryId>(allCampaigns[0].category);
   const [selected, setSelected] = useState<Campaign | null>(null);
   const [amount, setAmount] = useState(1000);
-  const [done, setDone] = useState(false);
+  const { addBooking } = useBookings();
+  const [paying, setPaying] = useState(false);
+  const [payment, setPayment] = useState<PaymentResult>({ mode: "points", pointsUsed: 0, cashPaid: 0 });
+  const [reference, setReference] = useState("");
 
-  const list = campaigns.filter((c) => c.category === activeCategory);
+  const list = allCampaigns.filter((c) => c.category === activeCategory);
 
   const openCampaign = (c: Campaign) => {
     setSelected(c);
-    setAmount(1000);
-    setDone(false);
+    setAmount(c.min && c.max ? Math.min(Math.max(100, c.min), c.max) : 1000);
+    setPaying(false);
+    setReference("");
   };
 
-  const confirmDonation = () => {
-    if (amount > user.availablePoints) {
-      toast.error("Not enough Points");
-      return;
-    }
-    setDone(true);
-    toast.success("Thank you for your donation!");
+  const completeDonation = (result: PaymentResult) => {
+    if (!selected) return;
+    const ref = makeReference("DON");
+    addBooking({
+      item: selected.title,
+      category: "Donations",
+      points: result.pointsUsed,
+      cashPaid: result.cashPaid,
+      date: new Date().toLocaleDateString("en-GB"),
+      status: "Completed",
+      meta: `${selected.org} · ${ref}`,
+    });
+    setPayment(result);
+    setReference(ref);
   };
+
+  if (selected && reference) {
+    return (
+      <BookingConfirmation
+        noun="Donation"
+        heading="Donation successful"
+        reference={reference}
+        payment={payment}
+        balanceAfter={user.availablePoints - payment.pointsUsed}
+        rows={[
+          { label: "Campaign", value: selected.title },
+          { label: "Organisation", value: selected.org },
+          { label: "Donation", value: priceText(amount, STOREFRONT_RATE) },
+        ]}
+      />
+    );
+  }
+
+  if (selected && paying) {
+    return (
+      <div className="mx-auto min-h-screen max-w-md bg-background">
+        <BookingHeader title="Payment" onBack={() => setPaying(false)} steps={["Campaign", "Payment"]} current={1} />
+        <PaymentStep
+          noun="donation"
+          totalPoints={amount}
+          totalCash={cashOf(amount, STOREFRONT_RATE)}
+          onConfirm={completeDonation}
+          rows={[
+            { label: "Campaign", value: selected.title },
+            { label: "Organisation", value: selected.org },
+          ]}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-background pb-24">
@@ -108,66 +194,47 @@ const Donations = () => {
         <h1 className="text-lg font-semibold text-foreground">Donations</h1>
       </div>
 
-      <div className="px-4">
-        <div className="safqah-banner rounded-2xl p-5">
-          <p className="text-lg font-bold leading-tight">Give back with your Points</p>
-          <p className="mt-1 text-xs">
-            Support verified causes across Saudi Arabia.
-          </p>
-          <p className="mt-3 text-xs font-semibold">
-            Balance: {user.availablePoints.toLocaleString()} Points
-          </p>
-        </div>
-      </div>
-
       {/* Categories */}
-      <div className="mt-4 grid grid-cols-4 gap-2 px-4">
-        {categories.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => setActiveCategory(c.id)}
-            className={`rounded-xl border p-2 text-center transition ${
- activeCategory === c.id ?"border-primary bg-primary/10":"border-transparent bg-[#F1EEEA]"
- }`}
-          >
-            <img
-              src={c.image}
-              alt={c.label}
-              loading="lazy"
-              className="mx-auto mb-1 h-10 w-full rounded-lg object-cover"
-            />
-            <span className="block text-[10px] font-semibold leading-tight text-foreground">{c.label}</span>
-          </button>
-        ))}
-      </div>
+      {shownCategories.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto px-5 pb-1 scrollbar-hide">
+          {shownCategories.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setActiveCategory(c.id)}
+              className={`h-9 shrink-0 rounded-full px-4 text-[13px] font-medium transition-colors ${
+                activeCategory === c.id ? "bg-primary text-primary-foreground" : "bg-[#F1EEEA] text-foreground/70 hover:bg-[#E9E5E0]"
+              }`}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Campaigns */}
-      <div className="mt-5 space-y-4 px-4">
-        {list.map((c) => (
-            <div key={c.id} className="overflow-hidden rounded-2xl bg-[#ECE8E3]">
-              <img
-                src={c.image}
-                alt={c.title}
-                loading="lazy"
-                className="h-36 w-full object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-sm font-bold leading-snug text-card-foreground">{c.title}</h3>
-                <p className="mt-1 text-xs text-muted-foreground">{c.org}</p>
-                <p className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground">
-                  <MapPin className="h-3 w-3" /> {c.location}
-                </p>
-                <Button className="mt-3 w-full" onClick={() => openCampaign(c)}>
-                  <Heart className="mr-2 h-4 w-4" /> Donate Points
-                </Button>
-              </div>
-            </div>
-        ))}
+      <div className="px-5 pt-5">
+        <h2 className="mb-4 text-[15px] font-bold text-foreground">Support a cause</h2>
+        <div className="flex flex-col gap-6">
+          {list.map((c) => (
+            <DealCard
+              key={c.id}
+              image={c.image}
+              title={c.title}
+              topChips={[shownCategories.find((x) => x.id === c.category)?.label ?? "Donation"]}
+              badge={c.location}
+              rows={[
+                { label: "By", value: c.org },
+                { label: c.min && c.max ? "Donate" : "From", value: c.min && c.max ? `${c.min.toLocaleString()} – ${c.max.toLocaleString()} pts` : priceText(amountOptions[0], STOREFRONT_RATE) },
+              ]}
+              onClick={() => openCampaign(c)}
+            />
+          ))}
+        </div>
       </div>
 
       <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
         <DialogContent className="max-w-[calc(28rem-2rem)] rounded-2xl">
-          {!done ? (
+          {(
             <>
               <DialogHeader>
                 <DialogTitle className="text-base leading-snug">{selected?.title}</DialogTitle>
@@ -175,12 +242,12 @@ const Donations = () => {
               <p className="text-xs text-muted-foreground">
                 {selected?.org} · {selected?.location}
               </p>
-              <div className="grid grid-cols-4 gap-2">
-                {amountOptions.map((a) => (
+              <div className="flex flex-wrap gap-2">
+                {(selected ? quickAmounts(selected) : amountOptions).map((a) => (
                   <button
                     key={a}
                     onClick={() => setAmount(a)}
-                    className={`rounded-xl border py-2 text-xs font-semibold ${
+                    className={`min-w-[64px] flex-1 rounded-xl border px-3 py-2 text-xs font-semibold ${
  amount === a ?"border-primary bg-primary/10 text-primary":"border-transparent text-foreground"
  }`}
                   >
@@ -191,7 +258,7 @@ const Donations = () => {
               <div className="rounded-xl bg-muted/50 p-3 text-xs">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Donation</span>
-                  <span className="font-semibold text-foreground">{amount.toLocaleString()} Points</span>
+                  <span className="font-semibold text-foreground">{priceText(amount, STOREFRONT_RATE)}</span>
                 </div>
                 <div className="mt-1 flex justify-between">
                   <span className="text-muted-foreground">Remaining balance</span>
@@ -200,25 +267,15 @@ const Donations = () => {
                   </span>
                 </div>
               </div>
-              <Button className="w-full" onClick={confirmDonation}>
-                Confirm Donation
+              {selected?.terms && (
+                <ul className="list-disc space-y-1 pl-4 text-[11px] leading-relaxed text-muted-foreground">
+                  {selected.terms.map((t) => <li key={t}>{t}</li>)}
+                </ul>
+              )}
+              <Button className="w-full" onClick={() => setPaying(true)}>
+                Continue to payment
               </Button>
             </>
-          ) : (
-            <div className="py-4 text-center">
-              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                <CheckCircle2 className="h-7 w-7 text-primary" />
-              </div>
-              <DialogHeader>
-                <DialogTitle className="text-center text-base">Donation Successful</DialogTitle>
-              </DialogHeader>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {amount.toLocaleString()} Points donated to {selected?.org}.
-              </p>
-              <Button className="mt-4 w-full" onClick={() => setSelected(null)}>
-                Done
-              </Button>
-            </div>
           )}
         </DialogContent>
       </Dialog>

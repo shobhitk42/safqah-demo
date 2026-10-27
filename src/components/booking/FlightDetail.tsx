@@ -1,4 +1,5 @@
 import { Plane, Luggage, Briefcase, Utensils, RefreshCw, Armchair } from "lucide-react";
+import { priceText } from "@/lib/pricing";
 import BottomAction from "./BottomAction";
 
 export type FlightSummary = {
@@ -91,7 +92,7 @@ const FlightDetail = ({ flight, from, to, dateLabel, onContinue }: FlightDetailP
       hint={
         <>
           <span className="text-muted-foreground">1 traveller · Economy</span>
-          <span className="text-[16px] font-bold tabular-nums text-primary">{flight.points.toLocaleString()} pts</span>
+          <span className="text-[16px] font-bold tabular-nums text-primary">{priceText(flight.points)}</span>
         </>
       }
     />

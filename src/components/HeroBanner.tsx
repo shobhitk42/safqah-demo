@@ -1,12 +1,11 @@
 import { useUser } from "@/contexts/UserContext";
 import { Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Banner from "@/components/Banner";
 
 const HeroBanner = () => {
   const { mode } = useUser();
-  const scrollToConcierge = () => {
-    document.getElementById("concierge-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const navigate = useNavigate();
 
   const points = mode === "points";
   const headline = points ? "Rewards, quietly considered." : "Benefits, quietly considered.";
@@ -17,7 +16,7 @@ const HeroBanner = () => {
 
   return (
     <section className="mx-5 mb-8">
-      <Banner title={headline} subtitle={body} cta={cta} onClick={scrollToConcierge} icon={Sparkles} className="py-7" />
+      <Banner title={headline} subtitle={body} cta={cta} onClick={() => navigate("/experiences")} icon={Sparkles} className="py-7" />
     </section>
   );
 };
